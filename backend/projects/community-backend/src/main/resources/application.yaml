@@ -3,7 +3,8 @@ spring:
     name: correction
   profiles:
     active: local
-
+  main:
+    allow-bean-definition-overriding: true
   # Servlet 配置
   servlet:
     # 文件上传相关配置项
@@ -37,15 +38,16 @@ mybatis-plus:
 yao:
   info:
     version: 1.0.0
-    base-package: con.correction.backend
+    base-package: com.correction.backend
   web:
     api-prefix: /api
     controller-package: ${yao.info.base-package}
   swagger:
     enable: true
+    author: Yao
     title: 管理后台
-    description: 提供管理员管理的所有功能
+    description: 提供接口所有功能
     version: ${yao.info.version}
-    base-package: ${yao.info.base-package}.modules
+    base-package: ${yao.info.base-package}.modules.*
 
-debug: false
+debug: true

@@ -12,6 +12,8 @@
 
   <groupId>com.correction</groupId>
   <artifactId>frameworks</artifactId>
+  <packaging>pom</packaging>
+  <name>frameworks</name>
 
   <modules>
     <module>framework-common</module>
@@ -20,9 +22,12 @@
     <module>framework-security</module>
     <module>framework-redis</module>
   </modules>
-  <packaging>pom</packaging>
 
-  <name>frameworks 项目相关组件</name>
+
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
 
 
 </project>

@@ -17,6 +17,11 @@
   <name>${artifactId}</name>
   <description>framework-security 权限相关管理</description>
 
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>com.correction</groupId>

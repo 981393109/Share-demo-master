@@ -1,5 +1,7 @@
 server:
   port: 48080
+  servlet:
+    context-path: /correction
 
 --- #################### 数据库相关配置 ####################
 
@@ -62,7 +64,9 @@ yao:
     session-timeout: 30m
     mock-enable: false
     mock-secret: test
+  xss:
+    enable: false
   file:
     base-path: http://127.0.0.1:${server.port}${yao.web.api-prefix}/infra/file/get/
 
-  demo: true # 关闭演示模式
+  demo: false # 关闭演示模式

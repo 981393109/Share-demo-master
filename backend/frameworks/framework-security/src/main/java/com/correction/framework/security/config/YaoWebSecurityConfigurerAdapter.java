@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -85,6 +86,23 @@ public class YaoWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapte
                 .passwordEncoder(passwordEncoder);
     }
 
+
+    /**
+     * 需要放行的URL
+     */
+    private static final String[] AUTH_WHITELIST = {
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/swagger-ui.html",
+            "/webjars/**",
+            "/doc.html",
+            "/v2/api-docs",
+            "/swagger/**",
+            "/swagger/**",
+    };
+
+
+
     /**
      * 配置 URL 的安全配置
      *
@@ -116,26 +134,11 @@ public class YaoWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapte
                     .accessDeniedHandler(accessDeniedHandler).and()
                 // 设置每个请求的权限
                 .authorizeRequests()
-                    // 登陆的接口，可匿名访问
-                    .antMatchers(api("/login")).anonymous()
-                    // 通用的接口，可匿名访问
-                    .antMatchers(api("/system/captcha/**")).anonymous()
-                    // 静态资源，可匿名访问
-                    .antMatchers(HttpMethod.GET, "/*.html", "/**/*.html", "/**/*.css", "/**/*.js").permitAll()
-                    // 文件的获取接口，可匿名访问
-                    .antMatchers(api("/infra/file/get/**")).anonymous()
-                    // Swagger 接口文档
-                    .antMatchers("/swagger-ui.html").anonymous()
-                    .antMatchers("/swagger-resources/**").anonymous()
-                    .antMatchers("/webjars/**").anonymous()
-                    .antMatchers("/*/api-docs").anonymous()
-                    // Spring Boot Actuator 的安全配置
-                    .antMatchers("/actuator").anonymous()
-                    .antMatchers("/actuator/**").anonymous()
-                    // Druid 监控
-                    .antMatchers("/druid/**").anonymous()
-                    // 除上面外的所有请求全部需要鉴权认证
-                    .anyRequest().authenticated()
+                .antMatchers(HttpMethod.GET, "/*.html", "/**/*.html", "/**/*.css", "/**/*.js").permitAll()
+                .antMatchers(api("/login")).permitAll()
+                .antMatchers(AUTH_WHITELIST).permitAll()
+                // 除上面外的所有请求全部需要鉴权认证
+                .anyRequest().authenticated()
                 .and()
                 .headers().frameOptions().disable();
         httpSecurity.logout().logoutUrl(api("/logout")).logoutSuccessHandler(logoutSuccessHandler);

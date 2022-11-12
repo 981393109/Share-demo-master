@@ -39,4 +39,8 @@ public class SwaggerProperties {
     @NotEmpty(message = "扫描的 package 不能为空")
     private String basePackage;
 
+
+    @NotEmpty(message = "是否启用")
+    private Boolean enable;
+
 }

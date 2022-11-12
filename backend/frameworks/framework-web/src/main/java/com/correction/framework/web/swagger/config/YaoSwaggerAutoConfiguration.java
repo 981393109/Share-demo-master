@@ -8,14 +8,17 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
+import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,7 +33,6 @@ import static springfox.documentation.builders.RequestHandlerSelectors.basePacka
 @EnableKnife4j
 @ConditionalOnClass({Docket.class, ApiInfoBuilder.class})
 @ConditionalOnProperty(prefix = "yao.swagger", value = "enable", matchIfMissing = true)
-// 允许使用 swagger.enable=false 禁用 Swagger
 @EnableConfigurationProperties(SwaggerProperties.class)
 public class YaoSwaggerAutoConfiguration {
 
@@ -47,9 +49,11 @@ public class YaoSwaggerAutoConfiguration {
         return new Docket(DocumentationType.SWAGGER_2)
                 // 用来创建该 API 的基本信息，展示在文档的页面中（自定义展示的信息）
                 .apiInfo(apiInfo(properties))
+                .enable(properties.getEnable())
                 // 设置扫描指定 package 包下的
                 .select()
-                .apis(basePackage(properties.getBasePackage()))
+                .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
+//                .apis(basePackage(properties.getBasePackage()))
                 .paths(PathSelectors.any())
                 .build()
                 .securitySchemes(securitySchemes())
@@ -63,7 +67,7 @@ public class YaoSwaggerAutoConfiguration {
         return new ApiInfoBuilder()
                 .title(properties.getTitle())
                 .description(properties.getDescription())
-                .contact(new Contact(properties.getAuthor(), null, null))
+                .contact(new Contact(properties.getAuthor(), "http://localhost:8080/", null))
                 .version(properties.getVersion())
                 .build();
     }
@@ -84,7 +88,8 @@ public class YaoSwaggerAutoConfiguration {
     private static List<SecurityContext> securityContexts() {
         return Collections.singletonList(SecurityContext.builder()
                 .securityReferences(securityReferences())
-                .forPaths(PathSelectors.regex("^(?!auth).*$"))
+//                .forPaths(PathSelectors.regex("^(?!auth).*$"))
+                .forPaths(PathSelectors.regex("/.*"))
                 .build());
     }
 

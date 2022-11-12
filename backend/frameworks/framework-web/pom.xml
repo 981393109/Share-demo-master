@@ -13,6 +13,10 @@
   <packaging>jar</packaging>
   <name>${artifactId}</name>
 
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
 
     <dependencies>
       <dependency>
@@ -39,9 +43,14 @@
         <artifactId>knife4j-spring-boot-starter</artifactId>
       </dependency>
 
-      <dependency>
+<!--      <dependency>
         <groupId>io.swagger</groupId>
         <artifactId>swagger-annotations</artifactId>
+      </dependency>-->
+
+      <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-boot-starter</artifactId>
       </dependency>
 
       <dependency>

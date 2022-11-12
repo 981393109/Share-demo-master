@@ -24,10 +24,12 @@
     <knife4j.version>3.0.2</knife4j.version>
     <servlet.versoin>2.5</servlet.versoin>
     <swagger-annotations.version>1.5.22</swagger-annotations.version>
+    <swagger.version>3.0.0</swagger.version>
     <!-- DB 相关 -->
     <mysql.version>5.1.46</mysql.version>
     <druid.version>1.2.4</druid.version>
     <mybatis-plus.version>3.4.2</mybatis-plus.version>
+    <mybatis-generator-core.version>3.4.1</mybatis-generator-core.version>
     <dynamic-datasource.version>3.3.2</dynamic-datasource.version>
     <redisson.version>3.15.1</redisson.version>
     <!-- 服务保障相关 -->
@@ -87,14 +89,14 @@
         <version>${revision}</version>
       </dependency>
 
-      <dependency>
+<!--      <dependency>
         <groupId>com.github.xiaoymin</groupId>
         <artifactId>knife4j-spring-boot-starter</artifactId>
         <version>${knife4j.version}</version>
         <exclusions>
           <exclusion>
             <artifactId>mapstruct</artifactId>
-            <groupId>org.mapstruct</groupId> <!-- 避免冲突 -->
+            <groupId>org.mapstruct</groupId> &lt;!&ndash; 避免冲突 &ndash;&gt;
           </exclusion>
           <exclusion>
             <artifactId>guava</artifactId>
@@ -110,7 +112,21 @@
         <groupId>io.swagger</groupId>
         <artifactId>swagger-annotations</artifactId>
         <version>${swagger-annotations.version}</version>
+      </dependency>-->
+      <!--springfox swagger官方Starter-->
+
+      <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-boot-starter</artifactId>
+        <version>${swagger.version}</version>
       </dependency>
+
+      <dependency>
+        <groupId>com.github.xiaoymin</groupId>
+        <artifactId>knife4j-spring-boot-starter</artifactId>
+        <version>${knife4j.version}</version>
+      </dependency>
+
 
       <!-- DB 相关 -->
       <dependency>
@@ -134,6 +150,20 @@
         <artifactId>mybatis-plus-boot-starter</artifactId>
         <version>${mybatis-plus.version}</version>
       </dependency>
+      <dependency>
+        <groupId>com.baomidou</groupId>
+        <artifactId>mybatis-plus-generator</artifactId>
+        <version>${mybatis-generator-core.version}</version>
+        <scope>compile</scope>
+        <optional>true</optional>
+      </dependency>
+
+      <dependency>
+        <groupId>org.freemarker</groupId>
+        <artifactId>freemarker</artifactId>
+        <version>2.3.31</version>
+      </dependency>
+
       <dependency>
         <groupId>com.baomidou</groupId>
         <artifactId>dynamic-datasource-spring-boot-starter</artifactId> <!-- 多数据源 -->
