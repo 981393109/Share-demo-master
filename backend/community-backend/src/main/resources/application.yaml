@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: correction
+  profiles:
+    active: local
+  main:
+    allow-bean-definition-overriding: true
+  # Servlet 配置
+  servlet:
+    # 文件上传相关配置项
+    multipart:
+      max-file-size: 16MB # 单个文件大小
+      max-request-size: 32MB # 设置总上传的文件大小
+
+  # Jackson 配置项
+  jackson:
+    serialization:
+      write-dates-as-timestamps: true # 设置 Date 的格式，使用时间戳
+      write-date-timestamps-as-nanoseconds: false
+      write-durations-as-timestamps: true
+      fail-on-empty-beans: false # 允许序列化无属性的 Bean
+
+# MyBatis Plus 的配置项
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true # 虽然默认为 true ，但是还是显示去指定下。
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 打印日志
+  global-config:
+    db-config:
+      id-type: AUTO # 自增 ID
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+  mapper-locations: classpath*:mappers/*/*.xml
+  type-aliases-package: ${yao.info.base-package}.modules.*.dal.dataobject
+
+--- #################### 相关配置 ####################
+
+yao:
+  info:
+    version: 1.0.0
+    base-package: com.correction.backend
+  web:
+    api-prefix: /api
+    controller-package: ${yao.info.base-package}
+  swagger:
+    enable: true
+    author: Yao
+    title: 管理后台
+    description: 提供接口所有功能
+    version: ${yao.info.version}
+    base-package: ${yao.info.base-package}.modules.*
+
+debug: true
