@@ -3,6 +3,7 @@ package com.correction.backend.modules.sys.service;
 import com.correction.backend.modules.sys.controller.dto.sys.RoleCreateInputDTO;
 import com.correction.backend.modules.sys.controller.dto.sys.RoleSearchInputDTO;
 import com.correction.backend.modules.sys.controller.dto.sys.RoleUpdateInputDTO;
+import com.correction.backend.modules.sys.controller.dto.sys.SaveRoleMenuDTO;
 import com.correction.backend.modules.sys.entity.Menu;
 import com.correction.backend.modules.sys.entity.Role;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -61,4 +62,5 @@ public interface RoleService extends IService<Role> {
      */
     List<Menu> getMenuByRoleId (Long id);
 
+    void saveRoleMenu(SaveRoleMenuDTO reqDTO);
 }

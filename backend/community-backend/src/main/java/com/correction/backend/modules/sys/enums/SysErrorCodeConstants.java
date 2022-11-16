@@ -110,4 +110,7 @@ public interface SysErrorCodeConstants {
     ErrorCode ORG_NOT_ENABLE = new ErrorCode(1002014007, "组织不处于开启状态，不允许选择");
     ErrorCode ORG_PARENT_IS_CHILD = new ErrorCode(1002014008, "不能设置自己的子组织为父部门");
 
+
+    ErrorCode SURVEY_FLOW_STATUS_EDIT = new ErrorCode(1002015000, "已处于审核中，不可进行修改操作");
+
 }

@@ -67,6 +67,6 @@ yao:
   xss:
     enable: false
   file:
-    base-path: http://127.0.0.1:${server.port}${yao.web.api-prefix}/infra/file/get/
-
+    base-path: http://1.15.139.218/files/
+    linuxpath: E:/home/CommunityCorrection/files/
   demo: false # 关闭演示模式

@@ -7,6 +7,8 @@ import com.correction.backend.modules.sys.mapper.DictMapper;
 import com.correction.backend.modules.sys.service.DictService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * 全局字典表 服务实现类
@@ -19,5 +21,8 @@ import org.springframework.stereotype.Service;
 public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements DictService {
 
 
-
+    @Override
+    public List<Dict> selectDictByType(Integer type) {
+        return baseMapper.selectDictByType(type);
+    }
 }

@@ -18,10 +18,9 @@ import java.io.Serializable;
  * @since 2022-11-12
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("sys_dict")
-public class Dict extends BaseDO {
+public class Dict{
 
     private static final long serialVersionUID = 1L;
 
@@ -42,6 +41,9 @@ public class Dict extends BaseDO {
      * 类别
      */
     private Integer dictType;
+
+
+    private Integer dictValue;
 
 
     public static final String ID = "id";

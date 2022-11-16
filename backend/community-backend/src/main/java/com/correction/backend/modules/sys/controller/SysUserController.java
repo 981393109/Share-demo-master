@@ -26,7 +26,7 @@ import java.util.List;
 
 import static com.correction.framework.common.pojo.CommonResult.success;
 
-@Api(tags = "用户信息模块")
+@Api(tags = "系统模块-用户信息模块")
 @RestController
 @RequestMapping("/user")
 @Validated

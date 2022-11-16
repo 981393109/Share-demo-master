@@ -22,7 +22,7 @@ import java.util.List;
 
 import static com.correction.framework.common.pojo.CommonResult.success;
 
-@Api(tags = "组织架构模块")
+@Api(tags = "系统模块-组织架构模块")
 @RestController
 @RequestMapping("/org")
 @Validated

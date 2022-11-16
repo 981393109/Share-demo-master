@@ -23,7 +23,7 @@ import static com.correction.framework.web.web.core.util.WebFrameworkUtils.getLo
 /**
  * 登录相关接口
  */
-@Api(tags = "登入模块")
+@Api(tags = "系统模块-登入模块")
 @RestController
 @RequestMapping("/")
 @Validated

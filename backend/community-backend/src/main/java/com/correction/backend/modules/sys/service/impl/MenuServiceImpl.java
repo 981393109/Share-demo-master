@@ -22,7 +22,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
 
     @Override
-    public List<Menu> getList(MenuSearchInputDTO searchInputDTO) {
+    public List<Menu> getList() {
         List<Menu> menus = baseMapper.selectList();
         return menus;
     }

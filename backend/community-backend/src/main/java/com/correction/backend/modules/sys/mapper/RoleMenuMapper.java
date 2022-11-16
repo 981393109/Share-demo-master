@@ -6,7 +6,6 @@ import com.correction.frameworks.mybatis.mybatis.core.mapper.BaseMapperX;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-//import com.baomidou.mybatisplus.core.mapper.BaseMapperX;
 
 /**
  * <p>

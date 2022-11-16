@@ -23,10 +23,11 @@ import javax.validation.Valid;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.correction.framework.common.pojo.CommonResult.success;
 
-@Api(tags = "角色模块相关接口")
+@Api(tags = "系统模块-角色模块相关接口")
 @RestController
 @RequestMapping("/role")
 @Validated
@@ -106,5 +107,20 @@ public class RoleController {
         return success(menuTreeDTO);
     }
 
+    @GetMapping("/getMeanList")
+    @ApiOperation("得到角色下所有菜单id集合")
+    public CommonResult<List<Long>> getMeanList(@RequestParam("id") Long id) {
+        List<Menu> menus = roleService.getMenuByRoleId(id);
+        List<Long> collect = menus.stream().map(e -> e.getId()).collect(Collectors.toList());
+        return success(collect);
+    }
+
+
+    @PostMapping("saveRoleMenu")
+    @ApiOperation("保存角色菜单")
+    public CommonResult<Boolean> saveRoleMenu(@Valid @RequestBody SaveRoleMenuDTO reqDTO) {
+        roleService.saveRoleMenu(reqDTO);
+        return success(true);
+    }
 
 }

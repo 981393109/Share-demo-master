@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.correction.backend.modules.survey.mapper.SurveyEvaluationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.correction.backend.modules.survey.entity.SurveyEvaluation">
+        <id column="id" property="id" />
+        <result column="entrust_type" property="entrustType" />
+        <result column="entrust_unit" property="entrustUnit" />
+        <result column="sex" property="sex" />
+        <result column="name" property="name" />
+        <result column="birthday" property="birthday" />
+        <result column="id_card" property="idCard" />
+        <result column="area_jurisdiction" property="areaJurisdiction" />
+        <result column="entrust_date" property="entrustDate" />
+        <result column="mechanism_execution" property="mechanismExecution" />
+        <result column="opinion" property="opinion" />
+        <result column="reception_date" property="receptionDate" />
+        <result column="jurisdiction_office" property="jurisdictionOffice" />
+        <result column="jurisdiction_user" property="jurisdictionUser" />
+        <result column="implement_status" property="implementStatus" />
+        <result column="implement_user_group" property="implementUserGroup" />
+        <result column="implement_type" property="implementType" />
+        <result column="implement_file_record" property="implementFileRecord" />
+        <result column="implement_file_bench" property="implementFileBench" />
+        <result column="implement_file_report" property="implementFileReport" />
+        <result column="implement_user" property="implementUser" />
+        <result column="assessment_status" property="assessmentStatus" />
+        <result column="assessment_meeting" property="assessmentMeeting" />
+        <result column="assessment_file_bench" property="assessmentFileBench" />
+        <result column="assessment_file_opinion" property="assessmentFileOpinion" />
+        <result column="assessment_file_survey" property="assessmentFileSurvey" />
+        <result column="assessment_last_opinion" property="assessmentLastOpinion" />
+        <result column="assessment_user" property="assessmentUser" />
+        <result column="progress" property="progress" />
+        <result column="apply_status" property="applyStatus" />
+        <result column="apply_user" property="applyUser" />
+        <result column="apply_name" property="applyName" />
+        <result column="apply_time" property="applyTime" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="creator" property="creator" />
+        <result column="updater" property="updater" />
+        <result column="deleted" property="deleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, entrust_type, entrust_unit, sex, name, area_jurisdiction, entrust_date, mechanism_execution, opinion, reception_date, jurisdiction_office, jurisdiction_user, implement_status, implement_user_group, implement_type, implement_file_record, implement_file_bench, implement_file_report, implement_user, assessment_status, assessment_meeting, assessment_file_bench, assessment_file_opinion, assessment_file_survey, assessment_last_opinion, assessment_user, progress, apply_status, apply_user, apply_name, apply_time, create_time, update_time, creator, updater, deleted
+    </sql>
+
+    <!-- 通用查询结果列 别名 -->
+    <sql id="Base_Column_List_Alias">
+        surveyEvaluation.id,surveyEvaluation.entrust_type AS entrustType,surveyEvaluation.entrust_unit AS entrustUnit,surveyEvaluation.sex,surveyEvaluation.name,surveyEvaluation.area_jurisdiction AS areaJurisdiction,surveyEvaluation.entrust_date AS entrustDate,surveyEvaluation.mechanism_execution AS mechanismExecution,surveyEvaluation.opinion,surveyEvaluation.reception_date AS receptionDate,surveyEvaluation.jurisdiction_office AS jurisdictionOffice,surveyEvaluation.jurisdiction_user AS jurisdictionUser,surveyEvaluation.implement_status AS implementStatus,surveyEvaluation.implement_user_group AS implementUserGroup,surveyEvaluation.implement_type AS implementType,surveyEvaluation.implement_file_record AS implementFileRecord,surveyEvaluation.implement_file_bench AS implementFileBench,surveyEvaluation.implement_file_report AS implementFileReport,surveyEvaluation.implement_user AS implementUser,surveyEvaluation.assessment_status AS assessmentStatus,surveyEvaluation.assessment_meeting AS assessmentMeeting,surveyEvaluation.assessment_file_bench AS assessmentFileBench,surveyEvaluation.assessment_file_opinion AS assessmentFileOpinion,surveyEvaluation.assessment_file_survey AS assessmentFileSurvey,surveyEvaluation.assessment_last_opinion AS assessmentLastOpinion,surveyEvaluation.assessment_user AS assessmentUser,surveyEvaluation.progress,surveyEvaluation.apply_status AS applyStatus,surveyEvaluation.apply_user AS applyUser,surveyEvaluation.apply_name AS applyName,surveyEvaluation.apply_time AS applyTime,surveyEvaluation.create_time AS createTime,surveyEvaluation.update_time AS updateTime,surveyEvaluation.creator,surveyEvaluation.updater,surveyEvaluation.deleted
+    </sql>
+</mapper>

@@ -2,11 +2,14 @@ package com.correction.backend.modules.sys.service.impl;
 
 
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.correction.backend.modules.sys.controller.dto.sys.RoleCreateInputDTO;
 import com.correction.backend.modules.sys.controller.dto.sys.RoleSearchInputDTO;
 import com.correction.backend.modules.sys.controller.dto.sys.RoleUpdateInputDTO;
+import com.correction.backend.modules.sys.controller.dto.sys.SaveRoleMenuDTO;
 import com.correction.backend.modules.sys.convert.sys.MRoleConvert;
 import com.correction.backend.modules.sys.entity.Menu;
+import com.correction.backend.modules.sys.entity.RoleMenu;
 import com.correction.backend.modules.sys.entity.SysUserDO;
 import com.correction.backend.modules.sys.mapper.RoleMenuMapper;
 import com.correction.backend.modules.sys.mapper.RoleUserMapper;
@@ -54,7 +57,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Override
     public Role updateRole(RoleUpdateInputDTO reqDTO) {
-        checkCreateOrUpdate(null,reqDTO.getRoleName());
+        checkCreateOrUpdate(reqDTO.getId(),reqDTO.getRoleName());
         Role role = MRoleConvert.INSTANCE.toRole(reqDTO);
         baseMapper.updateById(role);
         return role;
@@ -93,6 +96,20 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     public List<Menu> getMenuByRoleId(Long id) {
         List<Menu> menuByRoleId = roleMenuMapper.getMenuByRoleId(id);
         return menuByRoleId;
+    }
+
+    @Override
+    public void saveRoleMenu(SaveRoleMenuDTO reqDTO) {
+        Long roleId = reqDTO.getRoleId();
+        //删除角色下所有关系
+        roleMenuMapper.delete(Wrappers.<RoleMenu>lambdaQuery().eq(RoleMenu::getRoleId,roleId));
+        //保存
+        for (Long menuId : reqDTO.getMenuIds()) {
+            RoleMenu roleMenu = new RoleMenu();
+            roleMenu.setMenuId(menuId);
+            roleMenu.setRoleId(roleId);
+            roleMenuMapper.insert(roleMenu);
+        }
     }
 
 

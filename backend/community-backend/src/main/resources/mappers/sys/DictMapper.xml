@@ -8,6 +8,7 @@
         <result column="dict_name" property="dictName" />
         <result column="dict_code" property="dictCode" />
         <result column="dict_type" property="dictType" />
+        <result column="dict_value" property="dictValue" />
     </resultMap>
 
     <!-- 通用查询结果列 -->

@@ -1,9 +1,11 @@
 package com.correction.framework.common.util.servlet;
 
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import com.correction.framework.common.util.json.JsonUtils;
+import org.apache.commons.io.FileUtils;
 import org.springframework.http.MediaType;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -12,7 +14,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
 import java.net.URLEncoder;
 
 /**
@@ -48,6 +51,51 @@ public class ServletUtils {
         // 输出附件
         IoUtil.write(response.getOutputStream(), false, content);
     }
+
+    public static void writeAsFileStream(File file, HttpServletResponse response) {
+        OutputStream os = null;
+        InputStream is = null;
+        try {
+            response.setHeader("Access-Control-Expose-Headers","*");
+            os = response.getOutputStream();
+            is = new FileInputStream(file);
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(file.getName(), "UTF-8"));
+            IoUtil.copy(is, os);
+            response.flushBuffer();
+        } catch (Exception e) {
+        } finally {
+            if (os != null) {
+                try {
+                    os.close();
+                } catch (IOException e) {
+                }
+            }
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                }
+            }
+        }
+    }
+
+
+
+    public static File downloadFileFromUrl(String url,String temppath) {
+        File f = null;
+        try {
+            URL httpUrl = new URL(url);
+            f = new File(temppath);
+            if (!f.getParentFile().exists()){
+                f.getParentFile().mkdirs();
+            }
+            FileUtils.copyURLToFile(httpUrl, f);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return f;
+    }
+
 
     /**
      * @param request 请求
@@ -91,4 +139,31 @@ public class ServletUtils {
         return StrUtil.startWithIgnoreCase(request.getContentType(), MediaType.APPLICATION_JSON_VALUE);
     }
 
+    public static void writeAsFileDelStream(File file, HttpServletResponse response) {
+        OutputStream os = null;
+        InputStream is = null;
+        try {
+            response.setHeader("Access-Control-Expose-Headers","*");
+            os = response.getOutputStream();
+            is = new FileInputStream(file);
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(file.getName(), "UTF-8"));
+            IoUtil.copy(is, os);
+            response.flushBuffer();
+        } catch (Exception e) {
+        } finally {
+            if (os != null) {
+                try {
+                    os.close();
+                } catch (IOException e) {
+                }
+            }
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                }
+            }
+            file.delete();
+        }
+    }
 }

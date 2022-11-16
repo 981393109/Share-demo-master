@@ -19,6 +19,6 @@ public interface MenuService extends IService<Menu> {
     /**
      * 获取所有菜单集合
      */
-    List<Menu> getList (MenuSearchInputDTO searchInputDTO);
+    List<Menu> getList ();
 
 }

@@ -19,7 +19,7 @@ import java.util.List;
 
 import static com.correction.framework.common.pojo.CommonResult.success;
 
-@Api(tags = "菜单相关接口")
+@Api(tags = "系统模块-菜单相关接口")
 @RestController
 @RequestMapping("/menu")
 @Validated
@@ -30,8 +30,8 @@ public class MenuController {
 
     @GetMapping("/getTreeList")
     @ApiOperation("获取菜单树结构")
-    public CommonResult<List<MenuTreeDTO>> getTreeList(@Valid MenuSearchInputDTO reqVO) {
-        List<Menu> list = menuService.getList(reqVO);
+    public CommonResult<List<MenuTreeDTO>> getTreeList() {
+        List<Menu> list = menuService.getList();
         return success(MMenuConvert.INSTANCE.buildMenuTree(list));
     }
 

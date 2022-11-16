@@ -12,6 +12,7 @@ import com.correction.backend.modules.sys.convert.sys.MOrgConvert;
 import com.correction.backend.modules.sys.entity.OrgDO;
 import com.correction.backend.modules.sys.mapper.OrgMapper;
 import com.correction.backend.modules.sys.service.OrgService;
+import com.correction.framework.common.enums.CommonStatusEnum;
 import com.correction.framework.common.pojo.PageResult;
 import com.google.common.annotations.VisibleForTesting;
 import lombok.extern.slf4j.Slf4j;
@@ -91,7 +92,7 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, OrgDO> implements Org
 
     @Override
     public List<OrgDO> getList() {
-        List<OrgDO> orgDOS = baseMapper.selectList(Wrappers.lambdaQuery());
+        List<OrgDO> orgDOS = baseMapper.selectList(Wrappers.<OrgDO>lambdaQuery().eq(OrgDO::getDeleted, CommonStatusEnum.ENABLE));
         return orgDOS;
     }
 
@@ -117,7 +118,7 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, OrgDO> implements Org
      * 递归获取组织信息
      */
     private List<OrgDO>  recursiveOrgList (List<OrgDO> result,Long pid) {
-        List<OrgDO> orgDOS = orgMapper.selectList(Wrappers.<OrgDO>lambdaQuery().eq(OrgDO::getPid, pid));
+        List<OrgDO> orgDOS = orgMapper.selectList(Wrappers.<OrgDO>lambdaQuery().eq(OrgDO::getPid, pid).eq(OrgDO::getDeleted, CommonStatusEnum.ENABLE));
         if(!CollectionUtil.isEmpty(orgDOS)){
             for (OrgDO orgDO : orgDOS) {
                 result.add(orgDO);

@@ -2,6 +2,7 @@ package ${cfg.inputDtoPackage};
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.correction.framework.common.pojo.PageParam;
 import lombok.Getter;
 import lombok.Setter;
 import java.io.Serializable;
@@ -19,9 +20,8 @@ import java.util.Date;
 <#if cfg.swagger2>
 @ApiModel(value="${entity}SearchInputDTO", description="${table.comment!}查询表单")
 </#if>
-public class ${entity}SearchInputDTO implements Serializable {
+public class ${entity}SearchInputDTO  extends PageParam  {
 
-    private static final long serialVersionUID = 1L;
 
 <#-- ----------  BEGIN 字段循环遍历  ---------->
 <#list table.fields as field>

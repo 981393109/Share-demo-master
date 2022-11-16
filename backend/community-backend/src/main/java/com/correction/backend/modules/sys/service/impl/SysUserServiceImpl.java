@@ -81,7 +81,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public void updateUser(SysUserUpdateReqDTO reqDTO) {
         // 校验正确性
-        this.checkCreateOrUpdate(null,reqDTO.getOrgId(),reqDTO.getRoleId(),reqDTO.getUserName());
+        this.checkCreateOrUpdate(reqDTO.getId(),reqDTO.getOrgId(),reqDTO.getRoleId(),reqDTO.getUserName());
         // 修改用户
         SysUserDO user = SysUserConvert.INSTANCE.convert(reqDTO);
         OrgDO orgDO = orgMapper.selectById(reqDTO.getOrgId());
