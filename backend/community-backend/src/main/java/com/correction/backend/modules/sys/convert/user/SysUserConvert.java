@@ -5,6 +5,7 @@ import com.correction.backend.modules.sys.controller.dto.user.SysUserUpdateReqDT
 import com.correction.backend.modules.sys.controller.vo.user.SysUserInfoVO;
 import com.correction.backend.modules.sys.controller.vo.user.SysUserPageVO;
 import com.correction.backend.modules.sys.entity.SysUserDO;
+import com.correction.backend.modules.sys.controller.dto.user.SysUserRoleDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -25,4 +26,5 @@ public interface SysUserConvert {
 
     List<SysUserPageVO> convertList(List<SysUserDO> beans);
 
+    List<SysUserRoleDTO> convertUserInfo(List<SysUserDO> sysUserDOS);
 }

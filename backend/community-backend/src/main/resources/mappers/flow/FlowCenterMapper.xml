@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.correction.backend.modules.flow.mapper.FlowCenterMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.correction.backend.modules.flow.entity.FlowCenter">
+        <id column="id" property="id" />
+        <result column="flow_type" property="flowType" />
+        <result column="flow_status" property="flowStatus" />
+        <result column="flow_apply_time" property="flowApplyTime" />
+        <result column="flow_end_time" property="flowEndTime" />
+        <result column="flow_apply_user" property="flowApplyUser" />
+        <result column="flow_apply_name" property="flowApplyName" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="creator" property="creator" />
+        <result column="updater" property="updater" />
+        <result column="deleted" property="deleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, flow_type, flow_status, flow_apply_time, flow_end_time, flow_apply_user, flow_apply_name, create_time, update_time, creator, updater, deleted
+    </sql>
+
+    <!-- 通用查询结果列 别名 -->
+    <sql id="Base_Column_List_Alias">
+        flowCenter.id,flowCenter.flow_type AS flowType,flowCenter.flow_status AS flowStatus,flowCenter.flow_apply_time AS flowApplyTime,flowCenter.flow_end_time AS flowEndTime,flowCenter.flow_apply_user AS flowApplyUser,flowCenter.flow_apply_name AS flowApplyName,flowCenter.create_time AS createTime,flowCenter.update_time AS updateTime,flowCenter.creator,flowCenter.updater,flowCenter.deleted
+    </sql>
+</mapper>

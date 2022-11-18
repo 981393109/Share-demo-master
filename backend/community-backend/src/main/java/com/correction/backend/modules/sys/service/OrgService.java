@@ -43,6 +43,13 @@ public interface OrgService extends IService<OrgDO> {
      */
     List<OrgDO> getOrgChildsList(Long id);
 
+
+    /**
+     * 根据当前组织id,得到父组织以及自身组织信息(未分页)
+     */
+    List<OrgDO> getOrgParentList (Long id);
+
+
     /**
      * 分页获取所有组织信息
      */

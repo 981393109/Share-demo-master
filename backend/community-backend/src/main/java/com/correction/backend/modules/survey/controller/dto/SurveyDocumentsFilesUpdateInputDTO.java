@@ -12,7 +12,7 @@ import java.util.Date;
  * </p>
  *
  * @author yao
- * @since 2022-11-15
+ * @since 2022-11-17
  */
 @Getter
 @Setter
@@ -26,11 +26,8 @@ public class SurveyDocumentsFilesUpdateInputDTO implements Serializable {
     @ApiModelProperty(value = "文档源头id")
     private Long dataId;
 
-    @ApiModelProperty(value = "文档名称")
-    private String docName;
-
     @ApiModelProperty(value = "文档状态 1：已上传 2上传失败")
-    private Integer docStatus;
+    private Integer fileStatus;
 
     @ApiModelProperty(value = "相对路径")
     private String filePath;
@@ -45,7 +42,10 @@ public class SurveyDocumentsFilesUpdateInputDTO implements Serializable {
     private String fileType;
 
     @ApiModelProperty(value = "文书大类 1：调查评估")
-    private Integer docSubject;
+    private Integer dictType;
+
+    @ApiModelProperty(value = "dictValue")
+    private String dictValue;
 
     @ApiModelProperty(value = "创建时间")
     private Date createTime;

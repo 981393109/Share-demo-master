@@ -2,9 +2,7 @@ package com.correction.backend.modules.survey.service.impl;
 
 
 import com.correction.backend.modules.survey.constant.SurveyConstant;
-import com.correction.backend.modules.survey.controller.dto.SurveyEvaluationCreateInputDTO;
-import com.correction.backend.modules.survey.controller.dto.SurveyEvaluationSearchInputDTO;
-import com.correction.backend.modules.survey.controller.dto.SurveyEvaluationUpdateInputDTO;
+import com.correction.backend.modules.survey.controller.dto.*;
 import com.correction.backend.modules.survey.convert.MSurveyEvaluationConvert;
 import com.correction.backend.modules.survey.entity.SurveyEvaluation;
 import com.correction.backend.modules.survey.mapper.SurveyEvaluationMapper;
@@ -13,11 +11,14 @@ import com.correction.backend.modules.survey.service.SurveyDocumentsFilesService
 import com.correction.backend.modules.survey.service.SurveyEvaluationService;
 import com.correction.backend.modules.sys.constant.SysConstant;
 import com.correction.framework.common.pojo.PageResult;
+import com.correction.framework.web.web.core.util.WebFrameworkUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+
+import java.util.List;
 
 import static com.correction.backend.modules.sys.enums.SysErrorCodeConstants.SURVEY_FLOW_STATUS_EDIT;
 import static com.correction.backend.modules.sys.enums.SysErrorCodeConstants.USER_USERNAME_EXISTS;
@@ -44,9 +45,8 @@ public class SurveyEvaluationServiceImpl extends ServiceImpl<SurveyEvaluationMap
         this.checkCreateOrUpdate(null,reqDTO.getName(),reqDTO.getApplyStatus());
         SurveyEvaluation surveyEvaluation = MSurveyEvaluationConvert.INSTANCE.toSurveyEvaluation(reqDTO);
         surveyEvaluation.setApplyStatus(SurveyConstant.FLOW_STATUS_0);
+        surveyEvaluation.setOrgNum(WebFrameworkUtils.getLoginOrgNum());
         baseMapper.insert(surveyEvaluation);
-        //初始化文书附件记录：
-        surveyDocumentsFilesService.initSurveyDocumentFile(surveyEvaluation.getId(), SysConstant.DICT_SURVEY,SurveyConstant.DOC_SUBJECT_SURVEY);
         return surveyEvaluation.getId();
     }
 
@@ -62,17 +62,24 @@ public class SurveyEvaluationServiceImpl extends ServiceImpl<SurveyEvaluationMap
     }
 
     @Override
-    public SurveyEvaluation get(Long id) {
+    public SurveyEvaluationFilesDTO get(Long id) {
         SurveyEvaluation surveyEvaluation = baseMapper.selectById(id);
-        return surveyEvaluation;
+        //得到委托检查材料
+        List<SurveyDocumentsFilesDTO> DICT_TYPE_SURVEY = surveyDocumentsFilesService.getSurveyDocumentList(SurveyDocumentsFilesQuery.builder().dictType(SurveyConstant.DICT_TYPE_SURVEY).dataId(id).build());
+        List<SurveyDocumentsFilesDTO> DICT_TYPE_SURVEY_IMPLEMENT = surveyDocumentsFilesService.getSurveyDocumentList(SurveyDocumentsFilesQuery.builder().dictType(SurveyConstant.DICT_TYPE_SURVEY_IMPLEMENT).dataId(id).build());
+        List<SurveyDocumentsFilesDTO> DICT_TYPE_SURVEY_ASSESSMENT = surveyDocumentsFilesService.getSurveyDocumentList(SurveyDocumentsFilesQuery.builder().dictType(SurveyConstant.DICT_TYPE_SURVEY_ASSESSMENT).dataId(id).build());
+        SurveyEvaluationFilesDTO surveyEvaluationFilesDTO = new SurveyEvaluationFilesDTO();
+        surveyEvaluationFilesDTO.setDetail(MSurveyEvaluationConvert.INSTANCE.toList(surveyEvaluation));
+        surveyEvaluationFilesDTO.setImplement(DICT_TYPE_SURVEY_IMPLEMENT);
+        surveyEvaluationFilesDTO.setMaterials(DICT_TYPE_SURVEY);
+        surveyEvaluationFilesDTO.setAssessment(DICT_TYPE_SURVEY_ASSESSMENT);
+        return surveyEvaluationFilesDTO;
     }
 
 
     @Override
     public void delete(Long id) {
-        int delete = baseMapper.deleteById(id);
-        //删除文书记录
-        surveyDocumentsFilesService.deleteByDataId(id);
+        baseMapper.deleteById(id);
     }
 
     @Override

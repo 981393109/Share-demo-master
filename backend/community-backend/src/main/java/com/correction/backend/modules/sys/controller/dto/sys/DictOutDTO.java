@@ -28,8 +28,10 @@ public class DictOutDTO {
     @ApiModelProperty(value = "类别")
     private Integer dictType;
 
-
     @ApiModelProperty(value = "值")
     private Integer dictValue;
+
+    @ApiModelProperty(value = "useType")
+    private String useType;
 
 }

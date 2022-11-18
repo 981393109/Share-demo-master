@@ -1,6 +1,7 @@
 package com.correction.backend.modules.sys.convert.user;
 
 import com.correction.backend.modules.sys.controller.dto.user.SysUserCreateReqDTO;
+import com.correction.backend.modules.sys.controller.dto.user.SysUserRoleDTO;
 import com.correction.backend.modules.sys.controller.dto.user.SysUserUpdateReqDTO;
 import com.correction.backend.modules.sys.controller.vo.user.SysUserInfoVO;
 import com.correction.backend.modules.sys.controller.vo.user.SysUserPageVO;
@@ -12,7 +13,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-11-15T21:33:24+0800",
+    date = "2022-11-18T00:24:14+0800",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 1.8.0_211 (Oracle Corporation)"
 )
 public class SysUserConvertImpl implements SysUserConvert {
@@ -120,5 +121,38 @@ public class SysUserConvertImpl implements SysUserConvert {
         }
 
         return list;
+    }
+
+    @Override
+    public List<SysUserRoleDTO> convertUserInfo(List<SysUserDO> sysUserDOS) {
+        if ( sysUserDOS == null ) {
+            return null;
+        }
+
+        List<SysUserRoleDTO> list = new ArrayList<SysUserRoleDTO>( sysUserDOS.size() );
+        for ( SysUserDO sysUserDO : sysUserDOS ) {
+            list.add( sysUserDOToSysUserRoleDTO( sysUserDO ) );
+        }
+
+        return list;
+    }
+
+    protected SysUserRoleDTO sysUserDOToSysUserRoleDTO(SysUserDO sysUserDO) {
+        if ( sysUserDO == null ) {
+            return null;
+        }
+
+        SysUserRoleDTO sysUserRoleDTO = new SysUserRoleDTO();
+
+        sysUserRoleDTO.setId( sysUserDO.getId() );
+        sysUserRoleDTO.setUserNumber( sysUserDO.getUserNumber() );
+        sysUserRoleDTO.setUserName( sysUserDO.getUserName() );
+        if ( sysUserDO.getStatus() != null ) {
+            sysUserRoleDTO.setStatus( String.valueOf( sysUserDO.getStatus() ) );
+        }
+        sysUserRoleDTO.setUserJobs( sysUserDO.getUserJobs() );
+        sysUserRoleDTO.setOrgInfo( sysUserDO.getOrgInfo() );
+
+        return sysUserRoleDTO;
     }
 }

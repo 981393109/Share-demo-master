@@ -34,6 +34,10 @@ public class Role extends BaseDO {
 
     private String  description;
 
+    private Long orgId;
+
+    private String orgInfo;
+
 
 
 }

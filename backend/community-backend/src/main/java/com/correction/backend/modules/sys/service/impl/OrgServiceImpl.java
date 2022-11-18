@@ -85,6 +85,14 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, OrgDO> implements Org
     }
 
     @Override
+    public List<OrgDO> getOrgParentList(Long id) {
+        List<OrgDO> orgDOS = new ArrayList<>();
+        OrgDO orgDO = orgMapper.selectById(id);
+        orgDOS = recursiveAssmberParents(orgDO, orgDOS);
+        return orgDOS;
+    }
+
+    @Override
     public PageResult<OrgDO> getPageList(OrgSearchInputDTO searchInputDTO) {
         PageResult<OrgDO> orgDOPageResult = baseMapper.selectPage(searchInputDTO);
         return orgDOPageResult;
@@ -92,7 +100,7 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, OrgDO> implements Org
 
     @Override
     public List<OrgDO> getList() {
-        List<OrgDO> orgDOS = baseMapper.selectList(Wrappers.<OrgDO>lambdaQuery().eq(OrgDO::getDeleted, CommonStatusEnum.ENABLE));
+        List<OrgDO> orgDOS = baseMapper.selectList(Wrappers.<OrgDO>lambdaQuery().eq(OrgDO::getDeleted, CommonStatusEnum.ENABLE).orderByAsc(OrgDO::getId));
         return orgDOS;
     }
 
@@ -143,6 +151,22 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, OrgDO> implements Org
             }
         }
         return parentNameList;
+    }
+
+    /**
+     * 递归获取父组织信息
+     * @param orgDO
+     */
+    private List<OrgDO> recursiveAssmberParents(OrgDO orgDO,List<OrgDO> parentList) {
+        parentList.add(orgDO);
+        //得到父级组织
+        if (!orgDO.getPid().equals(SysConstant.ROOT_TOP)){
+            OrgDO pOrg = orgMapper.selectOne("id", orgDO.getPid());
+            if(pOrg != null){
+                parentList = recursiveAssmberParents(pOrg,parentList);
+            }
+        }
+        return parentList;
     }
 
 

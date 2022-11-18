@@ -8,7 +8,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-11-15T21:33:24+0800",
+    date = "2022-11-18T00:24:14+0800",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 1.8.0_211 (Oracle Corporation)"
 )
 public class MDictConvertImpl implements MDictConvert {
@@ -38,6 +38,7 @@ public class MDictConvertImpl implements MDictConvert {
         dictOutDTO.setDictCode( dict.getDictCode() );
         dictOutDTO.setDictType( dict.getDictType() );
         dictOutDTO.setDictValue( dict.getDictValue() );
+        dictOutDTO.setUseType( dict.getUseType() );
 
         return dictOutDTO;
     }

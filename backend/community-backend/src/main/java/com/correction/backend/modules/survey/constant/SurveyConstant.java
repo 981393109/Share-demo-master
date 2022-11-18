@@ -25,7 +25,9 @@ public class SurveyConstant {
     /**
      * 文书大类
      */
-    public static final Integer DOC_SUBJECT_SURVEY = 1;
+    public static final Integer DICT_TYPE_SURVEY = 2;
+    public static final Integer DICT_TYPE_SURVEY_IMPLEMENT = 3;
+    public static final Integer DICT_TYPE_SURVEY_ASSESSMENT = 4;
 
 
 

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.correction.backend.modules.sys.mapper.SysAreaMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.correction.backend.modules.sys.entity.SysArea">
+        <id column="area_id" property="areaId" />
+        <result column="area_code" property="areaCode" />
+        <result column="area_name" property="areaName" />
+        <result column="level" property="level" />
+        <result column="city_code" property="cityCode" />
+        <result column="center" property="center" />
+        <result column="parent_id" property="parentId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        area_id, area_code, area_name, level, city_code, center, parent_id
+    </sql>
+
+    <!-- 通用查询结果列 别名 -->
+    <sql id="Base_Column_List_Alias">
+        sysArea.area_id AS areaId,sysArea.area_code AS areaCode,sysArea.area_name AS areaName,sysArea.level,sysArea.city_code AS cityCode,sysArea.center,sysArea.parent_id AS parentId
+    </sql>
+</mapper>

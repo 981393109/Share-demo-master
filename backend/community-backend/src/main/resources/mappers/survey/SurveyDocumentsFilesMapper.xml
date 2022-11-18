@@ -6,13 +6,13 @@
     <resultMap id="BaseResultMap" type="com.correction.backend.modules.survey.entity.SurveyDocumentsFiles">
         <id column="id" property="id" />
         <result column="data_id" property="dataId" />
-        <result column="doc_name" property="docName" />
-        <result column="doc_status" property="docStatus" />
+        <result column="file_status" property="fileStatus" />
         <result column="file_path" property="filePath" />
         <result column="file_url" property="fileUrl" />
         <result column="file_name" property="fileName" />
         <result column="file_type" property="fileType" />
-        <result column="doc_subject" property="docSubject" />
+        <result column="dict_type" property="dictType" />
+        <result column="dict_value" property="dictValue" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
         <result column="creator" property="creator" />
@@ -22,11 +22,24 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, data_id, doc_name, doc_status, file_path, file_url, file_name, file_type, doc_subject, create_time, update_time, creator, updater, deleted
+        id, data_id, file_status, file_path, file_url, file_name, file_type, dict_type, dict_value, create_time, update_time, creator, updater, deleted
     </sql>
 
     <!-- 通用查询结果列 别名 -->
     <sql id="Base_Column_List_Alias">
-        surveyDocumentsFiles.id,surveyDocumentsFiles.data_id AS dataId,surveyDocumentsFiles.doc_name AS docName,surveyDocumentsFiles.doc_status AS docStatus,surveyDocumentsFiles.file_path AS filePath,surveyDocumentsFiles.file_url AS fileUrl,surveyDocumentsFiles.file_name AS fileName,surveyDocumentsFiles.file_type AS fileType,surveyDocumentsFiles.doc_subject AS docSubject,surveyDocumentsFiles.create_time AS createTime,surveyDocumentsFiles.update_time AS updateTime,surveyDocumentsFiles.creator,surveyDocumentsFiles.updater,surveyDocumentsFiles.deleted
+        surveyDocumentsFiles.id,surveyDocumentsFiles.data_id AS dataId,surveyDocumentsFiles.file_status AS fileStatus,surveyDocumentsFiles.file_path AS filePath,surveyDocumentsFiles.file_url AS fileUrl,surveyDocumentsFiles.file_name AS fileName,surveyDocumentsFiles.file_type AS fileType,surveyDocumentsFiles.dict_type AS dictType,surveyDocumentsFiles.dict_value AS dictValue,surveyDocumentsFiles.create_time AS createTime,surveyDocumentsFiles.update_time AS updateTime,surveyDocumentsFiles.creator,surveyDocumentsFiles.updater,surveyDocumentsFiles.deleted
     </sql>
+    <select id="getPageList"
+            resultType="com.correction.backend.modules.survey.controller.dto.SurveyDocumentsFilesDTO">
+        select sd.dict_type ,sd.dict_value,sd.dict_name as dict_name , sdf.file_name ,sdf.file_url,sdf.file_status,sdf.data_id,sdf.id
+        from sys_dict sd LEFT JOIN survey_documents_files sdf on sd.dict_value = sdf.dict_value
+        where sd.dict_type = #{query.dictType} and (sdf.data_id = #{query.dataId} or sdf.data_id is null)
+    </select>
+    <select id="getList"
+            resultType="com.correction.backend.modules.survey.controller.dto.SurveyDocumentsFilesDTO">
+        select sd.dict_type ,sd.dict_value,sd.dict_name as dict_name , sdf.file_name ,sdf.file_url,sdf.file_status,sdf.data_id,sdf.id
+        from sys_dict sd LEFT JOIN survey_documents_files sdf on sd.dict_value = sdf.dict_value
+        where sd.dict_type = #{query.dictType} and (sdf.data_id = #{query.dataId} or sdf.data_id is null)
+    </select>
+
 </mapper>

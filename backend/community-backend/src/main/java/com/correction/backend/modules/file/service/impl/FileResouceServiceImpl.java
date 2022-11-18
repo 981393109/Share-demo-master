@@ -57,7 +57,7 @@ public class FileResouceServiceImpl extends ServiceImpl<FileResouceMapper, FileR
         String time = String.valueOf(System.currentTimeMillis());
         String originalFilename = file.getOriginalFilename();
         String fileType = originalFilename.substring(originalFilename.lastIndexOf("."));
-        String filePath = time + File.separator + time.concat(originalFilename);
+        String filePath = time + File.separator + originalFilename;
         File tempFile = new File(fileProperties.getLinuxpath().concat(filePath));
         if(!tempFile.getParentFile().exists()){
             tempFile.getParentFile().mkdirs();

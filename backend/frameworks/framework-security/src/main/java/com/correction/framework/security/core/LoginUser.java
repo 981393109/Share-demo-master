@@ -47,6 +47,14 @@ public class LoginUser implements UserDetails {
      */
     private Integer status;
 
+    /**
+     * orgId
+     * @return
+     */
+    private Long orgId;
+
+    private String orgNum;
+
     @Override
     @JsonIgnore// 避免序列化
     public String getPassword() {

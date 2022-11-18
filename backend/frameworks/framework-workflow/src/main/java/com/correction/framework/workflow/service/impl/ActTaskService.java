@@ -214,7 +214,8 @@ public class ActTaskService implements ActFlowableTaskService {
         }
         if (task != null && StrUtil.isNotBlank(task.getProcessInstanceId()) && StrUtil.isNotBlank(comment)) {
             // 保存意见
-            taskService.addComment(task.getId(), task.getProcessInstanceId(), WorkFlowConstant.TASK_STATUS, WorkFlowConstant.TASK_SUCCESS);
+
+            taskService.addComment(task.getId(), task.getProcessInstanceId(), WorkFlowConstant.TASK_STATUS, String.valueOf(variables.get(WorkFlowConstant.TASK_STATUS)));
             taskService.addComment(task.getId(), task.getProcessInstanceId(), WorkFlowConstant.TASK_COMMENT, comment);
         }
         if (CollUtil.isNotEmpty(variables)) {
@@ -222,7 +223,6 @@ public class ActTaskService implements ActFlowableTaskService {
         } else {
             taskService.complete(taskId);
         }
-
     }
 
     /**

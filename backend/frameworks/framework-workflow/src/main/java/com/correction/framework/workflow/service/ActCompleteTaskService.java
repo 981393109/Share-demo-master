@@ -1,12 +1,10 @@
 package com.correction.framework.workflow.service;
 
 /**
- * @Author：Suyuan
+ * @Author：yao
  * @Description: 修改任务状态
- * @Date: 2021/6/11 15:08
  */
 public interface ActCompleteTaskService {
-
 
     /**
      * 修改完成状态

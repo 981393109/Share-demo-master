@@ -8,13 +8,11 @@ import com.correction.backend.modules.sys.controller.dto.sys.RoleSearchInputDTO;
 import com.correction.backend.modules.sys.controller.dto.sys.RoleUpdateInputDTO;
 import com.correction.backend.modules.sys.controller.dto.sys.SaveRoleMenuDTO;
 import com.correction.backend.modules.sys.convert.sys.MRoleConvert;
-import com.correction.backend.modules.sys.entity.Menu;
-import com.correction.backend.modules.sys.entity.RoleMenu;
-import com.correction.backend.modules.sys.entity.SysUserDO;
+import com.correction.backend.modules.sys.entity.*;
+import com.correction.backend.modules.sys.mapper.OrgMapper;
 import com.correction.backend.modules.sys.mapper.RoleMenuMapper;
 import com.correction.backend.modules.sys.mapper.RoleUserMapper;
 import com.correction.backend.modules.sys.service.RoleService;
-import com.correction.backend.modules.sys.entity.Role;
 import com.correction.backend.modules.sys.mapper.RoleMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.correction.framework.common.pojo.PageResult;
@@ -24,6 +22,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 
+import static com.correction.backend.modules.sys.enums.SysErrorCodeConstants.ORG_NOT_FOUND;
 import static com.correction.backend.modules.sys.enums.SysErrorCodeConstants.ROLE_NAME_DUPLICATE;
 import static com.correction.framework.common.exception.util.ServiceExceptionUtil.exception;
 
@@ -46,11 +45,16 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     @Resource
     private RoleMenuMapper roleMenuMapper;
 
+    @Resource
+    private OrgMapper orgMapper;
+
     @Override
     public Long createRole(RoleCreateInputDTO reqDTO) {
         //校验
         checkCreateOrUpdate(null,reqDTO.getRoleName());
         Role role = MRoleConvert.INSTANCE.toRole(reqDTO);
+        OrgDO orgDO = orgMapper.selectById(role.getOrgId());
+        role.setOrgInfo(orgDO.getParentNames());
         baseMapper.insert(role);
         return role.getId();
     }
@@ -59,6 +63,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     public Role updateRole(RoleUpdateInputDTO reqDTO) {
         checkCreateOrUpdate(reqDTO.getId(),reqDTO.getRoleName());
         Role role = MRoleConvert.INSTANCE.toRole(reqDTO);
+        OrgDO orgDO = orgMapper.selectById(role.getOrgId());
+        role.setOrgInfo(orgDO.getParentNames());
         baseMapper.updateById(role);
         return role;
     }
@@ -119,6 +125,11 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     private void checkCreateOrUpdate(Long id ,String roleName) {
         // 校验角色名称是否唯一
         this.checkRoleNameUnique(id, roleName);
+
+        //org是否为空
+        if(id == null){
+            throw exception(ORG_NOT_FOUND,roleName);
+        }
     }
 
     private void checkRoleNameUnique(Long id, String roleName) {

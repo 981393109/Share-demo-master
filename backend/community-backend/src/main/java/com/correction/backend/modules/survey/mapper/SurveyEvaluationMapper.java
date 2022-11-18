@@ -2,7 +2,6 @@ package com.correction.backend.modules.survey.mapper;
 
 import com.correction.backend.modules.survey.controller.dto.SurveyEvaluationSearchInputDTO;
 import com.correction.backend.modules.survey.entity.SurveyEvaluation;
-import com.correction.backend.modules.sys.entity.SysUserDO;
 import com.correction.framework.common.pojo.PageResult;
 import com.correction.frameworks.mybatis.mybatis.core.mapper.BaseMapperX;
 import com.correction.frameworks.mybatis.mybatis.core.query.QueryWrapperX;
@@ -14,7 +13,7 @@ import com.correction.frameworks.mybatis.mybatis.core.query.QueryWrapperX;
  * </p>
  *
  * @author yao
- * @since 2022-11-15
+ * @since 2022-11-17
  */
 public interface SurveyEvaluationMapper extends BaseMapperX<SurveyEvaluation> {
 

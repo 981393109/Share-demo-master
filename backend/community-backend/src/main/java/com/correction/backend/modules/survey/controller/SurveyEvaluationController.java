@@ -1,10 +1,7 @@
 package com.correction.backend.modules.survey.controller;
 
 import cn.hutool.core.collection.CollUtil;
-import com.correction.backend.modules.survey.controller.dto.SurveyEvaluationCreateInputDTO;
-import com.correction.backend.modules.survey.controller.dto.SurveyEvaluationListOutputDTO;
-import com.correction.backend.modules.survey.controller.dto.SurveyEvaluationSearchInputDTO;
-import com.correction.backend.modules.survey.controller.dto.SurveyEvaluationUpdateInputDTO;
+import com.correction.backend.modules.survey.controller.dto.*;
 import com.correction.backend.modules.survey.convert.MSurveyEvaluationConvert;
 import com.correction.backend.modules.survey.entity.SurveyEvaluation;
 import com.correction.backend.modules.survey.service.SurveyEvaluationService;
@@ -58,29 +55,26 @@ public class SurveyEvaluationController {
     @GetMapping("/get")
     @ApiOperation("获取调查评估详情")
     @ApiImplicitParam(name = "id", value = "id", required = true, example = "1024", dataTypeClass = Long.class)
-    public CommonResult<SurveyEvaluationListOutputDTO> getInfo(@RequestParam("id") Long id) {
-        return success(MSurveyEvaluationConvert.INSTANCE.toList(surveyEvaluationService.get(id)));
+    public CommonResult<SurveyEvaluationFilesDTO> getInfo(@RequestParam("id") Long id) {
+        return success(surveyEvaluationService.get(id));
     }
 
     @GetMapping("/page")
     @ApiOperation("获取所有调查评估列表记录")
-    public CommonResult<PageResult<SurveyEvaluationListOutputDTO>> getUserPage(@Valid SurveyEvaluationSearchInputDTO reqVO) {
+    public CommonResult<PageResult<SurveyEvaluationListDTO>> getUserPage(@Valid SurveyEvaluationSearchInputDTO reqVO) {
         // 获得用户分页列表
         PageResult<SurveyEvaluation> pageResult = surveyEvaluationService.getPageList(reqVO);
         if (CollUtil.isEmpty(pageResult.getList())) {
             return success(new PageResult<>(pageResult.getTotal())); // 返回空
         }
         // 拼接结果返回
-        List<SurveyEvaluationListOutputDTO> surveyEvaluationListOutputDTOS = new ArrayList<>(pageResult.getList().size());
+        List<SurveyEvaluationListDTO> surveyEvaluationListOutputDTOS = new ArrayList<>(pageResult.getList().size());
         pageResult.getList().forEach(surveyEvaluation -> {
-            SurveyEvaluationListOutputDTO surveyEvaluationListOutputDTO = MSurveyEvaluationConvert.INSTANCE.toList(surveyEvaluation);
-            surveyEvaluationListOutputDTOS.add(surveyEvaluationListOutputDTO);
+            SurveyEvaluationListDTO surveyEvaluationListDTO = MSurveyEvaluationConvert.INSTANCE.toEsyList(surveyEvaluation);
+            surveyEvaluationListOutputDTOS.add(surveyEvaluationListDTO);
         });
         return success(new PageResult<>(surveyEvaluationListOutputDTOS, pageResult.getTotal()));
     }
-
-
-
 
 
 

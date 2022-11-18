@@ -12,7 +12,12 @@
         <result column="creator" property="creator" />
         <result column="updater" property="updater" />
         <result column="deleted" property="deleted" />
+        <result column="org_id" property="orgId"/>
+        <result column="org_info" property="orgInfo"/>
     </resultMap>
+    <select id="findRoleByOrgId" resultType="com.correction.backend.modules.sys.entity.Role">
+        select id,role_name,description,org_id,org_info from sys_role where org_id  = #{orgId}
+    </select>
 
 
 </mapper>

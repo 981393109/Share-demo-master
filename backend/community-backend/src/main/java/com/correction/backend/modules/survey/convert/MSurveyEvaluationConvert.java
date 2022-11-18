@@ -1,9 +1,6 @@
 package com.correction.backend.modules.survey.convert;
 
-import com.correction.backend.modules.survey.controller.dto.SurveyEvaluationCreateInputDTO;
-import com.correction.backend.modules.survey.controller.dto.SurveyEvaluationListOutputDTO;
-import com.correction.backend.modules.survey.controller.dto.SurveyEvaluationSearchInputDTO;
-import com.correction.backend.modules.survey.controller.dto.SurveyEvaluationUpdateInputDTO;
+import com.correction.backend.modules.survey.controller.dto.*;
 import com.correction.backend.modules.survey.entity.SurveyEvaluation;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -28,6 +25,8 @@ public interface MSurveyEvaluationConvert {
     SurveyEvaluation toSurveyEvaluation(SurveyEvaluationUpdateInputDTO surveyEvaluationUpdateInputDTO);
 
     SurveyEvaluationListOutputDTO toList(SurveyEvaluation surveyEvaluation);
+
+    SurveyEvaluationListDTO toEsyList(SurveyEvaluation surveyEvaluation);
 
     List<SurveyEvaluationListOutputDTO> toList(List<SurveyEvaluation> surveyEvaluations);
 }

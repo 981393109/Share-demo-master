@@ -44,4 +44,11 @@ public class RoleListOutputDTO implements Serializable {
     @ApiModelProperty(value = "是否删除")
     private Boolean deleted;
 
+    @ApiModelProperty(value = "组织id")
+    private Long orgId;
+
+    @ApiModelProperty(value = "组织信息")
+    private String orgInfo;
+
+
 }

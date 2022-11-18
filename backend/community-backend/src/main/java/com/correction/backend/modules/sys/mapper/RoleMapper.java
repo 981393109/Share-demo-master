@@ -6,6 +6,7 @@ import com.correction.framework.common.enums.CommonStatusEnum;
 import com.correction.framework.common.pojo.PageResult;
 import com.correction.frameworks.mybatis.mybatis.core.mapper.BaseMapperX;
 import com.correction.frameworks.mybatis.mybatis.core.query.QueryWrapperX;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 //import com.baomidou.mybatisplus.core.mapper.BaseMapperX;
@@ -31,5 +32,9 @@ public interface RoleMapper extends BaseMapperX<Role> {
                 .likeIfPresent("role_name", reqDTO.getRoleName())
                 .eq("deleted", CommonStatusEnum.ENABLE.getStatus()));
     }
+
+
+    List<Role> findRoleByOrgId (@Param("orgId") Long orgId);
+
 
 }

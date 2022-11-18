@@ -15,5 +15,13 @@ public class WorkFlowConstant {
 
     public static final String TASK_REJECT = "reject";
 
+    public static final String TASK_REJECTED = "rejected";
+
+
+    public static final Integer TASK_MU_1 = 1;
+    public static final Integer TASK_MU_2 = 2;
+    public static final Integer TASK_MU_3 = 3;
+
+
 
 }

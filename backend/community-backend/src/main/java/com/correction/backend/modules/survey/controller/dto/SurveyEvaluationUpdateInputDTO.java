@@ -12,7 +12,7 @@ import java.util.Date;
  * </p>
  *
  * @author yao
- * @since 2022-11-15
+ * @since 2022-11-17
  */
 @Getter
 @Setter
@@ -29,35 +29,65 @@ public class SurveyEvaluationUpdateInputDTO implements Serializable {
     @ApiModelProperty(value = "委托单位")
     private String entrustUnit;
 
+    @ApiModelProperty(value = "所属辖区")
+    private String areaJurisdiction;
+
+    @ApiModelProperty(value = "所属街道")
+    private String streetJurisdiction;
+
+    @ApiModelProperty(value = "委托时间")
+    private String entrustDate;
+
+    @ApiModelProperty(value = "案由")
+    private String causeAction;
+
     @ApiModelProperty(value = "性别 0:男 1女")
     private Integer sex;
 
     @ApiModelProperty(value = "姓名")
     private String name;
 
-    @ApiModelProperty(value = "姓名")
+    @ApiModelProperty(value = "出生日期")
     private String birthday;
 
-    @ApiModelProperty(value = "身份证")
+    @ApiModelProperty(value = "身份证号")
     private String idCard;
 
-    @ApiModelProperty(value = "所属辖区")
-    private String areaJurisdiction;
+    @ApiModelProperty(value = "户籍")
+    private String household;
 
-    @ApiModelProperty(value = "委托时间")
-    private String entrustDate;
+    @ApiModelProperty(value = "籍贯")
+    private String nativePlace;
 
-    @ApiModelProperty(value = "执行机构")
-    private String mechanismExecution;
+    @ApiModelProperty(value = "联系电话")
+    private String mobile;
 
-    @ApiModelProperty(value = "意见")
-    private String opinion;
+    @ApiModelProperty(value = "居住地")
+    private String placeResidence;
 
-    @ApiModelProperty(value = "接收时间")
-    private String receptionDate;
+    @ApiModelProperty(value = "婚姻状况")
+    private String maritalStatus;
 
-    @ApiModelProperty(value = "辖区司法所")
-    private String jurisdictionOffice;
+    @ApiModelProperty(value = "职业")
+    private String professional;
+
+    @ApiModelProperty(value = "经济状况")
+    private String economyState;
+
+    @ApiModelProperty(value = "其他需要说明事项")
+    private String ortherInfo;
+
+    @ApiModelProperty(value = "委托单位联系人")
+    private String entrustLinkman;
+
+    @ApiModelProperty(value = "联系电话")
+    private String entrustMobile;
+
+    @ApiModelProperty(value = "是否通知执行地县级人民检察院")
+    private Integer isNotice;
+
+    @ApiModelProperty(value = "确认辖区司法所")
+    private Integer isJurisdictionOffice;
 
     @ApiModelProperty(value = "当前操作人")
     private String jurisdictionUser;
@@ -104,6 +134,18 @@ public class SurveyEvaluationUpdateInputDTO implements Serializable {
     @ApiModelProperty(value = "当前操作人")
     private String assessmentUser;
 
+    @ApiModelProperty(value = "文书递送是否完成")
+    private Integer surveySendStatus;
+
+    @ApiModelProperty(value = "当前操作人")
+    private String surveySendUser;
+
+    @ApiModelProperty(value = "是否完成一人一档")
+    private Integer surveyNoticeStatus;
+
+    @ApiModelProperty(value = "当前操作人")
+    private String surveyNoticeUser;
+
     @ApiModelProperty(value = "进度 0:未提交，1登记备案，2上传文书附件，3调查指派，4调查实施，5调查评估，6文书寄送，7一人一档，8流程归档")
     private Integer progress;
 
@@ -118,6 +160,9 @@ public class SurveyEvaluationUpdateInputDTO implements Serializable {
 
     @ApiModelProperty(value = "申请时间")
     private String applyTime;
+
+    @ApiModelProperty(value = "组织架构num")
+    private String orgNum;
 
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
@@ -134,4 +179,9 @@ public class SurveyEvaluationUpdateInputDTO implements Serializable {
     @ApiModelProperty(value = "是否删除")
     private Boolean deleted;
 
+    @ApiModelProperty(value = "意见")
+    private String opinion;
+
+    @ApiModelProperty(value = "接收时间")
+    private String receptionDate;
 }

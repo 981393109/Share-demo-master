@@ -17,6 +17,9 @@ public class WebFrameworkUtils {
 
     private static final String REQUEST_ATTRIBUTE_LOGIN_USER_ID = "login_user_id";
 
+    private static final String REQUEST_ATTRIBUTE_LOGIN_ORG_ID = "login_org_id";
+    private static final String REQUEST_ATTRIBUTE_LOGIN_ORG_NUM = "login_org_num";
+
     private static final String REQUEST_ATTRIBUTE_COMMON_RESULT = "common_result";
 
     public static void setLoginUserId(ServletRequest request, Long userId) {
@@ -34,6 +37,19 @@ public class WebFrameworkUtils {
             return null;
         }
         return (Long) request.getAttribute(REQUEST_ATTRIBUTE_LOGIN_USER_ID);
+    }
+
+
+    public static String getLoginOrgNum(HttpServletRequest request) {
+        if (request == null) {
+            return null;
+        }
+        return (String) request.getAttribute(REQUEST_ATTRIBUTE_LOGIN_ORG_NUM);
+    }
+
+    public static String  getLoginOrgNum() {
+        HttpServletRequest request = getRequest();
+        return getLoginOrgNum(request);
     }
 
     public static Long getLoginUserId() {
@@ -62,4 +78,20 @@ public class WebFrameworkUtils {
         return servletRequestAttributes.getRequest();
     }
 
+    public static void setLoginOrgId(HttpServletRequest request, Long orgId,String orgNum) {
+        request.setAttribute(REQUEST_ATTRIBUTE_LOGIN_ORG_ID, orgId);
+        request.setAttribute(REQUEST_ATTRIBUTE_LOGIN_ORG_NUM, orgNum);
+    }
+
+    public static Long getLoginOrgId() {
+        HttpServletRequest request = getRequest();
+        return getLoginOrgId(request);
+    }
+
+    private static Long getLoginOrgId(HttpServletRequest request) {
+        if (request == null) {
+            return null;
+        }
+        return (Long) request.getAttribute(REQUEST_ATTRIBUTE_LOGIN_ORG_ID);
+    }
 }

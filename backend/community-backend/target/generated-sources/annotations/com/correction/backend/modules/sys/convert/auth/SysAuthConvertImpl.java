@@ -6,7 +6,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-11-15T21:33:24+0800",
+    date = "2022-11-18T00:24:14+0800",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 1.8.0_211 (Oracle Corporation)"
 )
 public class SysAuthConvertImpl implements SysAuthConvert {
@@ -22,6 +22,8 @@ public class SysAuthConvertImpl implements SysAuthConvert {
         loginUser.setId( bean.getId() );
         loginUser.setPassword( bean.getPassword() );
         loginUser.setStatus( bean.getStatus() );
+        loginUser.setOrgId( bean.getOrgId() );
+        loginUser.setOrgNum( bean.getOrgNum() );
 
         return loginUser;
     }

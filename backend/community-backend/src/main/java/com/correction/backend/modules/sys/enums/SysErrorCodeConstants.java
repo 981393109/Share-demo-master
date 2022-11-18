@@ -113,4 +113,7 @@ public interface SysErrorCodeConstants {
 
     ErrorCode SURVEY_FLOW_STATUS_EDIT = new ErrorCode(1002015000, "已处于审核中，不可进行修改操作");
 
+
+    ErrorCode SURVEY_UNIT_NAME_UNITQUE = new ErrorCode(1002016000, "系统中已存在该委托单位");
+
 }

@@ -45,6 +45,8 @@ public class Dict{
 
     private Integer dictValue;
 
+    private String useType;
+
 
     public static final String ID = "id";
 

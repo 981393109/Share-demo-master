@@ -55,6 +55,12 @@
       <version>${revision}</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.correction</groupId>
+      <artifactId>framework-workflow</artifactId>
+      <version>${revision}</version>
+    </dependency>
+
 
   </dependencies>
 

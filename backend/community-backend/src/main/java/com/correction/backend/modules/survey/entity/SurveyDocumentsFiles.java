@@ -16,7 +16,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author yao
- * @since 2022-11-15
+ * @since 2022-11-17
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -35,14 +35,9 @@ public class SurveyDocumentsFiles extends BaseDO {
     private Long dataId;
 
     /**
-     * 文档名称
-     */
-    private String docName;
-
-    /**
      * 文档状态 1：已上传 2上传失败
      */
-    private Integer docStatus;
+    private Integer fileStatus;
 
     /**
      * 相对路径
@@ -67,16 +62,20 @@ public class SurveyDocumentsFiles extends BaseDO {
     /**
      * 文书大类 1：调查评估
      */
-    private Integer docSubject;
+    private Integer dictType;
 
-  
+    /**
+     * dict_id
+     */
+    private String dictValue;
+
+
+
     public static final String ID = "id";
 
     public static final String DATA_ID = "data_id";
 
-    public static final String DOC_NAME = "doc_name";
-
-    public static final String DOC_STATUS = "doc_status";
+    public static final String FILE_STATUS = "file_status";
 
     public static final String FILE_PATH = "file_path";
 
@@ -86,7 +85,9 @@ public class SurveyDocumentsFiles extends BaseDO {
 
     public static final String FILE_TYPE = "file_type";
 
-    public static final String DOC_SUBJECT = "doc_subject";
+    public static final String DICT_TYPE = "dict_type";
+
+    public static final String DICT_VALUE = "dict_value";
 
     public static final String CREATE_TIME = "create_time";
 

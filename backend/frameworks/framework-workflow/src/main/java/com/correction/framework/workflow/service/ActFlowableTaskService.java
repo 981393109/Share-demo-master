@@ -5,9 +5,8 @@ import com.correction.framework.workflow.factory.ActProcessInstance;
 import java.util.Map;
 
 /**
- * @Author：Suyuan
+ * @Author：yao
  * @Description: 工作流service
- * @Date: 2021/6/11 14:16
  */
 public interface ActFlowableTaskService {
 
@@ -71,7 +70,6 @@ public interface ActFlowableTaskService {
      * @param adopt   审核状态（success;reject）
      */
     void complete(String taskId, String userId, String comment, Boolean adopt);
-
 
     /**
      * 完成任务并且设置流程变量

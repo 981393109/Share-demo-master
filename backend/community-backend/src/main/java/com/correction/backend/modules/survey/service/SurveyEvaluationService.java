@@ -1,6 +1,7 @@
 package com.correction.backend.modules.survey.service;
 
 import com.correction.backend.modules.survey.controller.dto.SurveyEvaluationCreateInputDTO;
+import com.correction.backend.modules.survey.controller.dto.SurveyEvaluationFilesDTO;
 import com.correction.backend.modules.survey.controller.dto.SurveyEvaluationSearchInputDTO;
 import com.correction.backend.modules.survey.controller.dto.SurveyEvaluationUpdateInputDTO;
 import com.correction.backend.modules.survey.entity.SurveyEvaluation;
@@ -32,7 +33,7 @@ public interface SurveyEvaluationService extends IService<SurveyEvaluation> {
     /**
      * 获取详情
      */
-    SurveyEvaluation get (Long id );
+    SurveyEvaluationFilesDTO get (Long id );
 
 
     /**

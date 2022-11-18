@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.correction.backend.modules.survey.mapper.SurveyEntrustUnitMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.correction.backend.modules.survey.entity.SurveyEntrustUnit">
+        <id column="id" property="id" />
+        <result column="unit_type" property="unitType" />
+        <result column="unit_name" property="unitName" />
+        <result column="mobile" property="mobile" />
+        <result column="unit_address" property="unitAddress" />
+        <result column="org_num" property="orgNum" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="creator" property="creator" />
+        <result column="updater" property="updater" />
+        <result column="deleted" property="deleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, unit_type, unit_name, mobile, unit_address, org_num, create_time, update_time, creator, updater, deleted
+    </sql>
+
+    <!-- 通用查询结果列 别名 -->
+    <sql id="Base_Column_List_Alias">
+        surveyEntrustUnit.id,surveyEntrustUnit.unit_type AS unitType,surveyEntrustUnit.unit_name AS unitName,surveyEntrustUnit.mobile,surveyEntrustUnit.unit_address AS unitAddress,surveyEntrustUnit.org_num AS orgNum,surveyEntrustUnit.create_time AS createTime,surveyEntrustUnit.update_time AS updateTime,surveyEntrustUnit.creator,surveyEntrustUnit.updater,surveyEntrustUnit.deleted
+    </sql>
+</mapper>

@@ -11,7 +11,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-11-15T21:33:24+0800",
+    date = "2022-11-18T00:24:14+0800",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 1.8.0_211 (Oracle Corporation)"
 )
 public class MSurveyDocumentsFilesConvertImpl implements MSurveyDocumentsFilesConvert {
@@ -30,13 +30,13 @@ public class MSurveyDocumentsFilesConvertImpl implements MSurveyDocumentsFilesCo
         surveyDocumentsFiles.setUpdater( surveyDocumentsFilesSearchInputDTO.getUpdater() );
         surveyDocumentsFiles.setDeleted( surveyDocumentsFilesSearchInputDTO.getDeleted() );
         surveyDocumentsFiles.setDataId( surveyDocumentsFilesSearchInputDTO.getDataId() );
-        surveyDocumentsFiles.setDocName( surveyDocumentsFilesSearchInputDTO.getDocName() );
-        surveyDocumentsFiles.setDocStatus( surveyDocumentsFilesSearchInputDTO.getDocStatus() );
+        surveyDocumentsFiles.setFileStatus( surveyDocumentsFilesSearchInputDTO.getFileStatus() );
         surveyDocumentsFiles.setFilePath( surveyDocumentsFilesSearchInputDTO.getFilePath() );
         surveyDocumentsFiles.setFileUrl( surveyDocumentsFilesSearchInputDTO.getFileUrl() );
         surveyDocumentsFiles.setFileName( surveyDocumentsFilesSearchInputDTO.getFileName() );
         surveyDocumentsFiles.setFileType( surveyDocumentsFilesSearchInputDTO.getFileType() );
-        surveyDocumentsFiles.setDocSubject( surveyDocumentsFilesSearchInputDTO.getDocSubject() );
+        surveyDocumentsFiles.setDictType( surveyDocumentsFilesSearchInputDTO.getDictType() );
+        surveyDocumentsFiles.setDictValue( surveyDocumentsFilesSearchInputDTO.getDictValue() );
 
         return surveyDocumentsFiles;
     }
@@ -55,13 +55,13 @@ public class MSurveyDocumentsFilesConvertImpl implements MSurveyDocumentsFilesCo
         surveyDocumentsFiles.setUpdater( surveyDocumentsFilesCreateInputDTO.getUpdater() );
         surveyDocumentsFiles.setDeleted( surveyDocumentsFilesCreateInputDTO.getDeleted() );
         surveyDocumentsFiles.setDataId( surveyDocumentsFilesCreateInputDTO.getDataId() );
-        surveyDocumentsFiles.setDocName( surveyDocumentsFilesCreateInputDTO.getDocName() );
-        surveyDocumentsFiles.setDocStatus( surveyDocumentsFilesCreateInputDTO.getDocStatus() );
+        surveyDocumentsFiles.setFileStatus( surveyDocumentsFilesCreateInputDTO.getFileStatus() );
         surveyDocumentsFiles.setFilePath( surveyDocumentsFilesCreateInputDTO.getFilePath() );
         surveyDocumentsFiles.setFileUrl( surveyDocumentsFilesCreateInputDTO.getFileUrl() );
         surveyDocumentsFiles.setFileName( surveyDocumentsFilesCreateInputDTO.getFileName() );
         surveyDocumentsFiles.setFileType( surveyDocumentsFilesCreateInputDTO.getFileType() );
-        surveyDocumentsFiles.setDocSubject( surveyDocumentsFilesCreateInputDTO.getDocSubject() );
+        surveyDocumentsFiles.setDictType( surveyDocumentsFilesCreateInputDTO.getDictType() );
+        surveyDocumentsFiles.setDictValue( surveyDocumentsFilesCreateInputDTO.getDictValue() );
 
         return surveyDocumentsFiles;
     }
@@ -81,13 +81,13 @@ public class MSurveyDocumentsFilesConvertImpl implements MSurveyDocumentsFilesCo
         surveyDocumentsFiles.setDeleted( surveyDocumentsFilesUpdateInputDTO.getDeleted() );
         surveyDocumentsFiles.setId( surveyDocumentsFilesUpdateInputDTO.getId() );
         surveyDocumentsFiles.setDataId( surveyDocumentsFilesUpdateInputDTO.getDataId() );
-        surveyDocumentsFiles.setDocName( surveyDocumentsFilesUpdateInputDTO.getDocName() );
-        surveyDocumentsFiles.setDocStatus( surveyDocumentsFilesUpdateInputDTO.getDocStatus() );
+        surveyDocumentsFiles.setFileStatus( surveyDocumentsFilesUpdateInputDTO.getFileStatus() );
         surveyDocumentsFiles.setFilePath( surveyDocumentsFilesUpdateInputDTO.getFilePath() );
         surveyDocumentsFiles.setFileUrl( surveyDocumentsFilesUpdateInputDTO.getFileUrl() );
         surveyDocumentsFiles.setFileName( surveyDocumentsFilesUpdateInputDTO.getFileName() );
         surveyDocumentsFiles.setFileType( surveyDocumentsFilesUpdateInputDTO.getFileType() );
-        surveyDocumentsFiles.setDocSubject( surveyDocumentsFilesUpdateInputDTO.getDocSubject() );
+        surveyDocumentsFiles.setDictType( surveyDocumentsFilesUpdateInputDTO.getDictType() );
+        surveyDocumentsFiles.setDictValue( surveyDocumentsFilesUpdateInputDTO.getDictValue() );
 
         return surveyDocumentsFiles;
     }
@@ -102,13 +102,13 @@ public class MSurveyDocumentsFilesConvertImpl implements MSurveyDocumentsFilesCo
 
         surveyDocumentsFilesListOutputDTO.setId( surveyDocumentsFiles.getId() );
         surveyDocumentsFilesListOutputDTO.setDataId( surveyDocumentsFiles.getDataId() );
-        surveyDocumentsFilesListOutputDTO.setDocName( surveyDocumentsFiles.getDocName() );
-        surveyDocumentsFilesListOutputDTO.setDocStatus( surveyDocumentsFiles.getDocStatus() );
+        surveyDocumentsFilesListOutputDTO.setFileStatus( surveyDocumentsFiles.getFileStatus() );
         surveyDocumentsFilesListOutputDTO.setFilePath( surveyDocumentsFiles.getFilePath() );
         surveyDocumentsFilesListOutputDTO.setFileUrl( surveyDocumentsFiles.getFileUrl() );
         surveyDocumentsFilesListOutputDTO.setFileName( surveyDocumentsFiles.getFileName() );
         surveyDocumentsFilesListOutputDTO.setFileType( surveyDocumentsFiles.getFileType() );
-        surveyDocumentsFilesListOutputDTO.setDocSubject( surveyDocumentsFiles.getDocSubject() );
+        surveyDocumentsFilesListOutputDTO.setDictType( surveyDocumentsFiles.getDictType() );
+        surveyDocumentsFilesListOutputDTO.setDictValue( surveyDocumentsFiles.getDictValue() );
         surveyDocumentsFilesListOutputDTO.setCreateTime( surveyDocumentsFiles.getCreateTime() );
         surveyDocumentsFilesListOutputDTO.setUpdateTime( surveyDocumentsFiles.getUpdateTime() );
         surveyDocumentsFilesListOutputDTO.setCreator( surveyDocumentsFiles.getCreator() );

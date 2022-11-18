@@ -1,9 +1,6 @@
 package com.correction.backend.modules.sys.convert.sys;
 
-import com.correction.backend.modules.sys.controller.dto.sys.RoleCreateInputDTO;
-import com.correction.backend.modules.sys.controller.dto.sys.RoleListOutputDTO;
-import com.correction.backend.modules.sys.controller.dto.sys.RoleSearchInputDTO;
-import com.correction.backend.modules.sys.controller.dto.sys.RoleUpdateInputDTO;
+import com.correction.backend.modules.sys.controller.dto.sys.*;
 import com.correction.backend.modules.sys.entity.Role;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -30,4 +27,7 @@ public interface MRoleConvert {
     RoleListOutputDTO toList(Role role);
 
     List<RoleListOutputDTO> toList(List<Role> roles);
+
+
+    List<RoleUserOutpuDTO> toRoleUserList(List<Role> roles);
 }

@@ -17,7 +17,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author yao
- * @since 2022-11-15
+ * @since 2022-11-17
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -41,6 +41,26 @@ public class SurveyEvaluation extends BaseDO {
     private String entrustUnit;
 
     /**
+     * 所属辖区
+     */
+    private String areaJurisdiction;
+
+    /**
+     * 所属街道
+     */
+    private String streetJurisdiction;
+
+    /**
+     * 委托时间
+     */
+    private String entrustDate;
+
+    /**
+     * 案由
+     */
+    private String causeAction;
+
+    /**
      * 性别 0:男 1女
      */
     private Integer sex;
@@ -56,39 +76,69 @@ public class SurveyEvaluation extends BaseDO {
     private String birthday;
 
     /**
-     * 身份证信息
+     * 身份证号
      */
     private String idCard;
 
     /**
-     * 所属辖区
+     * 户籍
      */
-    private String areaJurisdiction;
+    private String household;
 
     /**
-     * 委托时间
+     * 籍贯
      */
-    private String entrustDate;
+    private String nativePlace;
 
     /**
-     * 执行机构
+     * 联系电话
      */
-    private String mechanismExecution;
+    private String mobile;
 
     /**
-     * 意见
+     * 居住地
      */
-    private String opinion;
+    private String placeResidence;
 
     /**
-     * 接收时间
+     * 婚姻状况
      */
-    private String receptionDate;
+    private String maritalStatus;
 
     /**
-     * 辖区司法所
+     * 职业
      */
-    private String jurisdictionOffice;
+    private String professional;
+
+    /**
+     * 经济状况
+     */
+    private String economyState;
+
+    /**
+     * 其他需要说明事项
+     */
+    private String ortherInfo;
+
+    /**
+     * 委托单位联系人
+     */
+    private String entrustLinkman;
+
+    /**
+     * 联系电话
+     */
+    private String entrustMobile;
+
+    /**
+     * 是否通知执行地县级人民检察院
+     */
+    private Integer isNotice;
+
+    /**
+     * 确认辖区司法所
+     */
+    private Integer isJurisdictionOffice;
 
     /**
      * 当前操作人
@@ -166,6 +216,26 @@ public class SurveyEvaluation extends BaseDO {
     private String assessmentUser;
 
     /**
+     * 文书递送是否完成
+     */
+    private Integer surveySendStatus;
+
+    /**
+     * 当前操作人
+     */
+    private String surveySendUser;
+
+    /**
+     * 是否完成一人一档
+     */
+    private Integer surveyNoticeStatus;
+
+    /**
+     * 当前操作人
+     */
+    private String surveyNoticeUser;
+
+    /**
      * 进度 0:未提交，1登记备案，2上传文书附件，3调查指派，4调查实施，5调查评估，6文书寄送，7一人一档，8流程归档
      */
     private Integer progress;
@@ -190,6 +260,15 @@ public class SurveyEvaluation extends BaseDO {
      */
     private String applyTime;
 
+    /**
+     * 组织架构num
+     */
+    private String orgNum;
+
+    private String opinion;
+
+    private String receptionDate;
+
 
     public static final String ID = "id";
 
@@ -197,21 +276,45 @@ public class SurveyEvaluation extends BaseDO {
 
     public static final String ENTRUST_UNIT = "entrust_unit";
 
+    public static final String AREA_JURISDICTION = "area_jurisdiction";
+
+    public static final String STREET_JURISDICTION = "street_jurisdiction";
+
+    public static final String ENTRUST_DATE = "entrust_date";
+
+    public static final String CAUSE_ACTION = "cause_action";
+
     public static final String SEX = "sex";
 
     public static final String NAME = "name";
 
-    public static final String AREA_JURISDICTION = "area_jurisdiction";
+    public static final String BIRTHDAY = "birthday";
 
-    public static final String ENTRUST_DATE = "entrust_date";
+    public static final String ID_CARD = "id_card";
 
-    public static final String MECHANISM_EXECUTION = "mechanism_execution";
+    public static final String HOUSEHOLD = "household";
 
-    public static final String OPINION = "opinion";
+    public static final String NATIVE_PLACE = "native_place";
 
-    public static final String RECEPTION_DATE = "reception_date";
+    public static final String MOBILE = "mobile";
 
-    public static final String JURISDICTION_OFFICE = "jurisdiction_office";
+    public static final String PLACE_RESIDENCE = "place_residence";
+
+    public static final String MARITAL_STATUS = "marital_status";
+
+    public static final String PROFESSIONAL = "professional";
+
+    public static final String ECONOMY_STATE = "economy_state";
+
+    public static final String ORTHER_INFO = "orther_info";
+
+    public static final String ENTRUST_LINKMAN = "entrust_linkman";
+
+    public static final String ENTRUST_MOBILE = "entrust_mobile";
+
+    public static final String IS_NOTICE = "is_notice";
+
+    public static final String IS_JURISDICTION_OFFICE = "is_jurisdiction_office";
 
     public static final String JURISDICTION_USER = "jurisdiction_user";
 
@@ -243,6 +346,14 @@ public class SurveyEvaluation extends BaseDO {
 
     public static final String ASSESSMENT_USER = "assessment_user";
 
+    public static final String SURVEY_SEND_STATUS = "survey_send_status";
+
+    public static final String SURVEY_SEND_USER = "survey_send_user";
+
+    public static final String SURVEY_NOTICE_STATUS = "survey_notice_status";
+
+    public static final String SURVEY_NOTICE_USER = "survey_notice_user";
+
     public static final String PROGRESS = "progress";
 
     public static final String APPLY_STATUS = "apply_status";
@@ -252,6 +363,8 @@ public class SurveyEvaluation extends BaseDO {
     public static final String APPLY_NAME = "apply_name";
 
     public static final String APPLY_TIME = "apply_time";
+
+    public static final String ORG_NUM = "org_num";
 
     public static final String CREATE_TIME = "create_time";
 

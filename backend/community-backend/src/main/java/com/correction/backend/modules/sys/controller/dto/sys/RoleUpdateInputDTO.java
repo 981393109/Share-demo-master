@@ -44,4 +44,9 @@ public class RoleUpdateInputDTO implements Serializable {
     @ApiModelProperty(value = "是否删除")
     private Boolean deleted;
 
+    @ApiModelProperty(value = "orgId")
+    private Long orgId;
+
+    @ApiModelProperty(value = "orgInfo")
+    private String  orgInfo;
 }

@@ -94,4 +94,11 @@ public class OrgController {
         return success(MOrgConvert.INSTANCE.buildMenuTree(list));
     }
 
+    @GetMapping("/getList")
+    @ApiOperation("获取所有组织集合")
+    public CommonResult<List<OrgListOutputDTO>> getList() {
+        List<OrgDO> list = orgService.getList();
+        return success(MOrgConvert.INSTANCE.toList(list));
+    }
+
 }
