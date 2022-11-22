@@ -30,9 +30,19 @@ public class FlowCenter extends BaseDO {
     private Long id;
 
     /**
+     * 节点名称
+     */
+    private String name;
+
+    /**
      * 流程类型
      */
-    private Integer flowType;
+    private String  flowType;
+
+    /**
+     * 0:角色 1:部门 2:人员(暂且支持角色)
+     */
+    private String relationType;
 
     /**
      * 流程状态 0 进行中 1 完成  2 拒绝 3 驳回 
@@ -58,6 +68,11 @@ public class FlowCenter extends BaseDO {
      * 申请人名称
      */
     private String flowApplyName;
+
+    /**
+     * 通过方式 0：一人通过则通过  1：全部通过则通过
+     */
+    private String passType;
 
 
     public static final String ID = "id";

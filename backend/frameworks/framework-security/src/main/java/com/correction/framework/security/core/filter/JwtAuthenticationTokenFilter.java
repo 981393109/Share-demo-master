@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.correction.framework.common.pojo.CommonResult;
 import com.correction.framework.common.util.servlet.ServletUtils;
 import com.correction.framework.security.config.SecurityProperties;
-import com.correction.framework.security.core.LoginUser;
+import com.correction.framework.web.web.LoginUser;
 import com.correction.framework.security.core.service.SecurityAuthFrameworkService;
 import com.correction.framework.security.core.util.SecurityFrameworkUtils;
 import com.correction.framework.web.web.core.handler.GlobalExceptionHandler;

@@ -1,5 +1,6 @@
 package com.correction.backend.modules.flow.convert;
 
+import com.correction.backend.modules.flow.controller.dto.FlowNodeDTO;
 import com.correction.backend.modules.flow.controller.vo.FlowCenterListOutputDTO;
 import com.correction.backend.modules.flow.entity.FlowCenter;
 import java.util.ArrayList;
@@ -8,10 +9,24 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-11-18T00:24:14+0800",
+    date = "2022-11-22T03:43:44+0800",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 1.8.0_211 (Oracle Corporation)"
 )
 public class MFlowCenterConvertImpl implements MFlowCenterConvert {
+
+    @Override
+    public List<FlowCenter> toFlowCenterList(List<FlowNodeDTO> flowNodes) {
+        if ( flowNodes == null ) {
+            return null;
+        }
+
+        List<FlowCenter> list = new ArrayList<FlowCenter>( flowNodes.size() );
+        for ( FlowNodeDTO flowNodeDTO : flowNodes ) {
+            list.add( flowNodeDTOToFlowCenter( flowNodeDTO ) );
+        }
+
+        return list;
+    }
 
     @Override
     public List<FlowCenterListOutputDTO> toList(List<FlowCenter> flowCenters) {
@@ -25,6 +40,21 @@ public class MFlowCenterConvertImpl implements MFlowCenterConvert {
         }
 
         return list;
+    }
+
+    protected FlowCenter flowNodeDTOToFlowCenter(FlowNodeDTO flowNodeDTO) {
+        if ( flowNodeDTO == null ) {
+            return null;
+        }
+
+        FlowCenter flowCenter = new FlowCenter();
+
+        flowCenter.setName( flowNodeDTO.getName() );
+        flowCenter.setFlowType( flowNodeDTO.getFlowType() );
+        flowCenter.setRelationType( flowNodeDTO.getRelationType() );
+        flowCenter.setPassType( flowNodeDTO.getPassType() );
+
+        return flowCenter;
     }
 
     protected FlowCenterListOutputDTO flowCenterToFlowCenterListOutputDTO(FlowCenter flowCenter) {

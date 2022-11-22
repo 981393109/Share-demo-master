@@ -2,6 +2,7 @@ package com.correction.framework.web.web.core.util;
 
 import com.correction.framework.common.enums.UserTypeEnum;
 import com.correction.framework.common.pojo.CommonResult;
+import com.correction.framework.web.web.LoginUser;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -20,10 +21,16 @@ public class WebFrameworkUtils {
     private static final String REQUEST_ATTRIBUTE_LOGIN_ORG_ID = "login_org_id";
     private static final String REQUEST_ATTRIBUTE_LOGIN_ORG_NUM = "login_org_num";
 
+    private static final String REQUEST_ATTRIBUTE_LOGIN_USER = "login_user";
+
     private static final String REQUEST_ATTRIBUTE_COMMON_RESULT = "common_result";
 
     public static void setLoginUserId(ServletRequest request, Long userId) {
         request.setAttribute(REQUEST_ATTRIBUTE_LOGIN_USER_ID, userId);
+    }
+
+    public static void setLoginUser(ServletRequest request, LoginUser loginUser) {
+        request.setAttribute(REQUEST_ATTRIBUTE_LOGIN_USER, loginUser);
     }
 
     /**
@@ -94,4 +101,17 @@ public class WebFrameworkUtils {
         }
         return (Long) request.getAttribute(REQUEST_ATTRIBUTE_LOGIN_ORG_ID);
     }
+
+    private static LoginUser getLoginUser(HttpServletRequest request) {
+        if (request == null) {
+            return null;
+        }
+        return (LoginUser) request.getAttribute(REQUEST_ATTRIBUTE_LOGIN_USER);
+    }
+
+    public static LoginUser getLoginUser() {
+        HttpServletRequest request = getRequest();
+        return getLoginUser(request);
+    }
+
 }

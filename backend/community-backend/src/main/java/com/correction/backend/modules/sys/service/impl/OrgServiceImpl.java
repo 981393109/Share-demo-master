@@ -46,8 +46,9 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, OrgDO> implements Org
 
     @Override
     public Long createOrg(OrgCreateInputDTO reqDTO) {
+        reqDTO.setOrgNum(String.valueOf(System.currentTimeMillis()));
         //校验
-        this.checkCreateOrUpdate(null,reqDTO.getPid(),reqDTO.getOrgNum(),reqDTO.getOrgCode());
+        this.checkCreateOrUpdate(null,reqDTO.getPid(),reqDTO.getOrgNum(),reqDTO.getOrgCode(),reqDTO.getOrgType());
         //新增
         OrgDO orgDO = MOrgConvert.INSTANCE.toOrg(reqDTO);
         assmberParentName(orgDO);
@@ -59,7 +60,7 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, OrgDO> implements Org
     @Override
     public OrgDO updateOrg(OrgUpdateInputDTO reqDTO) {
         //校验
-        this.checkCreateOrUpdate(reqDTO.getId(),reqDTO.getPid(),reqDTO.getOrgNum(),reqDTO.getOrgCode());
+        this.checkCreateOrUpdate(reqDTO.getId(),reqDTO.getPid(),reqDTO.getOrgNum(),reqDTO.getOrgCode(),reqDTO.getOrgType());
         OrgDO orgDO = MOrgConvert.INSTANCE.toOrg(reqDTO);
         assmberParentName(orgDO);
         orgMapper.updateById(orgDO);
@@ -176,19 +177,34 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, OrgDO> implements Org
      * @param orgNum
      * @param orgCode
      */
-    private void checkCreateOrUpdate(Long id ,Long pid,String orgNum, String orgCode) {
+    private void checkCreateOrUpdate(Long id ,Long pid,String orgNum, String orgCode,Integer orgType) {
         //校验父组织是否存在
         checkOrgParentExsit(pid);
         // 校验组织Code是否唯一
-        this.checkOrgNumUnique(id, orgNum);
+        this.checkOrgNumUnique(id, orgCode);
+        //校验是否是市级机构、只能存在一个市级机构
+        if(0 == orgType){
+            List<OrgDO> orgDOS = baseMapper.selectList(Wrappers.<OrgDO>lambdaQuery().eq(OrgDO::getOrgType, 0));
+            if(!CollectionUtil.isEmpty(orgDOS)){
+                if(id == null){
+                    throw exception(ORG_PARENT_IS_CITY);
+                }
+                //判断id是否一致
+                for (OrgDO orgDO : orgDOS) {
+                    if(!orgDO.getId().equals(id)){
+                        throw exception(ORG_PARENT_IS_CITY);
+                    }
+                }
+            }
+        }
     }
 
     @VisibleForTesting
-    void checkOrgNumUnique(Long id, String orgNum) {
-        if (StrUtil.isBlank(orgNum)) {
+    void checkOrgNumUnique(Long id, String orgCode) {
+        if (StrUtil.isBlank(orgCode)) {
             return;
         }
-        OrgDO orgDO = orgMapper.selectOne("org_num",orgNum);
+        OrgDO orgDO = orgMapper.selectOne("org_code",orgCode);
         if (orgDO == null) {
             return;
         }

@@ -2,7 +2,7 @@ package com.correction.backend.modules.sys.enums;
 
 
 import com.correction.framework.redis.core.RedisKeyDefine;
-import com.correction.framework.security.core.LoginUser;
+import com.correction.framework.web.web.LoginUser;
 
 import static com.correction.framework.redis.core.RedisKeyDefine.KeyTypeEnum.STRING;
 

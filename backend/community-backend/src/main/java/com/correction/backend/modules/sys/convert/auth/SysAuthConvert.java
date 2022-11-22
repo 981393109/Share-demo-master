@@ -2,7 +2,7 @@ package com.correction.backend.modules.sys.convert.auth;
 
 
 import com.correction.backend.modules.sys.entity.SysUserDO;
-import com.correction.framework.security.core.LoginUser;
+import com.correction.framework.web.web.LoginUser;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

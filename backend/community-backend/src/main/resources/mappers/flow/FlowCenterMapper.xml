@@ -27,4 +27,7 @@
     <sql id="Base_Column_List_Alias">
         flowCenter.id,flowCenter.flow_type AS flowType,flowCenter.flow_status AS flowStatus,flowCenter.flow_apply_time AS flowApplyTime,flowCenter.flow_end_time AS flowEndTime,flowCenter.flow_apply_user AS flowApplyUser,flowCenter.flow_apply_name AS flowApplyName,flowCenter.create_time AS createTime,flowCenter.update_time AS updateTime,flowCenter.creator,flowCenter.updater,flowCenter.deleted
     </sql>
+    <select id="getNodeList" resultType="com.correction.backend.modules.flow.controller.dto.FlowNodeListDTO">
+        select fc.id as flowId, fc.`name` as nodeName,fcnr.node_id as nodeId  from flow_center fc INNER JOIN flow_center_node_relation fcnr on fc.id  = fcnr.flow_id  where fc.flow_type = #{type} and fc.deleted = 0
+    </select>
 </mapper>

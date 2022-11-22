@@ -89,6 +89,13 @@ public class SurveyEvaluationUpdateInputDTO implements Serializable {
     @ApiModelProperty(value = "确认辖区司法所")
     private Integer isJurisdictionOffice;
 
+    @ApiModelProperty(value = "辖区司法所名称")
+    private String  jurisdictionOffice;
+
+    @ApiModelProperty(value = "辖区司法所Id")
+    private String  jurisdictionOfficeId;
+
+
     @ApiModelProperty(value = "当前操作人")
     private String jurisdictionUser;
 
@@ -153,7 +160,7 @@ public class SurveyEvaluationUpdateInputDTO implements Serializable {
     private Integer applyStatus;
 
     @ApiModelProperty(value = "申请人code")
-    private String applyUser;
+    private Long applyUser;
 
     @ApiModelProperty(value = "申请人名称")
     private String applyName;

@@ -30,6 +30,9 @@ public class SysUserInfoVO {
     @ApiModelProperty(value = "所属组织", example = "orgId")
     private Long orgId;
 
+    @ApiModelProperty(value = "用户类型", example = "0普通  1超管")
+    private Integer userType;
+
     @ApiModelProperty(value = "password", example = "password")
     private String password;
 

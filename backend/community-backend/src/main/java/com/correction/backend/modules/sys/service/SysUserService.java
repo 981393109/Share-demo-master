@@ -6,6 +6,8 @@ import com.correction.backend.modules.sys.controller.dto.user.SysUserUpdateReqDT
 import com.correction.backend.modules.sys.entity.SysUserDO;
 import com.correction.framework.common.pojo.PageResult;
 
+import java.util.List;
+
 public interface SysUserService {
 
     SysUserDO getUser(Long id);
@@ -48,4 +50,14 @@ public interface SysUserService {
      * @return
      */
     PageResult<SysUserDO> getUserPage(SysUserSearchDTO reqVO);
+
+    /**
+     * 列表
+     * @param reqVO
+     * @return
+     */
+    List<SysUserDO> getOrgUserList(SysUserSearchDTO reqVO);
+
+
+
 }

@@ -29,5 +29,6 @@ public interface SurveyDocumentsFilesMapper extends BaseMapperX<SurveyDocumentsF
 
     List<SurveyDocumentsFilesDTO> getList (@Param("query") SurveyDocumentsFilesQuery query);
 
+    IPage<SurveyDocumentsFilesDTO> getAllFilePage (@Param("page")IPage page,@Param("query") SurveyDocumentsFilesQuery query );
 
 }

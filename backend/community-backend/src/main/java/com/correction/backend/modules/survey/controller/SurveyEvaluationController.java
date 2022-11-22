@@ -1,12 +1,20 @@
 package com.correction.backend.modules.survey.controller;
 
 import cn.hutool.core.collection.CollUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.correction.backend.modules.survey.controller.dto.*;
 import com.correction.backend.modules.survey.convert.MSurveyEvaluationConvert;
 import com.correction.backend.modules.survey.entity.SurveyEvaluation;
+import com.correction.backend.modules.survey.service.SurveyDocumentsFilesService;
 import com.correction.backend.modules.survey.service.SurveyEvaluationService;
+import com.correction.backend.modules.sys.controller.dto.user.SysUserSearchDTO;
+import com.correction.backend.modules.sys.controller.vo.user.SysUserPageVO;
+import com.correction.backend.modules.sys.convert.user.SysUserConvert;
+import com.correction.backend.modules.sys.entity.SysUserDO;
+import com.correction.backend.modules.sys.service.SysUserService;
 import com.correction.framework.common.pojo.CommonResult;
 import com.correction.framework.common.pojo.PageResult;
+import com.correction.framework.web.web.core.util.WebFrameworkUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -17,6 +25,7 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.correction.framework.common.pojo.CommonResult.success;
@@ -30,11 +39,17 @@ public class SurveyEvaluationController {
     @Resource
     SurveyEvaluationService surveyEvaluationService;
 
+    @Resource
+    SurveyDocumentsFilesService surveyDocumentsFilesService;
+
+    @Resource
+    SysUserService sysUserService;
+
     @PostMapping("/create")
     @ApiOperation("新增调查评估")
-    public CommonResult<Long> createSurveyEvaluation(@Valid @RequestBody SurveyEvaluationCreateInputDTO reqDTO) {
-        Long id = surveyEvaluationService.createSurveyEvaluation(reqDTO);
-        return success(id);
+    public CommonResult<SurveyEvaluation> createSurveyEvaluation(@Valid @RequestBody SurveyEvaluationCreateInputDTO reqDTO) {
+        SurveyEvaluation entity = surveyEvaluationService.createSurveyEvaluation(reqDTO);
+        return success(entity);
     }
 
     @PostMapping("/update")
@@ -62,7 +77,7 @@ public class SurveyEvaluationController {
     @GetMapping("/page")
     @ApiOperation("获取所有调查评估列表记录")
     public CommonResult<PageResult<SurveyEvaluationListDTO>> getUserPage(@Valid SurveyEvaluationSearchInputDTO reqVO) {
-        // 获得用户分页列表
+        /*// 获得用户分页列表
         PageResult<SurveyEvaluation> pageResult = surveyEvaluationService.getPageList(reqVO);
         if (CollUtil.isEmpty(pageResult.getList())) {
             return success(new PageResult<>(pageResult.getTotal())); // 返回空
@@ -73,10 +88,35 @@ public class SurveyEvaluationController {
             SurveyEvaluationListDTO surveyEvaluationListDTO = MSurveyEvaluationConvert.INSTANCE.toEsyList(surveyEvaluation);
             surveyEvaluationListOutputDTOS.add(surveyEvaluationListDTO);
         });
-        return success(new PageResult<>(surveyEvaluationListOutputDTOS, pageResult.getTotal()));
+        return success(new PageResult<>(surveyEvaluationListOutputDTOS, pageResult.getTotal()));*/
+        IPage<SurveyEvaluationListDTO> pageResult = surveyEvaluationService.getPageListFlow(reqVO);
+        return success(new PageResult<SurveyEvaluationListDTO>(pageResult.getRecords(), pageResult.getTotal()));
     }
 
 
+    @GetMapping("/surveyDocFilePage")
+    @ApiOperation("获取所有文书附件")
+    public CommonResult<PageResult<SurveyDocumentsFilesDTO>> surveyDocFilePage(@Valid SurveyDocumentsFilesQuery reqVO) {
+        // 获得用户分页列表
+        reqVO.setDictTypeList(Arrays.asList(2,3,4));
+        PageResult<SurveyDocumentsFilesDTO> pageResult = surveyDocumentsFilesService.surveyDocFilePage(reqVO);
+        if (CollUtil.isEmpty(pageResult.getList())) {
+            return success(new PageResult<>(pageResult.getTotal())); // 返回空
+        }
+        return success(pageResult);
+    }
+
+    @GetMapping("/getOrgUserList")
+    @ApiOperation("得到用户部门下的所有用户信息")
+    public CommonResult<List<SysUserPageVO>> getOrgUserList() {
+        // 获得用户列表
+        Long loginOrgId = WebFrameworkUtils.getLoginOrgId();
+        SysUserSearchDTO reqVO = new SysUserSearchDTO();
+        reqVO.setOrgId(loginOrgId);
+        List<SysUserDO> result = sysUserService.getOrgUserList(reqVO);
+        List<SysUserPageVO> sysUserPageVOS = SysUserConvert.INSTANCE.convertList(result);
+        return success(sysUserPageVOS);
+    }
 
 
 }

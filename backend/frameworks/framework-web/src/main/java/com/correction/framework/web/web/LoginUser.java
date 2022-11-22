@@ -1,4 +1,4 @@
-package com.correction.framework.security.core;
+package com.correction.framework.web.web;
 
 import com.correction.framework.common.enums.CommonStatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;

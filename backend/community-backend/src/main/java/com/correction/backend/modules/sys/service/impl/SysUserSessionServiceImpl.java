@@ -4,7 +4,7 @@ import cn.hutool.core.util.IdUtil;
 import com.correction.backend.modules.sys.dal.redis.SysLoginUserRedisDAO;
 import com.correction.backend.modules.sys.service.SysUserSessionService;
 import com.correction.framework.security.config.SecurityProperties;
-import com.correction.framework.security.core.LoginUser;
+import com.correction.framework.web.web.LoginUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

@@ -2,7 +2,7 @@ package com.correction.backend.modules.sys.dal.redis;
 
 import com.correction.backend.modules.sys.service.SysUserSessionService;
 import com.correction.framework.common.util.json.JsonUtils;
-import com.correction.framework.security.core.LoginUser;
+import com.correction.framework.web.web.LoginUser;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Repository;
 

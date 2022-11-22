@@ -21,6 +21,8 @@ public class SurveyEntrustUnitCreateInputDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private Long id;
+
     @ApiModelProperty(value = "单位类型,人民法院、人民检察院、公安机关、监狱/看守所")
     private Integer unitType;
 

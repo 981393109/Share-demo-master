@@ -1,6 +1,7 @@
 package com.correction.backend.modules.survey.service.impl;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.correction.backend.modules.survey.constant.SurveyConstant;
 import com.correction.backend.modules.survey.controller.dto.*;
 import com.correction.backend.modules.survey.convert.MSurveyEvaluationConvert;
@@ -11,7 +12,9 @@ import com.correction.backend.modules.survey.service.SurveyDocumentsFilesService
 import com.correction.backend.modules.survey.service.SurveyEvaluationService;
 import com.correction.backend.modules.sys.constant.SysConstant;
 import com.correction.framework.common.pojo.PageResult;
+import com.correction.framework.web.web.LoginUser;
 import com.correction.framework.web.web.core.util.WebFrameworkUtils;
+import com.correction.frameworks.mybatis.mybatis.core.util.MyBatisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,13 +44,18 @@ public class SurveyEvaluationServiceImpl extends ServiceImpl<SurveyEvaluationMap
 
 
     @Override
-    public Long createSurveyEvaluation(SurveyEvaluationCreateInputDTO reqDTO) {
+    public SurveyEvaluation createSurveyEvaluation(SurveyEvaluationCreateInputDTO reqDTO) {
         this.checkCreateOrUpdate(null,reqDTO.getName(),reqDTO.getApplyStatus());
         SurveyEvaluation surveyEvaluation = MSurveyEvaluationConvert.INSTANCE.toSurveyEvaluation(reqDTO);
+        LoginUser loginUser = WebFrameworkUtils.getLoginUser();
+        surveyEvaluation.setApplyName(loginUser.getUsername());
+        surveyEvaluation.setApplyUser(loginUser.getId());
         surveyEvaluation.setApplyStatus(SurveyConstant.FLOW_STATUS_0);
+        surveyEvaluation.setProgress(SurveyConstant.PROGRESS_1);
         surveyEvaluation.setOrgNum(WebFrameworkUtils.getLoginOrgNum());
+        surveyEvaluation.setRef(String.valueOf(System.currentTimeMillis()));
         baseMapper.insert(surveyEvaluation);
-        return surveyEvaluation.getId();
+        return surveyEvaluation;
     }
 
 
@@ -56,7 +64,7 @@ public class SurveyEvaluationServiceImpl extends ServiceImpl<SurveyEvaluationMap
     public SurveyEvaluation updateSurveyEvaluation(SurveyEvaluationUpdateInputDTO reqDTO) {
         this.checkCreateOrUpdate(reqDTO.getId(),reqDTO.getName(),reqDTO.getApplyStatus());
         SurveyEvaluation surveyEvaluation = MSurveyEvaluationConvert.INSTANCE.toSurveyEvaluation(reqDTO);
-        surveyEvaluation.setApplyStatus(SurveyConstant.FLOW_STATUS_0);
+        //surveyEvaluation.setApplyStatus(SurveyConstant.FLOW_STATUS_0);
         baseMapper.updateById(surveyEvaluation);
         return surveyEvaluation;
     }
@@ -88,6 +96,13 @@ public class SurveyEvaluationServiceImpl extends ServiceImpl<SurveyEvaluationMap
         return surveyEvaluationPageResult;
     }
 
+    @Override
+    public IPage<SurveyEvaluationListDTO> getPageListFlow(SurveyEvaluationSearchInputDTO reqVO) {
+        IPage<SurveyEvaluationListDTO> mpPage = MyBatisUtils.buildPage(reqVO);
+        mpPage = baseMapper.getPageListFlow(mpPage, reqVO);
+        return mpPage;
+    }
+
 
     /**
      * 校验
@@ -95,9 +110,9 @@ public class SurveyEvaluationServiceImpl extends ServiceImpl<SurveyEvaluationMap
      */
     private void checkCreateOrUpdate(Long  id ,String name,Integer applitStatus) {
         //判断审核状态
-        if(id != null && !SurveyConstant.FLOW_STATUS_0.equals(applitStatus)){
+        /*if(id != null && !SurveyConstant.FLOW_STATUS_0.equals(applitStatus)){
             throw exception(SURVEY_FLOW_STATUS_EDIT);
-        }
+        }*/
     }
 
 }

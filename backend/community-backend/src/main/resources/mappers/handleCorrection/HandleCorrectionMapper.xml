@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.correction.backend.modules.handleCorrection.mapper.HandleCorrectionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.correction.backend.modules.handleCorrection.entity.HandleCorrection">
+        <id column="id" property="id" />
+        <result column="entrust_type" property="entrustType" />
+        <result column="entrust_unit" property="entrustUnit" />
+        <result column="name" property="name" />
+        <result column="entrust_date" property="entrustDate" />
+        <result column="reception_date" property="receptionDate" />
+        <result column="survey_evaluation_id" property="surveyEvaluationId" />
+        <result column="is_handle" property="isHandle" />
+        <result column="reports_type" property="reportsType" />
+        <result column="fact_sheet" property="factSheet" />
+        <result column="is_check_documents" property="isCheckDocuments" />
+        <result column="is_check_identity" property="isCheckIdentity" />
+        <result column="reports_overtime" property="reportsOvertime" />
+        <result column="reports_remark" property="reportsRemark" />
+        <result column="is_tabfill" property="isTabfill" />
+        <result column="is_collect" property="isCollect" />
+        <result column="is_signature" property="isSignature" />
+        <result column="check_sys_identity" property="checkSysIdentity" />
+        <result column="check_sys_remark" property="checkSysRemark" />
+        <result column="is_fill_below" property="isFillBelow" />
+        <result column="is_send_org" property="isSendOrg" />
+        <result column="is_submit_doc" property="isSubmitDoc" />
+        <result column="is_fill_below_open" property="isFillBelowOpen" />
+        <result column="is_committ" property="isCommitt" />
+        <result column="is_fill_below_send" property="isFillBelowSend" />
+        <result column="is_attment_send" property="isAttmentSend" />
+        <result column="progress" property="progress" />
+        <result column="apply_status" property="applyStatus" />
+        <result column="apply_user" property="applyUser" />
+        <result column="apply_name" property="applyName" />
+        <result column="apply_time" property="applyTime" />
+        <result column="org_num" property="orgNum" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="creator" property="creator" />
+        <result column="updater" property="updater" />
+        <result column="deleted" property="deleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, entrust_type, entrust_unit, name, entrust_date, reception_date, survey_evaluation_id, is_handle, reports_type, fact_sheet, is_check_documents, is_check_identity, reports_overtime, reports_remark, is_tabfill, is_collect, is_signature, check_sys_identity, check_sys_remark, is_fill_below, is_send_org, is_submit_doc, is_fill_below_open, is_committ, is_fill_below_send, is_attment_send, progress, apply_status, apply_user, apply_name, apply_time, org_num, create_time, update_time, creator, updater, deleted
+    </sql>
+
+    <!-- 通用查询结果列 别名 -->
+    <sql id="Base_Column_List_Alias">
+        handleCorrection.id,handleCorrection.entrust_type AS entrustType,handleCorrection.entrust_unit AS entrustUnit,handleCorrection.name,handleCorrection.entrust_date AS entrustDate,handleCorrection.reception_date AS receptionDate,handleCorrection.survey_evaluation_id AS surveyEvaluationId,handleCorrection.is_handle AS isHandle,handleCorrection.reports_type AS reportsType,handleCorrection.fact_sheet AS factSheet,handleCorrection.is_check_documents AS isCheckDocuments,handleCorrection.is_check_identity AS isCheckIdentity,handleCorrection.reports_overtime AS reportsOvertime,handleCorrection.reports_remark AS reportsRemark,handleCorrection.is_tabfill AS isTabfill,handleCorrection.is_collect AS isCollect,handleCorrection.is_signature AS isSignature,handleCorrection.check_sys_identity AS checkSysIdentity,handleCorrection.check_sys_remark AS checkSysRemark,handleCorrection.is_fill_below AS isFillBelow,handleCorrection.is_send_org AS isSendOrg,handleCorrection.is_submit_doc AS isSubmitDoc,handleCorrection.is_fill_below_open AS isFillBelowOpen,handleCorrection.is_committ AS isCommitt,handleCorrection.is_fill_below_send AS isFillBelowSend,handleCorrection.is_attment_send AS isAttmentSend,handleCorrection.progress,handleCorrection.apply_status AS applyStatus,handleCorrection.apply_user AS applyUser,handleCorrection.apply_name AS applyName,handleCorrection.apply_time AS applyTime,handleCorrection.org_num AS orgNum,handleCorrection.create_time AS createTime,handleCorrection.update_time AS updateTime,handleCorrection.creator,handleCorrection.updater,handleCorrection.deleted
+    </sql>
+    <select id="getPageListFlow"
+            resultType="com.correction.backend.modules.handleCorrection.controller.dto.HandleCorrectionListDTO">
+        select se.*,art.ASSIGNEE_ as nextUser,art.ID_ as taskId from handle_correction se left join act_ru_task art  on se.process_instance_id = art.PROC_INST_ID_
+        where ( se.apply_user = 1  or se.process_instance_id in (select PROC_INST_ID_ from ACT_HI_TASKINST where ASSIGNEE_ = 1) )
+        and se.deleted = 0
+        <if test="query.name!=null">
+            and se.name like concat('%',#{query.name},'%')
+        </if>
+        <if test="query.entrustType!=null">
+            and se.entrust_type = #{query.entrustType}
+        </if>
+        <if test="query.applyStatus!=null">
+            and se.apply_status = #{query.applyStatus}
+        </if>
+        order by se.id desc
+    </select>
+</mapper>

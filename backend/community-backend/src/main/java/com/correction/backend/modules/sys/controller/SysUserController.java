@@ -76,6 +76,16 @@ public class SysUserController {
         return success(new PageResult<>(userList, pageResult.getTotal()));
     }
 
+    @GetMapping("/list")
+    @ApiOperation("获得用户列表")
+    public CommonResult<List<SysUserPageVO>> list(@Valid SysUserSearchDTO reqVO) {
+        // 获得用户列表
+        List<SysUserDO> result = userService.getOrgUserList(reqVO);
+        List<SysUserPageVO> sysUserPageVOS = SysUserConvert.INSTANCE.convertList(result);
+        return success(sysUserPageVOS);
+    }
+
+
     @GetMapping("/get")
     @ApiOperation("获得用户详情")
     @ApiImplicitParam(name = "id", value = "编号", required = true, example = "1024", dataTypeClass = Long.class)

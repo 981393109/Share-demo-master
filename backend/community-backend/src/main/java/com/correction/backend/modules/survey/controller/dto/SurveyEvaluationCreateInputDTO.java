@@ -21,6 +21,8 @@ public class SurveyEvaluationCreateInputDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private Long id ;
+
     @ApiModelProperty(value = "委托类型")
     private Integer entrustType;
 
@@ -151,7 +153,7 @@ public class SurveyEvaluationCreateInputDTO implements Serializable {
     private Integer applyStatus;
 
     @ApiModelProperty(value = "申请人code")
-    private String applyUser;
+    private Long applyUser;
 
     @ApiModelProperty(value = "申请人名称")
     private String applyName;

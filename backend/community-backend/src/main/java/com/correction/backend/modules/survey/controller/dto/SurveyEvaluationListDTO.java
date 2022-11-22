@@ -40,7 +40,13 @@ public class SurveyEvaluationListDTO implements Serializable {
     @ApiModelProperty(value = "进度 0:未提交，1登记备案，2上传文书附件，3调查指派，4调查实施，5调查评估，6文书寄送，7一人一档，8流程归档")
     private Integer progress;
 
+    @ApiModelProperty(value = "进度 0:未提交，1待指派，2待指派,3待调查，4调查中,5待评估，6评估中，7已评估")
+    private Integer applyStatus;
+
     @ApiModelProperty(value = "待操作人")
     private String nextUser;
+
+    @ApiModelProperty(value = "taskId")
+    private String taskId;
 
 }

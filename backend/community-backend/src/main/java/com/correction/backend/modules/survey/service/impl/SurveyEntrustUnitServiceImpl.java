@@ -44,13 +44,15 @@ public class SurveyEntrustUnitServiceImpl extends ServiceImpl<SurveyEntrustUnitM
         checkCreateOrUpdate(null,dto.getUnitName());
         SurveyEntrustUnit surveyEntrustUnit = MSurveyEntrustUnitConvert.INSTANCE.toSurveyEntrustUnit(dto);
         surveyEntrustUnit.setOrgNum(WebFrameworkUtils.getLoginOrgNum());
+        surveyEntrustUnit.setUnitName(surveyEntrustUnit.getUnitName().trim());
+        surveyEntrustUnit.setUnitAddress(surveyEntrustUnit.getUnitAddress().trim());
         baseMapper.insert(surveyEntrustUnit);
         return surveyEntrustUnit.getId();
     }
 
     @Override
     public SurveyEntrustUnit updateSurveyEntrustUnit(SurveyEntrustUnitUpdateInputDTO dto) {
-        checkCreateOrUpdate(null,dto.getUnitName());
+        checkCreateOrUpdate(dto.getId(),dto.getUnitName());
         SurveyEntrustUnit surveyEntrustUnit = MSurveyEntrustUnitConvert.INSTANCE.toSurveyEntrustUnit(dto);
         baseMapper.updateById(surveyEntrustUnit);
         return surveyEntrustUnit;
@@ -86,7 +88,7 @@ public class SurveyEntrustUnitServiceImpl extends ServiceImpl<SurveyEntrustUnitM
         if (StrUtil.isBlank(name)) {
             return;
         }
-        SurveyEntrustUnit surveyEntrustUnit = baseMapper.selectOne("unit_name",name);
+        SurveyEntrustUnit surveyEntrustUnit = baseMapper.selectOne("unit_name",name.trim());
         if (surveyEntrustUnit == null) {
             return;
         }

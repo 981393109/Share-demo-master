@@ -1,9 +1,7 @@
 package com.correction.backend.modules.survey.service;
 
-import com.correction.backend.modules.survey.controller.dto.SurveyEvaluationCreateInputDTO;
-import com.correction.backend.modules.survey.controller.dto.SurveyEvaluationFilesDTO;
-import com.correction.backend.modules.survey.controller.dto.SurveyEvaluationSearchInputDTO;
-import com.correction.backend.modules.survey.controller.dto.SurveyEvaluationUpdateInputDTO;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.correction.backend.modules.survey.controller.dto.*;
 import com.correction.backend.modules.survey.entity.SurveyEvaluation;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.correction.framework.common.pojo.PageResult;
@@ -23,7 +21,7 @@ public interface SurveyEvaluationService extends IService<SurveyEvaluation> {
     /**
      * 新增调查评估
      */
-    Long createSurveyEvaluation (SurveyEvaluationCreateInputDTO reqDTO);
+    SurveyEvaluation createSurveyEvaluation (SurveyEvaluationCreateInputDTO reqDTO);
 
     /**
      * 修改调查评估
@@ -48,4 +46,5 @@ public interface SurveyEvaluationService extends IService<SurveyEvaluation> {
     PageResult<SurveyEvaluation> getPageList (SurveyEvaluationSearchInputDTO searchInputDTO);
 
 
+    IPage<SurveyEvaluationListDTO> getPageListFlow(SurveyEvaluationSearchInputDTO reqVO);
 }

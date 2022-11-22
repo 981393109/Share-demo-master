@@ -1,6 +1,6 @@
 package com.correction.framework.security.core.service;
 
-import com.correction.framework.security.core.LoginUser;
+import com.correction.framework.web.web.LoginUser;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**

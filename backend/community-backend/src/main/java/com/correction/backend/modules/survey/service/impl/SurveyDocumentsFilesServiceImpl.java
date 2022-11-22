@@ -115,5 +115,19 @@ public class SurveyDocumentsFilesServiceImpl extends ServiceImpl<SurveyDocuments
         baseMapper.deleteById(id);
     }
 
+    @Override
+    public PageResult<SurveyDocumentsFilesDTO> surveyDocFilePage(SurveyDocumentsFilesQuery query) {
+        IPage<SurveyDocumentsFilesDTO> mpPage = MyBatisUtils.buildPage(query);
+        mpPage = baseMapper.getAllFilePage(mpPage, query);
+        return new PageResult<>(mpPage.getRecords(), mpPage.getTotal());
+    }
+
+    @Override
+    public void saveFiles(Long dataId, Integer dictType, String dictValue, MultipartFile[] files) throws IOException {
+        for (MultipartFile file : files) {
+            this.saveFile(dataId,dictType,dictValue,file);
+        }
+    }
+
 
 }

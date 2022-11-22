@@ -3,16 +3,16 @@ package com.correction.backend.modules.survey.controller.dto;
 import com.correction.framework.common.pojo.PageParam;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @ApiModel(value="SurveyDocumentsFilesQuery", description="文书列表查询对象")
 public class SurveyDocumentsFilesQuery extends PageParam {
 
@@ -38,5 +38,8 @@ public class SurveyDocumentsFilesQuery extends PageParam {
 
     @ApiModelProperty(value = "源数据id")
     private Long  dataId;
+
+    private List<Integer> dictTypeList;
+
 
 }

@@ -1,12 +1,12 @@
 package com.correction.backend.modules.sys.convert.auth;
 
 import com.correction.backend.modules.sys.entity.SysUserDO;
-import com.correction.framework.security.core.LoginUser;
+import com.correction.framework.web.web.LoginUser;
 import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-11-18T00:24:14+0800",
+    date = "2022-11-22T03:43:44+0800",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 1.8.0_211 (Oracle Corporation)"
 )
 public class SysAuthConvertImpl implements SysAuthConvert {

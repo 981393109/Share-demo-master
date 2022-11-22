@@ -1,6 +1,6 @@
 package com.correction.backend.modules.sys.service;
 
-import com.correction.framework.security.core.LoginUser;
+import com.correction.framework.web.web.LoginUser;
 
 public interface SysUserSessionService {
 

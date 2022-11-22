@@ -2,6 +2,7 @@ package com.correction.backend.modules.sys.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.correction.backend.modules.sys.constant.SysConstant;
 import com.correction.backend.modules.sys.controller.dto.user.SysUserCreateReqDTO;
 import com.correction.backend.modules.sys.controller.dto.user.SysUserSearchDTO;
 import com.correction.backend.modules.sys.controller.dto.user.SysUserUpdateReqDTO;
@@ -23,6 +24,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+
+import java.util.List;
 
 import static com.correction.backend.modules.sys.enums.SysErrorCodeConstants.*;
 import static com.correction.framework.common.exception.util.ServiceExceptionUtil.exception;
@@ -102,6 +105,14 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public PageResult<SysUserDO> getUserPage(SysUserSearchDTO reqVO) {
         return userMapper.selectPage(reqVO);
+    }
+
+    @Override
+    public List<SysUserDO> getOrgUserList(SysUserSearchDTO reqVO) {
+        Long orgId = reqVO.getOrgId();
+        //得到org下的用户
+        List<SysUserDO> sysUserDOS = userMapper.selectList(Wrappers.<SysUserDO>lambdaQuery().eq(SysUserDO::getOrgId, orgId));
+        return sysUserDOS;
     }
 
 

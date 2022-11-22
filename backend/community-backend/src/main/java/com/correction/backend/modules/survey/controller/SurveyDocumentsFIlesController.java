@@ -11,6 +11,10 @@ import com.correction.backend.modules.survey.convert.MSurveyEvaluationConvert;
 import com.correction.backend.modules.survey.entity.SurveyDocumentsFiles;
 import com.correction.backend.modules.survey.entity.SurveyEvaluation;
 import com.correction.backend.modules.survey.service.SurveyDocumentsFilesService;
+import com.correction.backend.modules.sys.controller.dto.sys.DictOutDTO;
+import com.correction.backend.modules.sys.convert.sys.MDictConvert;
+import com.correction.backend.modules.sys.entity.Dict;
+import com.correction.backend.modules.sys.service.DictService;
 import com.correction.framework.common.pojo.CommonResult;
 import com.correction.framework.common.pojo.PageResult;
 import com.correction.framework.common.util.servlet.ServletUtils;
@@ -42,6 +46,9 @@ public class SurveyDocumentsFIlesController {
     private SurveyDocumentsFilesService surveyDocumentsFilesService;
 
     @Resource
+    private DictService dictService;
+
+    @Resource
     private FileProperties fileProperties;
 
 
@@ -49,6 +56,13 @@ public class SurveyDocumentsFIlesController {
     @ApiOperation("文书上传(单文件)")
     public CommonResult<Boolean> upload(Long dataId,Integer dictType,String  dictValue, MultipartFile file) throws IOException {
         surveyDocumentsFilesService.saveFile(dataId,dictType,dictValue,file);
+        return success(true);
+    }
+
+    @PostMapping("/uploadfiles")
+    @ApiOperation("文书上传(多文件)")
+    public CommonResult<Boolean> uploadfiles(@RequestParam("dataId")  Long dataId,@RequestParam("dictType") Integer dictType,@RequestParam("dictValue") String  dictValue,@RequestParam("files") MultipartFile[] files) throws IOException {
+        surveyDocumentsFilesService.saveFiles(dataId,dictType,dictValue,files);
         return success(true);
     }
 
@@ -81,6 +95,15 @@ public class SurveyDocumentsFIlesController {
             return success(new PageResult<>(pageResult.getTotal())); // 返回空
         }
         return success(pageResult);
+    }
+
+    @GetMapping("/getType")
+    @ApiOperation("获取文档用途类型(委托检查材料：2; 调查实施材料：3; 审核评估 :4;  5:文书补充,6:人员报到,7:信息采集,8:报备手续材料,9:告知书,10:报备手续材料)")
+    public CommonResult<List<DictOutDTO>> getType(@RequestParam("type") Integer type) {
+        // 获得用户分页列表
+        List<Dict> list = dictService.selectDictByType(type);
+        List<DictOutDTO> result = MDictConvert.INSTANCE.convertList(list);
+        return success(result);
     }
 
 

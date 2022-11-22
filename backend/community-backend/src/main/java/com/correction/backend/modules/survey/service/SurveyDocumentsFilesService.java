@@ -41,4 +41,8 @@ public interface SurveyDocumentsFilesService extends IService<SurveyDocumentsFil
     List<SurveyDocumentsFilesDTO> getSurveyDocumentList(SurveyDocumentsFilesQuery query);
 
     void deleteById(Long id);
+
+    PageResult<SurveyDocumentsFilesDTO> surveyDocFilePage(SurveyDocumentsFilesQuery reqVO);
+
+    void saveFiles(Long dataId, Integer dictType, String dictValue, MultipartFile[] files) throws IOException;
 }

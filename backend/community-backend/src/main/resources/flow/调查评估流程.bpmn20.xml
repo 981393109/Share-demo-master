@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:flowable="http://flowable.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.flowable.org/processdef" exporter="Flowable Open Source Modeler" exporterVersion="6.7.2">
+  <process id="survey_evaluation" name="调查评估流程" isExecutable="true">
+    <documentation>调查评估流程</documentation>
+    <startEvent id="startNode1" name="开始" flowable:formFieldValidation="true"></startEvent>
+    <exclusiveGateway id="gateway_02"></exclusiveGateway>
+    <userTask id="implementationInvestigation" name="调查实施" flowable:formFieldValidation="true">
+      <extensionElements>
+        <flowable:taskListener event="create" class="com.correction.backend.modules.flow.listener.none.TaskCandidateListener"></flowable:taskListener>
+        <flowable:taskListener event="complete" class="com.correction.backend.modules.flow.listener.none.RejectTaskListener"></flowable:taskListener>
+      </extensionElements>
+    </userTask>
+    <userTask id="PreInvestigationVerification" name="调查前核查" flowable:formFieldValidation="true">
+      <extensionElements>
+        <flowable:taskListener event="create" class="com.correction.backend.modules.flow.listener.none.TaskCandidateListener"></flowable:taskListener>
+        <flowable:taskListener event="complete" class="com.correction.backend.modules.flow.listener.none.RejectTaskListener"></flowable:taskListener>
+      </extensionElements>
+    </userTask>
+    <userTask id="AssignmentInvestigation" name="调查指派" flowable:formFieldValidation="true">
+      <extensionElements>
+        <flowable:taskListener event="create" class="com.correction.backend.modules.flow.listener.none.TaskCandidateListener"></flowable:taskListener>
+        <flowable:taskListener event="complete" class="com.correction.backend.modules.flow.listener.none.RejectTaskListener"></flowable:taskListener>
+      </extensionElements>
+    </userTask>
+    <userTask id="survey_evaluation_apply" name="用户申请" flowable:assignee="${userId}" flowable:formFieldValidation="true">
+      <extensionElements>
+        <modeler:initiator-can-complete xmlns:modeler="http://flowable.org/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
+      </extensionElements>
+    </userTask>
+    <exclusiveGateway id="Gateway01"></exclusiveGateway>
+    <exclusiveGateway id="gateway03"></exclusiveGateway>
+    <sequenceFlow id="start_survey_evaluation_apply" sourceRef="startNode1" targetRef="survey_evaluation_apply"></sequenceFlow>
+    <sequenceFlow id="apply_PreInvestigationVerification" name="申请" sourceRef="survey_evaluation_apply" targetRef="PreInvestigationVerification"></sequenceFlow>
+    <sequenceFlow id="AssignmentInvestigation_gateway02" sourceRef="AssignmentInvestigation" targetRef="gateway_02"></sequenceFlow>
+    <sequenceFlow id="gateway02_implementationInvestigation" name="同意" sourceRef="gateway_02" targetRef="implementationInvestigation">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${status == 'success'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="implementationInvestigation_gateway03" sourceRef="implementationInvestigation" targetRef="gateway03"></sequenceFlow>
+    <userTask id="examinationAssessment" name="核审评估" flowable:formFieldValidation="true">
+      <extensionElements>
+        <flowable:taskListener event="create" class="com.correction.backend.modules.flow.listener.none.TaskCandidateListener"></flowable:taskListener>
+        <flowable:taskListener event="complete" class="com.correction.backend.modules.flow.listener.none.RejectTaskListener"></flowable:taskListener>
+      </extensionElements>
+    </userTask>
+    <exclusiveGateway id="gateway04"></exclusiveGateway>
+    <userTask id="deliveryDocuments" name="文书寄送" flowable:formFieldValidation="true"></userTask>
+    <exclusiveGateway id="gateway05"></exclusiveGateway>
+    <userTask id="documentMaterials" name="材料建档" flowable:formFieldValidation="true">
+      <extensionElements>
+        <flowable:taskListener event="create" class="com.correction.backend.modules.flow.listener.none.TaskCandidateListener"></flowable:taskListener>
+        <flowable:taskListener event="complete" class="com.correction.backend.modules.flow.listener.none.RejectTaskListener"></flowable:taskListener>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="deliveryDocuments_gateway05" sourceRef="deliveryDocuments" targetRef="gateway05"></sequenceFlow>
+    <exclusiveGateway id="gateway06"></exclusiveGateway>
+    <endEvent id="end" name="结束"></endEvent>
+    <sequenceFlow id="gateway05_documentMaterials" name="通过" sourceRef="gateway05" targetRef="documentMaterials">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${status == 'success'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="gateway06_deliveryDocuments" name="驳回" sourceRef="gateway06" targetRef="deliveryDocuments">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${status == 'rejected'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="documentMaterials_gateway06" sourceRef="documentMaterials" targetRef="gateway06"></sequenceFlow>
+    <sequenceFlow id="gateway01_apply" name="驳回" sourceRef="Gateway01" targetRef="survey_evaluation_apply">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${status == 'rejected'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="gatewat1_end" name="拒绝" sourceRef="Gateway01" targetRef="end">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${status == 'reject'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="gateway02_end" name="拒绝" sourceRef="gateway_02" targetRef="end">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${status == 'reject'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="gateway05_end" name="拒绝" sourceRef="gateway05" targetRef="end">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${status == 'reject'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="gateway6_end" name="同意" sourceRef="gateway06" targetRef="end">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${status == 'success'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="gateway06_end" name="拒绝" sourceRef="gateway06" targetRef="end">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${status == 'reject'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="gateway03_end" name="拒绝" sourceRef="gateway03" targetRef="end">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${status == 'reject'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="gateway03_AssignmentInvestigation" name="驳回" sourceRef="gateway03" targetRef="AssignmentInvestigation">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${status == 'rejected'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="gateway03_examinationAssessment" name="同意" sourceRef="gateway03" targetRef="examinationAssessment">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${status == 'success'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="examinationAssessment_gateway04" sourceRef="examinationAssessment" targetRef="gateway04"></sequenceFlow>
+    <sequenceFlow id="gateway01_AssignmentInvestigation" name="同意" sourceRef="Gateway01" targetRef="AssignmentInvestigation">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${status == 'success'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="PreInvestigationVerification_gateway01" sourceRef="PreInvestigationVerification" targetRef="Gateway01"></sequenceFlow>
+    <sequenceFlow id="gateway02_PreInvestigationVerification" name="驳回" sourceRef="gateway_02" targetRef="PreInvestigationVerification">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${status == 'rejected'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="gateway04_deliveryDocuments" name="同意" sourceRef="gateway04" targetRef="deliveryDocuments">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${status == 'success'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="gateway04_end" name="拒绝" sourceRef="gateway04" targetRef="end">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${status == 'reject'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="gateway05_examinationAssessment" name="驳回" sourceRef="gateway05" targetRef="examinationAssessment">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${status == 'rejected'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="gateway04_implementationInvestigation" name="驳回" sourceRef="gateway04" targetRef="implementationInvestigation">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${status == 'rejected'}]]></conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_survey_evaluation">
+    <bpmndi:BPMNPlane bpmnElement="survey_evaluation" id="BPMNPlane_survey_evaluation">
+      <bpmndi:BPMNShape bpmnElement="startNode1" id="BPMNShape_startNode1">
+        <omgdc:Bounds height="30.0" width="30.0" x="845.0" y="335.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="gateway_02" id="BPMNShape_gateway_02">
+        <omgdc:Bounds height="40.0" width="40.0" x="1515.0" y="330.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="implementationInvestigation" id="BPMNShape_implementationInvestigation">
+        <omgdc:Bounds height="80.0" width="100.0" x="1630.0" y="310.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="PreInvestigationVerification" id="BPMNShape_PreInvestigationVerification">
+        <omgdc:Bounds height="80.0" width="100.0" x="1080.0" y="310.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="AssignmentInvestigation" id="BPMNShape_AssignmentInvestigation">
+        <omgdc:Bounds height="80.0" width="100.0" x="1350.0" y="310.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="survey_evaluation_apply" id="BPMNShape_survey_evaluation_apply">
+        <omgdc:Bounds height="80.0" width="100.0" x="920.0" y="310.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="Gateway01" id="BPMNShape_Gateway01">
+        <omgdc:Bounds height="40.0" width="40.0" x="1245.0" y="330.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="gateway03" id="BPMNShape_gateway03">
+        <omgdc:Bounds height="40.0" width="40.0" x="1785.0" y="330.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="examinationAssessment" id="BPMNShape_examinationAssessment">
+        <omgdc:Bounds height="80.0" width="100.0" x="1875.0" y="310.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="gateway04" id="BPMNShape_gateway04">
+        <omgdc:Bounds height="40.0" width="40.0" x="2070.0" y="330.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="deliveryDocuments" id="BPMNShape_deliveryDocuments">
+        <omgdc:Bounds height="80.0" width="100.0" x="2010.0" y="472.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="gateway05" id="BPMNShape_gateway05">
+        <omgdc:Bounds height="40.0" width="40.0" x="1860.0" y="492.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="documentMaterials" id="BPMNShape_documentMaterials">
+        <omgdc:Bounds height="80.0" width="100.0" x="1639.0" y="472.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="gateway06" id="BPMNShape_gateway06">
+        <omgdc:Bounds height="40.0" width="40.0" x="1485.0" y="492.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="end" id="BPMNShape_end">
+        <omgdc:Bounds height="28.0" width="28.0" x="1320.0" y="498.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="examinationAssessment_gateway04" id="BPMNEdge_examinationAssessment_gateway04" flowable:sourceDockerX="29.132807936363406" flowable:sourceDockerY="40.5" flowable:targetDockerX="20.5" flowable:targetDockerY="20.5">
+        <omgdi:waypoint x="1974.9499999999143" y="350.5"></omgdi:waypoint>
+        <omgdi:waypoint x="2070.5" y="350.5"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="gateway06_end" id="BPMNEdge_gateway06_end" flowable:sourceDockerX="20.5" flowable:sourceDockerY="20.5" flowable:targetDockerX="14.0" flowable:targetDockerY="14.0">
+        <omgdi:waypoint x="1492.671052631579" y="519.653125"></omgdi:waypoint>
+        <omgdi:waypoint x="1408.0" y="567.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1345.1916721864568" y="520.3220204986042"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="gateway05_examinationAssessment" id="BPMNEdge_gateway05_examinationAssessment" flowable:sourceDockerX="20.5" flowable:sourceDockerY="20.5" flowable:targetDockerX="50.0" flowable:targetDockerY="40.0">
+        <omgdi:waypoint x="1880.5" y="492.5"></omgdi:waypoint>
+        <omgdi:waypoint x="1880.5" y="430.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1902.75" y="389.95000000000005"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="gateway01_apply" id="BPMNEdge_gateway01_apply" flowable:sourceDockerX="20.0" flowable:sourceDockerY="20.0" flowable:targetDockerX="50.0" flowable:targetDockerY="40.0">
+        <omgdi:waypoint x="1265.0" y="369.94288008565314"></omgdi:waypoint>
+        <omgdi:waypoint x="1265.0" y="490.0"></omgdi:waypoint>
+        <omgdi:waypoint x="970.0" y="490.0"></omgdi:waypoint>
+        <omgdi:waypoint x="970.0" y="389.95000000000005"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="gateway02_end" id="BPMNEdge_gateway02_end" flowable:sourceDockerX="20.5" flowable:sourceDockerY="20.5" flowable:targetDockerX="14.0" flowable:targetDockerY="14.0">
+        <omgdi:waypoint x="1524.3980716253443" y="359.375826446281"></omgdi:waypoint>
+        <omgdi:waypoint x="1344.8856015387034" y="503.24404051543854"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="implementationInvestigation_gateway03" id="BPMNEdge_implementationInvestigation_gateway03" flowable:sourceDockerX="50.0" flowable:sourceDockerY="40.0" flowable:targetDockerX="20.0" flowable:targetDockerY="20.0">
+        <omgdi:waypoint x="1729.95" y="350.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1785.0" y="350.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="gatewat1_end" id="BPMNEdge_gatewat1_end" flowable:sourceDockerX="20.5" flowable:sourceDockerY="20.5" flowable:targetDockerX="14.0" flowable:targetDockerY="14.0">
+        <omgdi:waypoint x="1271.143804347826" y="363.8045306388527"></omgdi:waypoint>
+        <omgdi:waypoint x="1328.5319136800135" y="499.09858485956795"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="gateway02_implementationInvestigation" id="BPMNEdge_gateway02_implementationInvestigation" flowable:sourceDockerX="20.0" flowable:sourceDockerY="20.0" flowable:targetDockerX="50.0" flowable:targetDockerY="40.0">
+        <omgdi:waypoint x="1554.9431254307374" y="350.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1630.0" y="350.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="deliveryDocuments_gateway05" id="BPMNEdge_deliveryDocuments_gateway05" flowable:sourceDockerX="50.0" flowable:sourceDockerY="40.0" flowable:targetDockerX="20.5" flowable:targetDockerY="20.5">
+        <omgdi:waypoint x="2010.0" y="512.1391364902507"></omgdi:waypoint>
+        <omgdi:waypoint x="1899.4579513694803" y="512.4469273743017"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="gateway04_deliveryDocuments" id="BPMNEdge_gateway04_deliveryDocuments" flowable:sourceDockerX="20.5" flowable:sourceDockerY="20.5" flowable:targetDockerX="50.0" flowable:targetDockerY="40.0">
+        <omgdi:waypoint x="2090.5" y="369.4365793201133"></omgdi:waypoint>
+        <omgdi:waypoint x="2090.5" y="421.0"></omgdi:waypoint>
+        <omgdi:waypoint x="2060.0" y="421.0"></omgdi:waypoint>
+        <omgdi:waypoint x="2060.0" y="472.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="gateway03_AssignmentInvestigation" id="BPMNEdge_gateway03_AssignmentInvestigation" flowable:sourceDockerX="20.0" flowable:sourceDockerY="20.0" flowable:targetDockerX="50.0" flowable:targetDockerY="1.0">
+        <omgdi:waypoint x="1805.0" y="330.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1805.0" y="193.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1400.0" y="193.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1400.0" y="310.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="start_survey_evaluation_apply" id="BPMNEdge_start_survey_evaluation_apply" flowable:sourceDockerX="15.0" flowable:sourceDockerY="15.0" flowable:targetDockerX="50.0" flowable:targetDockerY="40.0">
+        <omgdi:waypoint x="874.9499984899576" y="350.0"></omgdi:waypoint>
+        <omgdi:waypoint x="920.0" y="350.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="gateway03_end" id="BPMNEdge_gateway03_end" flowable:sourceDockerX="20.5" flowable:sourceDockerY="20.5" flowable:targetDockerX="14.0" flowable:targetDockerY="14.0">
+        <omgdi:waypoint x="1805.5" y="369.4369490358127"></omgdi:waypoint>
+        <omgdi:waypoint x="1805.5" y="423.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1347.7104022773315" y="509.40275845214825"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="documentMaterials_gateway06" id="BPMNEdge_documentMaterials_gateway06" flowable:sourceDockerX="50.0" flowable:sourceDockerY="40.0" flowable:targetDockerX="20.5" flowable:targetDockerY="20.5">
+        <omgdi:waypoint x="1639.0" y="512.1361035422343"></omgdi:waypoint>
+        <omgdi:waypoint x="1524.456683980306" y="512.448087431694"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="gateway05_documentMaterials" id="BPMNEdge_gateway05_documentMaterials" flowable:sourceDockerX="20.5" flowable:sourceDockerY="20.5" flowable:targetDockerX="50.0" flowable:targetDockerY="40.0">
+        <omgdi:waypoint x="1860.4476439790576" y="512.4476439790576"></omgdi:waypoint>
+        <omgdi:waypoint x="1738.949999999996" y="512.1304177545692"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="gateway04_end" id="BPMNEdge_gateway04_end" flowable:sourceDockerX="20.5" flowable:sourceDockerY="20.5" flowable:targetDockerX="14.0" flowable:targetDockerY="13.999999999999943">
+        <omgdi:waypoint x="2080.8468208092486" y="360.82095375722537"></omgdi:waypoint>
+        <omgdi:waypoint x="2007.0" y="440.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1347.8719896574285" y="510.5106045710734"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="gateway03_examinationAssessment" id="BPMNEdge_gateway03_examinationAssessment" flowable:sourceDockerX="20.0" flowable:sourceDockerY="20.0" flowable:targetDockerX="1.0" flowable:targetDockerY="40.0">
+        <omgdi:waypoint x="1824.935970464135" y="350.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1875.0" y="350.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="gateway05_end" id="BPMNEdge_gateway05_end" flowable:sourceDockerX="20.5" flowable:sourceDockerY="20.5" flowable:targetDockerX="14.0" flowable:targetDockerY="14.0">
+        <omgdi:waypoint x="1880.5" y="531.4385290556902"></omgdi:waypoint>
+        <omgdi:waypoint x="1880.5" y="595.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1334.0" y="595.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1334.0" y="525.9499392271128"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="gateway01_AssignmentInvestigation" id="BPMNEdge_gateway01_AssignmentInvestigation" flowable:sourceDockerX="20.0" flowable:sourceDockerY="20.0" flowable:targetDockerX="50.0" flowable:targetDockerY="40.0">
+        <omgdi:waypoint x="1284.9426165801547" y="350.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1350.0" y="350.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="PreInvestigationVerification_gateway01" id="BPMNEdge_PreInvestigationVerification_gateway01" flowable:sourceDockerX="50.0" flowable:sourceDockerY="40.0" flowable:targetDockerX="20.5" flowable:targetDockerY="20.5">
+        <omgdi:waypoint x="1179.9499999999925" y="350.1843173431734"></omgdi:waypoint>
+        <omgdi:waypoint x="1245.4259259259254" y="350.4259259259259"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="AssignmentInvestigation_gateway02" id="BPMNEdge_AssignmentInvestigation_gateway02" flowable:sourceDockerX="50.0" flowable:sourceDockerY="40.0" flowable:targetDockerX="20.0" flowable:targetDockerY="20.0">
+        <omgdi:waypoint x="1449.95" y="350.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1515.0" y="350.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="gateway02_PreInvestigationVerification" id="BPMNEdge_gateway02_PreInvestigationVerification" flowable:sourceDockerX="20.0" flowable:sourceDockerY="20.0" flowable:targetDockerX="45.64702908873096" flowable:targetDockerY="57.0">
+        <omgdi:waypoint x="1535.0" y="330.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1535.0" y="210.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1125.647029088731" y="210.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1125.647029088731" y="310.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="apply_PreInvestigationVerification" id="BPMNEdge_apply_PreInvestigationVerification" flowable:sourceDockerX="50.0" flowable:sourceDockerY="40.0" flowable:targetDockerX="50.0" flowable:targetDockerY="40.0">
+        <omgdi:waypoint x="1019.9499999999999" y="350.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1080.0" y="350.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="gateway6_end" id="BPMNEdge_gateway6_end" flowable:sourceDockerX="20.5" flowable:sourceDockerY="20.5" flowable:targetDockerX="14.0" flowable:targetDockerY="14.0">
+        <omgdi:waypoint x="1485.4415204678162" y="512.4415204678362"></omgdi:waypoint>
+        <omgdi:waypoint x="1347.9497375556214" y="512.0406705036511"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="gateway06_deliveryDocuments" id="BPMNEdge_gateway06_deliveryDocuments" flowable:sourceDockerX="20.5" flowable:sourceDockerY="20.5" flowable:targetDockerX="50.0" flowable:targetDockerY="40.0">
+        <omgdi:waypoint x="1505.5" y="531.4422716150083"></omgdi:waypoint>
+        <omgdi:waypoint x="1505.5" y="635.0"></omgdi:waypoint>
+        <omgdi:waypoint x="2060.0" y="635.0"></omgdi:waypoint>
+        <omgdi:waypoint x="2060.0" y="551.95"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="gateway04_implementationInvestigation" id="BPMNEdge_gateway04_implementationInvestigation" flowable:sourceDockerX="20.5" flowable:sourceDockerY="20.5" flowable:targetDockerX="50.0" flowable:targetDockerY="40.0">
+        <omgdi:waypoint x="2090.5" y="330.5"></omgdi:waypoint>
+        <omgdi:waypoint x="2090.5" y="244.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1680.0" y="244.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1680.0" y="310.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

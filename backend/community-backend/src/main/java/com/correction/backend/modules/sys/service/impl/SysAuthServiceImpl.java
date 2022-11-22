@@ -19,7 +19,7 @@ import com.correction.backend.modules.sys.service.SysUserService;
 import com.correction.backend.modules.sys.service.SysUserSessionService;
 import com.correction.framework.common.enums.CommonStatusEnum;
 import com.correction.framework.common.util.servlet.ServletUtils;
-import com.correction.framework.security.core.LoginUser;
+import com.correction.framework.web.web.LoginUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,7 +35,6 @@ import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

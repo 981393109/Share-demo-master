@@ -1,10 +1,13 @@
 package com.correction.backend.modules.survey.mapper;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.correction.backend.modules.survey.controller.dto.SurveyEvaluationListDTO;
 import com.correction.backend.modules.survey.controller.dto.SurveyEvaluationSearchInputDTO;
 import com.correction.backend.modules.survey.entity.SurveyEvaluation;
 import com.correction.framework.common.pojo.PageResult;
 import com.correction.frameworks.mybatis.mybatis.core.mapper.BaseMapperX;
 import com.correction.frameworks.mybatis.mybatis.core.query.QueryWrapperX;
+import org.apache.ibatis.annotations.Param;
 //import com.baomidou.mybatisplus.core.mapper.BaseMapperX;
 
 /**
@@ -25,4 +28,6 @@ public interface SurveyEvaluationMapper extends BaseMapperX<SurveyEvaluation> {
         .likeIfPresent("area_jurisdiction",searchInputDTO.getAreaJurisdiction())
         );
     }
+
+    IPage<SurveyEvaluationListDTO> getPageListFlow(@Param("page") IPage page,@Param("query") SurveyEvaluationSearchInputDTO query);
 }

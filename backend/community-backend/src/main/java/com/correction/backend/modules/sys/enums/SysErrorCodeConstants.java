@@ -109,11 +109,22 @@ public interface SysErrorCodeConstants {
     ErrorCode ORG_EXISTS_USER = new ErrorCode(1002014006, "组织中存在员工，无法删除");
     ErrorCode ORG_NOT_ENABLE = new ErrorCode(1002014007, "组织不处于开启状态，不允许选择");
     ErrorCode ORG_PARENT_IS_CHILD = new ErrorCode(1002014008, "不能设置自己的子组织为父部门");
+    ErrorCode ORG_PARENT_IS_CITY= new ErrorCode(1002014009, "当前存在市级组织，不可添加");
 
 
     ErrorCode SURVEY_FLOW_STATUS_EDIT = new ErrorCode(1002015000, "已处于审核中，不可进行修改操作");
 
 
     ErrorCode SURVEY_UNIT_NAME_UNITQUE = new ErrorCode(1002016000, "系统中已存在该委托单位");
+
+    /**
+     * flow
+     */
+    ErrorCode SURVEY_FLOW_FROM_NOT_FOUND = new ErrorCode(1002017000, "当前表单未提交");
+    ErrorCode SURVEY_FLOW_FROM_NODE_NOT_FOUND = new ErrorCode(1002017001, "当前流程存在未指定审批人的节点");
+
+    ErrorCode FLOW_AUDIT_ISNULL = new ErrorCode(1002017002, "audit is null");
+    ErrorCode FLOW_TASKID_ISNULL = new ErrorCode(1002017003, "taskId is null");
+
 
 }

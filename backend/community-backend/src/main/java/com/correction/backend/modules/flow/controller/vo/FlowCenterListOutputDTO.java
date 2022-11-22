@@ -24,7 +24,7 @@ public class FlowCenterListOutputDTO implements Serializable {
     private Long id;
 
     @ApiModelProperty(value = "流程类型")
-    private Integer flowType;
+    private String flowType;
 
     @ApiModelProperty(value = "流程状态 0 进行中 1 完成  2 拒绝 3 驳回 ")
     private Integer flowStatus;

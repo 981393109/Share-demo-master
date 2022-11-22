@@ -23,4 +23,7 @@ public class FlowCompleteDTO {
     @ApiModelProperty(value = "是否通过: 1通过 2:拒绝 3:驳回")
     private Integer adopt;
 
+    @ApiModelProperty(value = "下一流程步骤")
+    private Integer progress;
+
 }

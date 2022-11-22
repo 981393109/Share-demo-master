@@ -12,7 +12,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-11-18T00:24:15+0800",
+    date = "2022-11-22T03:43:43+0800",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 1.8.0_211 (Oracle Corporation)"
 )
 public class MSurveyEvaluationConvertImpl implements MSurveyEvaluationConvert {
@@ -52,6 +52,8 @@ public class MSurveyEvaluationConvertImpl implements MSurveyEvaluationConvert {
         surveyEvaluation.setEntrustMobile( surveyEvaluationSearchInputDTO.getEntrustMobile() );
         surveyEvaluation.setIsNotice( surveyEvaluationSearchInputDTO.getIsNotice() );
         surveyEvaluation.setIsJurisdictionOffice( surveyEvaluationSearchInputDTO.getIsJurisdictionOffice() );
+        surveyEvaluation.setJurisdictionOffice( surveyEvaluationSearchInputDTO.getJurisdictionOffice() );
+        surveyEvaluation.setJurisdictionOfficeId( surveyEvaluationSearchInputDTO.getJurisdictionOfficeId() );
         surveyEvaluation.setJurisdictionUser( surveyEvaluationSearchInputDTO.getJurisdictionUser() );
         surveyEvaluation.setImplementStatus( surveyEvaluationSearchInputDTO.getImplementStatus() );
         surveyEvaluation.setImplementUserGroup( surveyEvaluationSearchInputDTO.getImplementUserGroup() );
@@ -94,6 +96,7 @@ public class MSurveyEvaluationConvertImpl implements MSurveyEvaluationConvert {
         surveyEvaluation.setCreator( surveyEvaluationCreateInputDTO.getCreator() );
         surveyEvaluation.setUpdater( surveyEvaluationCreateInputDTO.getUpdater() );
         surveyEvaluation.setDeleted( surveyEvaluationCreateInputDTO.getDeleted() );
+        surveyEvaluation.setId( surveyEvaluationCreateInputDTO.getId() );
         surveyEvaluation.setEntrustType( surveyEvaluationCreateInputDTO.getEntrustType() );
         surveyEvaluation.setEntrustUnit( surveyEvaluationCreateInputDTO.getEntrustUnit() );
         surveyEvaluation.setAreaJurisdiction( surveyEvaluationCreateInputDTO.getAreaJurisdiction() );
@@ -183,6 +186,10 @@ public class MSurveyEvaluationConvertImpl implements MSurveyEvaluationConvert {
         surveyEvaluation.setEntrustMobile( surveyEvaluationUpdateInputDTO.getEntrustMobile() );
         surveyEvaluation.setIsNotice( surveyEvaluationUpdateInputDTO.getIsNotice() );
         surveyEvaluation.setIsJurisdictionOffice( surveyEvaluationUpdateInputDTO.getIsJurisdictionOffice() );
+        surveyEvaluation.setJurisdictionOffice( surveyEvaluationUpdateInputDTO.getJurisdictionOffice() );
+        if ( surveyEvaluationUpdateInputDTO.getJurisdictionOfficeId() != null ) {
+            surveyEvaluation.setJurisdictionOfficeId( Long.parseLong( surveyEvaluationUpdateInputDTO.getJurisdictionOfficeId() ) );
+        }
         surveyEvaluation.setJurisdictionUser( surveyEvaluationUpdateInputDTO.getJurisdictionUser() );
         surveyEvaluation.setImplementStatus( surveyEvaluationUpdateInputDTO.getImplementStatus() );
         surveyEvaluation.setImplementUserGroup( surveyEvaluationUpdateInputDTO.getImplementUserGroup() );
@@ -245,6 +252,8 @@ public class MSurveyEvaluationConvertImpl implements MSurveyEvaluationConvert {
         surveyEvaluationListOutputDTO.setEntrustMobile( surveyEvaluation.getEntrustMobile() );
         surveyEvaluationListOutputDTO.setIsNotice( surveyEvaluation.getIsNotice() );
         surveyEvaluationListOutputDTO.setIsJurisdictionOffice( surveyEvaluation.getIsJurisdictionOffice() );
+        surveyEvaluationListOutputDTO.setJurisdictionOffice( surveyEvaluation.getJurisdictionOffice() );
+        surveyEvaluationListOutputDTO.setJurisdictionOfficeId( surveyEvaluation.getJurisdictionOfficeId() );
         surveyEvaluationListOutputDTO.setJurisdictionUser( surveyEvaluation.getJurisdictionUser() );
         surveyEvaluationListOutputDTO.setImplementStatus( surveyEvaluation.getImplementStatus() );
         surveyEvaluationListOutputDTO.setImplementUserGroup( surveyEvaluation.getImplementUserGroup() );
@@ -277,6 +286,8 @@ public class MSurveyEvaluationConvertImpl implements MSurveyEvaluationConvert {
         surveyEvaluationListOutputDTO.setDeleted( surveyEvaluation.getDeleted() );
         surveyEvaluationListOutputDTO.setOpinion( surveyEvaluation.getOpinion() );
         surveyEvaluationListOutputDTO.setReceptionDate( surveyEvaluation.getReceptionDate() );
+        surveyEvaluationListOutputDTO.setRef( surveyEvaluation.getRef() );
+        surveyEvaluationListOutputDTO.setProcessInstanceId( surveyEvaluation.getProcessInstanceId() );
 
         return surveyEvaluationListOutputDTO;
     }
@@ -298,6 +309,7 @@ public class MSurveyEvaluationConvertImpl implements MSurveyEvaluationConvert {
         surveyEvaluationListDTO.setOpinion( surveyEvaluation.getOpinion() );
         surveyEvaluationListDTO.setReceptionDate( surveyEvaluation.getReceptionDate() );
         surveyEvaluationListDTO.setProgress( surveyEvaluation.getProgress() );
+        surveyEvaluationListDTO.setApplyStatus( surveyEvaluation.getApplyStatus() );
 
         return surveyEvaluationListDTO;
     }

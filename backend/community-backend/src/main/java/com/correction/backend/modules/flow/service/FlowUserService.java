@@ -1,6 +1,8 @@
 package com.correction.backend.modules.flow.service;
 
+import com.correction.backend.modules.flow.controller.dto.FlowNodeListDTO;
 import com.correction.backend.modules.flow.controller.dto.FlowOrgRoleDTO;
+import com.correction.backend.modules.flow.entity.FlowNodeUser;
 
 import java.util.List;
 
@@ -15,4 +17,5 @@ public interface FlowUserService {
     List<FlowOrgRoleDTO> getFlowOrgInfo ();
 
 
+    List<FlowNodeListDTO> getFlowNode(String flowType);
 }

@@ -140,6 +140,12 @@ public class SurveyEvaluation extends BaseDO {
      */
     private Integer isJurisdictionOffice;
 
+
+    private String  jurisdictionOffice;
+
+    private Long  jurisdictionOfficeId;
+
+
     /**
      * 当前操作人
      */
@@ -248,7 +254,7 @@ public class SurveyEvaluation extends BaseDO {
     /**
      * 申请人code
      */
-    private String applyUser;
+    private Long applyUser;
 
     /**
      * 申请人名称
@@ -267,7 +273,17 @@ public class SurveyEvaluation extends BaseDO {
 
     private String opinion;
 
+    /**
+     * 接受时间
+     */
     private String receptionDate;
+
+    private String ref;
+
+    /**
+     * 流程实例id
+     */
+    private String processInstanceId;
 
 
     public static final String ID = "id";

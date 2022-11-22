@@ -68,4 +68,20 @@
     <sql id="Base_Column_List_Alias">
         surveyEvaluation.id,surveyEvaluation.entrust_type AS entrustType,surveyEvaluation.entrust_unit AS entrustUnit,surveyEvaluation.area_jurisdiction AS areaJurisdiction,surveyEvaluation.street_jurisdiction AS streetJurisdiction,surveyEvaluation.entrust_date AS entrustDate,surveyEvaluation.cause_action AS causeAction,surveyEvaluation.sex,surveyEvaluation.name,surveyEvaluation.birthday,surveyEvaluation.id_card AS idCard,surveyEvaluation.household,surveyEvaluation.native_place AS nativePlace,surveyEvaluation.mobile,surveyEvaluation.place_residence AS placeResidence,surveyEvaluation.marital_status AS maritalStatus,surveyEvaluation.professional,surveyEvaluation.economy_state AS economyState,surveyEvaluation.orther_info AS ortherInfo,surveyEvaluation.entrust_linkman AS entrustLinkman,surveyEvaluation.entrust_mobile AS entrustMobile,surveyEvaluation.is_notice AS isNotice,surveyEvaluation.is_jurisdiction_office AS isJurisdictionOffice,surveyEvaluation.jurisdiction_user AS jurisdictionUser,surveyEvaluation.implement_status AS implementStatus,surveyEvaluation.implement_user_group AS implementUserGroup,surveyEvaluation.implement_type AS implementType,surveyEvaluation.implement_file_record AS implementFileRecord,surveyEvaluation.implement_file_bench AS implementFileBench,surveyEvaluation.implement_file_report AS implementFileReport,surveyEvaluation.implement_user AS implementUser,surveyEvaluation.assessment_status AS assessmentStatus,surveyEvaluation.assessment_meeting AS assessmentMeeting,surveyEvaluation.assessment_file_bench AS assessmentFileBench,surveyEvaluation.assessment_file_opinion AS assessmentFileOpinion,surveyEvaluation.assessment_file_survey AS assessmentFileSurvey,surveyEvaluation.assessment_last_opinion AS assessmentLastOpinion,surveyEvaluation.assessment_user AS assessmentUser,surveyEvaluation.survey_send_status AS surveySendStatus,surveyEvaluation.survey_send_user AS surveySendUser,surveyEvaluation.survey_notice_status AS surveyNoticeStatus,surveyEvaluation.survey_notice_user AS surveyNoticeUser,surveyEvaluation.progress,surveyEvaluation.apply_status AS applyStatus,surveyEvaluation.apply_user AS applyUser,surveyEvaluation.apply_name AS applyName,surveyEvaluation.apply_time AS applyTime,surveyEvaluation.org_num AS orgNum,surveyEvaluation.create_time AS createTime,surveyEvaluation.update_time AS updateTime,surveyEvaluation.creator,surveyEvaluation.updater,surveyEvaluation.deleted
     </sql>
+    <select id="getPageListFlow"
+            resultType="com.correction.backend.modules.survey.controller.dto.SurveyEvaluationListDTO">
+        select se.*,art.ASSIGNEE_ as nextUser,art.ID_ as taskId from survey_evaluation se left join act_ru_task art  on se.process_instance_id = art.PROC_INST_ID_
+        where ( se.apply_user = 1  or se.process_instance_id in (select PROC_INST_ID_ from ACT_HI_TASKINST where ASSIGNEE_ = 1) )
+        and se.deleted = 0
+        <if test="query.name!=null">
+            and se.name like concat('%',#{query.name},'%')
+        </if>
+        <if test="query.entrustType!=null">
+            and se.entrust_type = #{query.entrustType}
+        </if>
+        <if test="query.applyStatus!=null">
+            and se.apply_status = #{query.applyStatus}
+        </if>
+        order by se.id desc
+    </select>
 </mapper>

@@ -1,13 +1,14 @@
 package com.correction.framework.workflow.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import com.correction.framework.workflow.constant.WorkFlowConstant;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Accessors(chain = true)
 public class FlowStartDTO {
 
@@ -22,4 +23,11 @@ public class FlowStartDTO {
 
     //申请用户名称
     private String userName;
+
+    //ref
+    private String ref;
+
+    private String progress;
+
+
 }

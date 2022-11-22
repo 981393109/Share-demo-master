@@ -1,6 +1,8 @@
 package com.correction.framework.workflow.service;
 
+import com.correction.framework.workflow.dto.ActivityInstanceListOutputDTO;
 import com.correction.framework.workflow.factory.ActProcessInstance;
+import java.util.List;
 
 import java.util.Map;
 
@@ -29,7 +31,7 @@ public interface ActFlowableTaskService {
      * @param userId               用户id
      * @return
      */
-    ActProcessInstance startProcessAndCompleteFirstTask(String processDefinitionKey, String businessKey, String userId);
+    ActProcessInstance startProcessAndCompleteFirstTask(String processDefinitionKey, String businessKey, String userId,String progress);
 
 
     /**
@@ -115,4 +117,7 @@ public interface ActFlowableTaskService {
      * @param businessKey
      */
     void delete(String businessKey);
+
+
+    List<ActivityInstanceListOutputDTO> getHisTaskInsListByProInsId(String processInstanceId);
 }

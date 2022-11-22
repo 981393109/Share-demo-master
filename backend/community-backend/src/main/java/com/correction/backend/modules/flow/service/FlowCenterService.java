@@ -25,4 +25,9 @@ public interface FlowCenterService extends IService<FlowCenter> {
      */
     List<FlowCenter> getList (FlowCenter flowCenter);
 
+    FlowCenter getFlowCenterByActivityId(String currentActivityId);
+
+    List<String> getUserIdListByFlowCenter(FlowCenter flowCenter);
+
+    List<String> getUserIdListByFlow (String currentActivityId,String busKey,FlowCenter flowCenter);
 }

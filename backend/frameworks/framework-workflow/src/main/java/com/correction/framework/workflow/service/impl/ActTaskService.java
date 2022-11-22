@@ -7,6 +7,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.PageUtil;
 import cn.hutool.core.util.StrUtil;
 import com.correction.framework.workflow.constant.WorkFlowConstant;
+import com.correction.framework.workflow.dto.ActivityInstanceListOutputDTO;
 import com.correction.framework.workflow.factory.ActProcessInstance;
 import com.correction.framework.workflow.service.ActFlowableTaskService;
 import com.correction.framework.workflow.service.ActUserService;
@@ -102,13 +103,13 @@ public class ActTaskService implements ActFlowableTaskService {
      */
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.READ_UNCOMMITTED)
     @Override
-    public ActProcessInstance startProcessAndCompleteFirstTask(String processDefinitionKey, String businessKey, String userId) {
+    public ActProcessInstance startProcessAndCompleteFirstTask(String processDefinitionKey, String businessKey, String userId,String progress) {
         // 设置发起人
         log.info("processDefinitionKey:{}", processDefinitionKey);
         log.info("businessKey:{}", businessKey);
         log.info("userId:{}", userId);
         identityService.setAuthenticatedUserId(userId);
-        final ImmutableMap<String, Object> variables = ImmutableMap.of(WorkFlowConstant.TASK_BUSINESS_KEY, businessKey, "userId", userId);
+        final ImmutableMap<String, Object> variables = ImmutableMap.of(WorkFlowConstant.TASK_BUSINESS_KEY, businessKey, "userId", userId,"completeStatus","success","progress",progress);
         log.info("得到申请人：" + variables);
         // 根据流程 key 启动流程
         final ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processDefinitionKey, businessKey, variables);
@@ -218,6 +219,29 @@ public class ActTaskService implements ActFlowableTaskService {
             taskService.addComment(task.getId(), task.getProcessInstanceId(), WorkFlowConstant.TASK_STATUS, String.valueOf(variables.get(WorkFlowConstant.TASK_STATUS)));
             taskService.addComment(task.getId(), task.getProcessInstanceId(), WorkFlowConstant.TASK_COMMENT, comment);
         }
+        //统计完成情况：
+        Integer taskPassCount = !"null".equals(taskService.getVariable(task.getId(), "passCount") + "") ? Integer.parseInt(taskService.getVariable(task.getId(), "passCount") + "") : 0;
+        Integer taskRefuseCount = !"null".equals(taskService.getVariable(task.getId(), "refusedCount") + "") ? Integer.parseInt(taskService.getVariable(task.getId(), "refusedCount") + "") : 0;
+        Integer taskRejectedCount = !"null".equals(taskService.getVariable(task.getId(), "rejectedCount") + "") ? Integer.parseInt(taskService.getVariable(task.getId(), "rejectedCount") + "") : 0;
+        Integer taskTotalCount = !"null".equals(taskService.getVariable(task.getId(), "totalCount") + "") ? Integer.parseInt(taskService.getVariable(task.getId(), "totalCount") + "") : 0;
+        System.out.println("taskPassCount:" + taskPassCount);
+        System.out.println("taskRefusedCount:" + taskRefuseCount);
+        System.out.println("taskRejectedCount:" + taskRejectedCount);
+        System.out.println("taskTotalCount:" + taskTotalCount);
+        //得到当前流程变量数据：
+        String status= String.valueOf(variables.get(WorkFlowConstant.TASK_STATUS));
+        if (WorkFlowConstant.TASK_SUCCESS.equals(status)) {
+            taskPassCount += 1;
+        } else if (WorkFlowConstant.TASK_REJECTED.equals(status)) {
+            //驳回
+            taskRejectedCount +=1;
+        } else {
+            taskRefuseCount += 1;
+        }
+        variables.put("passCount", taskPassCount);
+        variables.put("refusedCount", taskRefuseCount);
+        variables.put("rejectedCount", taskRejectedCount);
+        variables.put("totalCount", taskTotalCount);
         if (CollUtil.isNotEmpty(variables)) {
             taskService.complete(taskId, variables);
         } else {
@@ -403,9 +427,31 @@ public class ActTaskService implements ActFlowableTaskService {
                 .ifPresent(historicProcessInstance -> historyService.deleteHistoricProcessInstance(historicProcessInstance.getId()));
     }
 
+    @Override
+    public List<ActivityInstanceListOutputDTO> getHisTaskInsListByProInsId(String processInstanceId) {
+        List<ActivityInstanceListOutputDTO> activityInstanceListOutputDTOS = new ArrayList<>();
+        final List<HistoricTaskInstance> historicTaskInstances = historyService.createHistoricTaskInstanceQuery()
+                .processInstanceId(processInstanceId)
+                .orderByHistoricTaskInstanceStartTime().asc()
+                .finished()
+                .list();
+        historicTaskInstances.forEach(historicTaskInstance -> {
+            ActivityInstanceListOutputDTO activityInstanceListOutputDTO = new ActivityInstanceListOutputDTO(historicTaskInstance);
+            // 设置昵称
+            final String nickName = actUserService.getNickNameByUserId(historicTaskInstance.getAssignee());
+            activityInstanceListOutputDTO.setAssignee(nickName);
+            // 设置 审批意义 和 审批状态
+            final List<Comment> taskComment = taskService.getTaskComments(historicTaskInstance.getId(), WorkFlowConstant.TASK_COMMENT);
+            final Comment comment = CollUtil.getFirst(taskComment);
+            activityInstanceListOutputDTO.setComment(comment != null ? comment.getFullMessage() : "");
+            final List<Comment> taskStatusComments = taskService.getTaskComments(historicTaskInstance.getId(), WorkFlowConstant.TASK_STATUS);
+            final Comment taskStatus = CollUtil.getFirst(taskStatusComments);
+            activityInstanceListOutputDTO.setStatus(taskStatus != null ? taskStatus.getFullMessage() : "");
+            activityInstanceListOutputDTOS.add(activityInstanceListOutputDTO);
+        });
+        return activityInstanceListOutputDTOS;
 
-    
-
+    }
 
 
 }

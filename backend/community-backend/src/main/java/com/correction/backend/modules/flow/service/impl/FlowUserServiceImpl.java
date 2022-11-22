@@ -1,8 +1,9 @@
 package com.correction.backend.modules.flow.service.impl;
 
+import com.correction.backend.modules.flow.controller.dto.FlowNodeListDTO;
 import com.correction.backend.modules.flow.controller.dto.FlowOrgRoleDTO;
+import com.correction.backend.modules.flow.mapper.FlowCenterMapper;
 import com.correction.backend.modules.flow.service.FlowUserService;
-import com.correction.backend.modules.sys.controller.dto.sys.RoleListOutputDTO;
 import com.correction.backend.modules.sys.controller.dto.sys.RoleUserOutpuDTO;
 import com.correction.backend.modules.sys.controller.dto.user.SysUserRoleDTO;
 import com.correction.backend.modules.sys.convert.sys.MRoleConvert;
@@ -14,7 +15,6 @@ import com.correction.backend.modules.sys.entity.SysUserDO;
 import com.correction.backend.modules.sys.mapper.RoleMapper;
 import com.correction.backend.modules.sys.mapper.RoleUserMapper;
 import com.correction.backend.modules.sys.service.OrgService;
-import com.correction.framework.security.core.LoginUser;
 import com.correction.framework.web.web.core.util.WebFrameworkUtils;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +37,9 @@ public class FlowUserServiceImpl implements FlowUserService {
     @Resource
     RoleUserMapper roleUserMapper;
 
+    @Resource
+    FlowCenterMapper flowCenterMapper;
+
     @Override
     public List<FlowOrgRoleDTO> getFlowOrgInfo() {
         //得到当前登录用户信息：
@@ -44,8 +47,9 @@ public class FlowUserServiceImpl implements FlowUserService {
         Long orgId = WebFrameworkUtils.getLoginOrgId();
         List<FlowOrgRoleDTO> flowOrgRoleDTOS = new ArrayList<>();
         //得到组织以及组织下所有子组织数据
-        List<OrgDO> orgChildsList = orgService.getOrgParentList(orgId);
-        for (OrgDO orgDO : orgChildsList) {
+//        List<OrgDO> orgChildsList = orgService.getOrgParentList(orgId);
+        List<OrgDO> list = orgService.getList();
+        for (OrgDO orgDO : list) {
             FlowOrgRoleDTO flowOrgRoleDTO = new FlowOrgRoleDTO();
             //得到orgDO下的角色
             Long id = orgDO.getId();
@@ -65,6 +69,10 @@ public class FlowUserServiceImpl implements FlowUserService {
         return flowOrgRoleDTOS;
     }
 
+    @Override
+    public List<FlowNodeListDTO> getFlowNode(String flowType) {
+        return flowCenterMapper.getNodeList(flowType);
+    }
 
 
 }

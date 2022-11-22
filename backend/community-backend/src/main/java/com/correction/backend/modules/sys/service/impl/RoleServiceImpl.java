@@ -51,7 +51,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     @Override
     public Long createRole(RoleCreateInputDTO reqDTO) {
         //校验
-        checkCreateOrUpdate(null,reqDTO.getRoleName());
+        checkCreateOrUpdate(null,reqDTO.getRoleName(),reqDTO.getOrgId());
         Role role = MRoleConvert.INSTANCE.toRole(reqDTO);
         OrgDO orgDO = orgMapper.selectById(role.getOrgId());
         role.setOrgInfo(orgDO.getParentNames());
@@ -61,7 +61,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Override
     public Role updateRole(RoleUpdateInputDTO reqDTO) {
-        checkCreateOrUpdate(reqDTO.getId(),reqDTO.getRoleName());
+        checkCreateOrUpdate(reqDTO.getId(),reqDTO.getRoleName(),reqDTO.getOrgId());
         Role role = MRoleConvert.INSTANCE.toRole(reqDTO);
         OrgDO orgDO = orgMapper.selectById(role.getOrgId());
         role.setOrgInfo(orgDO.getParentNames());
@@ -122,12 +122,12 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     /**
      * 校验必填项
      */
-    private void checkCreateOrUpdate(Long id ,String roleName) {
+    private void checkCreateOrUpdate(Long id ,String roleName,Long orgId) {
         // 校验角色名称是否唯一
         this.checkRoleNameUnique(id, roleName);
 
         //org是否为空
-        if(id == null){
+        if(orgId == null){
             throw exception(ORG_NOT_FOUND,roleName);
         }
     }
