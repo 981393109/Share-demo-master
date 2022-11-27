@@ -13,7 +13,7 @@ import java.util.List;
 public class HandleCorrectionFlowListDTO {
 
     @ApiModelProperty(value = "详情信息")
-    HandleCorrectionUpdateInputDTO detail;
+    HandleCorrectionCreateInputDTO detail;
 
     @ApiModelProperty(value = "流程信息")
     List<FlowNodeUserCreateInputDTO> flowInfo;

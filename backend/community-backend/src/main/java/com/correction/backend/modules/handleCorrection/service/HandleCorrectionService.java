@@ -23,6 +23,8 @@ public interface HandleCorrectionService extends IService<HandleCorrection> {
 
     HandleCorrection updateHandleCorrection (HandleCorrectionUpdateInputDTO correctionUpdateInputDTO);
 
+    HandleCorrection updateHandleCorrection (HandleCorrection correction);
+
     void delete ( Long id );
 
     HandleCorrectionFilesDTO getDetail(Long id );

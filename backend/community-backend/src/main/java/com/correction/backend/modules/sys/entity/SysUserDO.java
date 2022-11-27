@@ -68,5 +68,7 @@ public class SysUserDO extends BaseDO {
      */
     private String  password;
 
+    private Integer userType;
+
 
 }

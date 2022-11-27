@@ -11,7 +11,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-11-22T03:43:43+0800",
+    date = "2022-11-27T12:07:08+0800",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 1.8.0_211 (Oracle Corporation)"
 )
 public class MHandleCorrectionConvertImpl implements MHandleCorrectionConvert {
@@ -77,8 +77,11 @@ public class MHandleCorrectionConvertImpl implements MHandleCorrectionConvert {
         handleCorrection.setCreator( handleCorrectionCreateInputDTO.getCreator() );
         handleCorrection.setUpdater( handleCorrectionCreateInputDTO.getUpdater() );
         handleCorrection.setDeleted( handleCorrectionCreateInputDTO.getDeleted() );
+        handleCorrection.setId( handleCorrectionCreateInputDTO.getId() );
         handleCorrection.setEntrustType( handleCorrectionCreateInputDTO.getEntrustType() );
         handleCorrection.setEntrustUnit( handleCorrectionCreateInputDTO.getEntrustUnit() );
+        handleCorrection.setJurisdictionOffice( handleCorrectionCreateInputDTO.getJurisdictionOffice() );
+        handleCorrection.setJurisdictionOfficeId( handleCorrectionCreateInputDTO.getJurisdictionOfficeId() );
         handleCorrection.setName( handleCorrectionCreateInputDTO.getName() );
         handleCorrection.setEntrustDate( handleCorrectionCreateInputDTO.getEntrustDate() );
         handleCorrection.setReceptionDate( handleCorrectionCreateInputDTO.getReceptionDate() );
@@ -208,6 +211,10 @@ public class MHandleCorrectionConvertImpl implements MHandleCorrectionConvert {
         handleCorrectionListOutputDTO.setDeleted( handleCorrection.getDeleted() );
         handleCorrectionListOutputDTO.setRef( handleCorrection.getRef() );
         handleCorrectionListOutputDTO.setProcessInstanceId( handleCorrection.getProcessInstanceId() );
+        handleCorrectionListOutputDTO.setJurisdictionOffice( handleCorrection.getJurisdictionOffice() );
+        if ( handleCorrection.getJurisdictionOfficeId() != null ) {
+            handleCorrectionListOutputDTO.setJurisdictionOfficeId( String.valueOf( handleCorrection.getJurisdictionOfficeId() ) );
+        }
 
         return handleCorrectionListOutputDTO;
     }

@@ -31,7 +31,7 @@ public class HandleCorrectionFlowController {
 
 
     @PostMapping("/startFlow")
-    @ApiOperation("保存并提交审批 保存提交")
+    @ApiOperation("提交审批")
     public CommonResult<ActProcessInstance> startFlow(@Valid @RequestBody HandleCorrectionFlowListDTO reqDTO) throws Exception {
         ActProcessInstance actProcessInstance = handleCorrectionFlowService.startFlow(reqDTO);
         return success(actProcessInstance);

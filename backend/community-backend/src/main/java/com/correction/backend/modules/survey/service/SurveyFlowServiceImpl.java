@@ -53,7 +53,7 @@ public class SurveyFlowServiceImpl implements SurveyFlowService {
         if(surveyEvaluation.getId() == null){
             surveyEvaluation = surveyEvaluationService.createSurveyEvaluation(detail);
         } else {
-            surveyEvaluation = surveyEvaluationService.getById(surveyEvaluation.getId());
+            surveyEvaluation = surveyEvaluationService.updateSurveyEvaluation(surveyEvaluation);
         }
         //保存流程节点与用户的关联关系：
         surveyEvaluation.setRef(String.valueOf(System.currentTimeMillis()));
@@ -118,8 +118,12 @@ public class SurveyFlowServiceImpl implements SurveyFlowService {
     @Override
     public void doFlowComplete(SurveryCompaleFlowDTO reqDTO) {
         SurveyEvaluationUpdateInputDTO detail = reqDTO.getDetail();
-        SurveyEvaluation surveyEvaluation = surveyEvaluationService.updateSurveyEvaluation(detail);
         FlowCompleteDTO flowInfo = reqDTO.getFlowInfo();
+        if ("3".equals(detail.getAssessmentLastOpinion())){
+            //直接拒绝审批
+            flowInfo.setAdopt(WorkFlowConstant.TASK_MU_2);
+        }
+        SurveyEvaluation surveyEvaluation = surveyEvaluationService.updateSurveyEvaluation(detail);
         if(flowInfo.getAdopt() == null){
             throw exception(FLOW_AUDIT_ISNULL);
         }

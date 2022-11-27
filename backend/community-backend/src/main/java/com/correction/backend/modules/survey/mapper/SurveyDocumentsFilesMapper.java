@@ -3,6 +3,7 @@ package com.correction.backend.modules.survey.mapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.correction.backend.modules.survey.controller.dto.SurveyDocumentsFilesDTO;
+import com.correction.backend.modules.survey.controller.dto.SurveyDocumentsFilesListQuery;
 import com.correction.backend.modules.survey.controller.dto.SurveyDocumentsFilesQuery;
 import com.correction.backend.modules.survey.entity.SurveyDocumentsFiles;
 import com.correction.framework.common.pojo.PageResult;
@@ -28,6 +29,8 @@ public interface SurveyDocumentsFilesMapper extends BaseMapperX<SurveyDocumentsF
 
 
     List<SurveyDocumentsFilesDTO> getList (@Param("query") SurveyDocumentsFilesQuery query);
+
+    List<SurveyDocumentsFilesDTO> getListInfo (@Param("query") SurveyDocumentsFilesListQuery query);
 
     IPage<SurveyDocumentsFilesDTO> getAllFilePage (@Param("page")IPage page,@Param("query") SurveyDocumentsFilesQuery query );
 

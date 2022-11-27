@@ -66,6 +66,8 @@ public class SurveyFlowCompleteServiceImp implements FlowComplete{
         dto.setReceptionDate(surveyEvaluation.getReceptionDate());
         dto.setProgress(SurveyConstant.PROGRESS_0);
         dto.setApplyStatus(SurveyConstant.FLOW_STATUS_0);
+        dto.setJurisdictionOffice(surveyEvaluation.getJurisdictionOffice());
+        dto.setJurisdictionOfficeId(surveyEvaluation.getJurisdictionOfficeId());
         return dto;
     }
 

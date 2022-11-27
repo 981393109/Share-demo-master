@@ -67,7 +67,7 @@ public class HandleCorrectionController {
     }
 
     @GetMapping("/page")
-    @ApiOperation("获取所有调查评估列表记录")
+    @ApiOperation("分页获取所有列表记录")
     public CommonResult<PageResult<HandleCorrectionListDTO>> getPageList(@Valid HandleCorrectionSearchInputDTO reqVO) {
         IPage<HandleCorrectionListDTO> pageList = handleCorrectionService.getPageList(reqVO);
         return success(new PageResult<HandleCorrectionListDTO>(pageList.getRecords(), pageList.getTotal()));

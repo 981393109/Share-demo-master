@@ -1,6 +1,7 @@
 package com.correction.backend.modules.survey.service;
 
 import com.correction.backend.modules.survey.controller.dto.SurveyDocumentsFilesDTO;
+import com.correction.backend.modules.survey.controller.dto.SurveyDocumentsFilesListQuery;
 import com.correction.backend.modules.survey.controller.dto.SurveyDocumentsFilesQuery;
 import com.correction.backend.modules.survey.controller.dto.SurveyDocumentsFilesSearchInputDTO;
 import com.correction.backend.modules.survey.entity.SurveyDocumentsFiles;
@@ -37,6 +38,8 @@ public interface SurveyDocumentsFilesService extends IService<SurveyDocumentsFil
     void saveFile(Long dataId, Integer dictType, String dictValue, MultipartFile file) throws IOException;
 
     PageResult<SurveyDocumentsFilesDTO> getSurveyDocumentPage(SurveyDocumentsFilesQuery query);
+
+    List<SurveyDocumentsFilesDTO> getSurveyDocumentList(SurveyDocumentsFilesListQuery query);
 
     List<SurveyDocumentsFilesDTO> getSurveyDocumentList(SurveyDocumentsFilesQuery query);
 

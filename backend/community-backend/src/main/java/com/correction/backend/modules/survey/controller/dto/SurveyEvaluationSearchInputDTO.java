@@ -133,7 +133,7 @@ public class SurveyEvaluationSearchInputDTO  extends PageParam  {
     private String assessmentFileSurvey;
 
     @ApiModelProperty(value = "最后意见")
-    private String assessmentLastOpinion;
+    private Integer assessmentLastOpinion;
 
     @ApiModelProperty(value = "当前操作人")
     private String assessmentUser;
@@ -155,6 +155,9 @@ public class SurveyEvaluationSearchInputDTO  extends PageParam  {
 
     @ApiModelProperty(value = "进度 0:未提交，1待指派，2待指派,3待调查，4调查中,5待评估，6评估中，7已评估")
     private Integer applyStatus;
+
+    @ApiModelProperty(value = "流程状态：代办：0 已办 1  办结 2")
+    private Integer flowStatus;
 
     @ApiModelProperty(value = "申请人code")
     private Long applyUser;

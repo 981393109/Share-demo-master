@@ -96,11 +96,14 @@ public class HandleCorrectionSearchInputDTO  extends PageParam  {
     @ApiModelProperty(value = "确认将矫正档案信息相关文件推送至接受的司法所")
     private Integer isAttmentSend;
 
-    @ApiModelProperty(value = "进度 0:未提交，1：文书补充，2人员报到，3：材料核实，4信息采集，5位置信息核查手续，6报备手续，7告知书，8矫正档案")
+    @ApiModelProperty(value = "进度 0:未提交，1：文书补充，2人员报到，3：材料核实，4信息采集，5位置信息核查手续，6报备手续，7告知书，8矫正档案,9矫正小组,10矫正方案,11入矫宣言,12办理结束")
     private Integer progress;
 
-    @ApiModelProperty(value = "进度 0:未提交，1文书补充中，2办理中，3办理中，4办理中，5办理中，6办理中，7办理中8 办理中，9已结案")
+    @ApiModelProperty(value = "进度 0:未提交，1文书补充中，2办理中，3办理中，4办理中，5办理中，6办理中，7办理中8 办理中，9办理中，10办理中，11已结案")
     private Integer applyStatus;
+
+    @ApiModelProperty(value = "flowStatus 0:代办 1 已办 2 办结")
+    private Integer flowStatus;
 
     @ApiModelProperty(value = "申请人code")
     private Long applyUser;

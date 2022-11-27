@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
 /**
  * <p>
  * 办理入矫表
@@ -98,11 +100,14 @@ public class HandleCorrectionListOutputDTO implements Serializable {
     @ApiModelProperty(value = "确认将矫正档案信息相关文件推送至接受的司法所")
     private Integer isAttmentSend;
 
-    @ApiModelProperty(value = "进度 0:未提交，1：文书补充，2人员报到，3：材料核实，4信息采集，5位置信息核查手续，6报备手续，7告知书，8矫正档案")
+    @ApiModelProperty(value = "进度 0:未提交，1：文书补充，2人员报到，3：材料核实，4信息采集，5位置信息核查手续，6报备手续，7告知书，8矫正档案,9矫正小组,10矫正方案,11入矫宣言,12办理结束")
     private Integer progress;
 
-    @ApiModelProperty(value = "进度 0:未提交，1文书补充中，2办理中，3办理中，4办理中，5办理中，6办理中，7办理中8 办理中，9已结案")
+    @ApiModelProperty(value = "进度 0:未提交，1文书补充中，2办理中，3办理中，4办理中，5办理中，6办理中，7办理中8 办理中，9办理中，10办理中，11已结案")
     private Integer applyStatus;
+
+    @ApiModelProperty(value = "flowStatus")
+    private Integer flowStatus;
 
     @ApiModelProperty(value = "申请人code")
     private Long applyUser;
@@ -137,10 +142,25 @@ public class HandleCorrectionListOutputDTO implements Serializable {
     @ApiModelProperty(value = "流程实例ID")
     private String processInstanceId;
 
+    @ApiModelProperty(value = "矫正机关")
+    private String jurisdictionOffice;
+
+    @ApiModelProperty(value = "矫正机关Id")
+    private String jurisdictionOfficeId;
+
     @ApiModelProperty(value = "待操作人")
     private String nextUser;
 
     @ApiModelProperty(value = "taskId")
     private String taskId;
+
+    @ApiModelProperty(value = "矫正档案ID")
+    private Long correctionUserId;
+
+    @ApiModelProperty(value = "矫正小组ID")
+    private List<Long> correctionGroupId;
+
+    @ApiModelProperty(value = "矫正方式ID")
+    private Long correctionWaysId;
 
 }

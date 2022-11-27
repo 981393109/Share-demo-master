@@ -34,4 +34,13 @@ public class HandleCorrectionFilesDTO implements Serializable {
     @ApiModelProperty(value = "报备手续材料")
     List<SurveyDocumentsFilesDTO> materialsFiles;
 
+    @ApiModelProperty(value = "小组材料")
+    List<SurveyDocumentsFilesDTO> groupFiles;
+
+    @ApiModelProperty(value = "方案材料")
+    List<SurveyDocumentsFilesDTO> waysFiles;
+
+    @ApiModelProperty(value = "宣言材料")
+    List<SurveyDocumentsFilesDTO> saysFiles;
+
 }

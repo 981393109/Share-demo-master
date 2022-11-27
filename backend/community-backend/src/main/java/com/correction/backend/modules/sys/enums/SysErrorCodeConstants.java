@@ -125,6 +125,7 @@ public interface SysErrorCodeConstants {
 
     ErrorCode FLOW_AUDIT_ISNULL = new ErrorCode(1002017002, "audit is null");
     ErrorCode FLOW_TASKID_ISNULL = new ErrorCode(1002017003, "taskId is null");
+    ErrorCode FLOW_DATA_ISEXSIT = new ErrorCode(1002017004, "当前数据已经存在");
 
 
 }

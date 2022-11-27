@@ -7,8 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.correction.backend.modules.flow.constant.FlowConstant.SURVEY_COMPLETE_FLOW;
-import static com.correction.backend.modules.flow.constant.FlowConstant.SURVEY_FLOW;
+import static com.correction.backend.modules.flow.constant.FlowConstant.*;
 
 /**
  * 初始化流程工厂
@@ -39,6 +38,8 @@ public class FlowCompleteFactory {
         switch (flowType){
             case SURVEY_FLOW:
                 return strategyMap.get(SURVEY_COMPLETE_FLOW);
+            case HANDLE_CORRECTION_FLOW:
+                return strategyMap.get(HANDLE_CORRECTION_COMPLETE_FLOW);
         }
         return null;
     }

@@ -10,6 +10,7 @@ import com.correction.backend.modules.file.controller.dto.FilePathDTO;
 import com.correction.backend.modules.file.service.FileResouceService;
 import com.correction.backend.modules.survey.constant.SurveyConstant;
 import com.correction.backend.modules.survey.controller.dto.SurveyDocumentsFilesDTO;
+import com.correction.backend.modules.survey.controller.dto.SurveyDocumentsFilesListQuery;
 import com.correction.backend.modules.survey.controller.dto.SurveyDocumentsFilesQuery;
 import com.correction.backend.modules.survey.service.SurveyDocumentsFilesService;
 import com.correction.backend.modules.survey.entity.SurveyDocumentsFiles;
@@ -95,6 +96,11 @@ public class SurveyDocumentsFilesServiceImpl extends ServiceImpl<SurveyDocuments
         IPage<SurveyDocumentsFilesDTO> mpPage = MyBatisUtils.buildPage(query);
         mpPage = baseMapper.getPageList(mpPage, query);
         return new PageResult<>(mpPage.getRecords(), mpPage.getTotal());
+    }
+
+    @Override
+    public List<SurveyDocumentsFilesDTO> getSurveyDocumentList(SurveyDocumentsFilesListQuery query) {
+        return baseMapper.getListInfo(query);
     }
 
     @Override

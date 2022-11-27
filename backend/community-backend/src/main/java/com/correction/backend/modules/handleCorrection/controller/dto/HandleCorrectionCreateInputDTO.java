@@ -21,6 +21,8 @@ public class HandleCorrectionCreateInputDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private Long id;
+
     @ApiModelProperty(value = "委托类型")
     private Integer entrustType;
 
@@ -128,5 +130,12 @@ public class HandleCorrectionCreateInputDTO implements Serializable {
 
     @ApiModelProperty(value = "是否删除")
     private Boolean deleted;
+
+    /**
+     * 矫正机关
+     */
+    private String jurisdictionOffice;
+
+    private Long  jurisdictionOfficeId;
 
 }

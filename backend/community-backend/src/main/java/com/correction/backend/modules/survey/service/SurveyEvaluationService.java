@@ -28,6 +28,8 @@ public interface SurveyEvaluationService extends IService<SurveyEvaluation> {
      */
     SurveyEvaluation updateSurveyEvaluation (SurveyEvaluationUpdateInputDTO reqDTO);
 
+    SurveyEvaluation updateSurveyEvaluation (SurveyEvaluation surveyEvaluation);
+
     /**
      * 获取详情
      */

@@ -42,7 +42,22 @@ public class HandleCorrectionListDTO implements Serializable {
     @ApiModelProperty(value = "taskId")
     private String taskId;
 
+    @ApiModelProperty(value = "progress")
+    private Integer progress;
 
+    @ApiModelProperty(value = "applyStatus")
+    private Integer applyStatus;
 
+    @ApiModelProperty(value = "flowStatus")
+    private Integer flowStatus;
+
+    /**
+     * 矫正机关
+     */
+    @ApiModelProperty(value = "jurisdictionOffice")
+    private String jurisdictionOffice;
+
+    @ApiModelProperty(value = "jurisdictionOfficeId")
+    private Long  jurisdictionOfficeId;
 
 }

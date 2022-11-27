@@ -71,8 +71,19 @@
     <select id="getPageListFlow"
             resultType="com.correction.backend.modules.survey.controller.dto.SurveyEvaluationListDTO">
         select se.*,art.ASSIGNEE_ as nextUser,art.ID_ as taskId from survey_evaluation se left join act_ru_task art  on se.process_instance_id = art.PROC_INST_ID_
-        where ( se.apply_user = 1  or se.process_instance_id in (select PROC_INST_ID_ from ACT_HI_TASKINST where ASSIGNEE_ = 1) )
-        and se.deleted = 0
+        where se.deleted = 0
+        <if test="query.flowStatus == null">
+           and  ( se.apply_user = #{query.applyUser}  or se.process_instance_id in (select PROC_INST_ID_ from ACT_HI_TASKINST where ASSIGNEE_ = 1) )
+        </if>
+        <if test="query.flowStatus == 0">
+            and art.ASSIGNEE_ = #{applyUser}
+        </if>
+        <if test="query.flowStatus == 1">
+            and se.process_instance_id in (select PROC_INST_ID_ from ACT_HI_TASKINST where ASSIGNEE_ = 1)
+        </if>
+        <if test="query.flowStatus == 2">
+            and se.apply_status in (-1 ,7)
+        </if>
         <if test="query.name!=null">
             and se.name like concat('%',#{query.name},'%')
         </if>

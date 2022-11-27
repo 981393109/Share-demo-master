@@ -214,7 +214,7 @@ public class SurveyEvaluation extends BaseDO {
     /**
      * 最后意见
      */
-    private String assessmentLastOpinion;
+    private Integer assessmentLastOpinion;
 
     /**
      * 当前操作人

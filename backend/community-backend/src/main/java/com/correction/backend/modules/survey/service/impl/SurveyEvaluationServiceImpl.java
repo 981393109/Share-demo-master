@@ -16,11 +16,13 @@ import com.correction.framework.web.web.LoginUser;
 import com.correction.framework.web.web.core.util.WebFrameworkUtils;
 import com.correction.frameworks.mybatis.mybatis.core.util.MyBatisUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.correction.backend.modules.sys.enums.SysErrorCodeConstants.SURVEY_FLOW_STATUS_EDIT;
@@ -64,9 +66,19 @@ public class SurveyEvaluationServiceImpl extends ServiceImpl<SurveyEvaluationMap
     public SurveyEvaluation updateSurveyEvaluation(SurveyEvaluationUpdateInputDTO reqDTO) {
         this.checkCreateOrUpdate(reqDTO.getId(),reqDTO.getName(),reqDTO.getApplyStatus());
         SurveyEvaluation surveyEvaluation = MSurveyEvaluationConvert.INSTANCE.toSurveyEvaluation(reqDTO);
+        if ("2".equals(surveyEvaluation.getAssessmentLastOpinion()) && StringUtils.isBlank(surveyEvaluation.getReceptionDate())){
+            surveyEvaluation.setReceptionDate(LocalDateTime.now().toString());
+        }
         //surveyEvaluation.setApplyStatus(SurveyConstant.FLOW_STATUS_0);
         baseMapper.updateById(surveyEvaluation);
         return surveyEvaluation;
+    }
+
+    @Override
+    public SurveyEvaluation updateSurveyEvaluation(SurveyEvaluation surveyEvaluation) {
+        updateById(surveyEvaluation);
+        SurveyEvaluation surveyEvaluation1 = baseMapper.selectById(surveyEvaluation.getId());
+        return surveyEvaluation1;
     }
 
     @Override
@@ -99,6 +111,7 @@ public class SurveyEvaluationServiceImpl extends ServiceImpl<SurveyEvaluationMap
     @Override
     public IPage<SurveyEvaluationListDTO> getPageListFlow(SurveyEvaluationSearchInputDTO reqVO) {
         IPage<SurveyEvaluationListDTO> mpPage = MyBatisUtils.buildPage(reqVO);
+        reqVO.setApplyUser(WebFrameworkUtils.getLoginUserId());
         mpPage = baseMapper.getPageListFlow(mpPage, reqVO);
         return mpPage;
     }

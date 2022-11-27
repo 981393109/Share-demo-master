@@ -59,7 +59,9 @@ public class SurveyConstant {
     public static final Integer DICT_TYPE_informationCollection = 7; //信息采集
     public static final Integer DICT_TYPE_reporting = 8; //报备手续材料
     public static final Integer DICT_TYPE_letterNotice = 9; //告知书
-    public static final Integer DICT_TYPE_materials = 10; //报备手续材料
+    public static final Integer DICT_TYPE_group = 10; //矫正小组
+    public static final Integer DICT_TYPE_ways = 11; //矫正方案
+    public static final Integer DICT_TYPE_say = 12; //矫正宣告书
 
 
 

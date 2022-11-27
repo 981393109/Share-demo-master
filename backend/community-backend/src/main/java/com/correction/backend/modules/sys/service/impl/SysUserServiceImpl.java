@@ -169,7 +169,7 @@ public class SysUserServiceImpl implements SysUserService {
         }
         // 如果 id 为空，说明不用比较是否为相同 id 的用户
         if (id == null) {
-            throw exception(USER_USERNAME_EXISTS);
+           return;
         }
         if (!userDO.getId().equals(id)) {
             throw exception(USER_USERNAME_EXISTS);

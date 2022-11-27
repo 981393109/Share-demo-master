@@ -40,6 +40,14 @@ public class HandleCorrection extends BaseDO {
     private String entrustUnit;
 
     /**
+     * 矫正机关
+     */
+    private String jurisdictionOffice;
+
+    private Long  jurisdictionOfficeId;
+
+
+    /**
      * 姓名
      */
     private String name;

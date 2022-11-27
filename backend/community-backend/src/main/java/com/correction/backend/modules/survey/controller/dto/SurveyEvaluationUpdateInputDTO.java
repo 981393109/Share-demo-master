@@ -136,7 +136,7 @@ public class SurveyEvaluationUpdateInputDTO implements Serializable {
     private String assessmentFileSurvey;
 
     @ApiModelProperty(value = "最后意见")
-    private String assessmentLastOpinion;
+    private Integer assessmentLastOpinion;
 
     @ApiModelProperty(value = "当前操作人")
     private String assessmentUser;

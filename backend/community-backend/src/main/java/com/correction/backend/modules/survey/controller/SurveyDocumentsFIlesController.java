@@ -87,8 +87,8 @@ public class SurveyDocumentsFIlesController {
     }
 
     @GetMapping("/getPageList")
-    @ApiOperation("获取文书列表信息")
-    public CommonResult<PageResult<SurveyDocumentsFilesDTO>> getUserPage(@Valid SurveyDocumentsFilesQuery reqVO) {
+    @ApiOperation("获取文书列表信息(分页)")
+    public CommonResult<PageResult<SurveyDocumentsFilesDTO>> getSurveyDocumentPage(@Valid SurveyDocumentsFilesQuery reqVO) {
         // 获得用户分页列表
         PageResult<SurveyDocumentsFilesDTO> pageResult = surveyDocumentsFilesService.getSurveyDocumentPage(reqVO);
         if (CollUtil.isEmpty(pageResult.getList())) {
@@ -97,8 +97,18 @@ public class SurveyDocumentsFIlesController {
         return success(pageResult);
     }
 
+    @GetMapping("/getList")
+    @ApiOperation("获取文书列表信息")
+    public CommonResult<List<SurveyDocumentsFilesDTO>> getSurveyDocumentList(@Valid SurveyDocumentsFilesListQuery reqVO) {
+        // 获得用户分页列表
+        List<SurveyDocumentsFilesDTO> surveyDocumentList = surveyDocumentsFilesService.getSurveyDocumentList(reqVO);
+        return success(surveyDocumentList);
+    }
+
+
+
     @GetMapping("/getType")
-    @ApiOperation("获取文档用途类型(委托检查材料：2; 调查实施材料：3; 审核评估 :4;  5:文书补充,6:人员报到,7:信息采集,8:报备手续材料,9:告知书,10:报备手续材料)")
+    @ApiOperation("获取文档用途类型(2:委托检查材料; 3:调查实施材料;4:审核评估;  5:文书补充,6:人员报到,7:信息采集,8:报备手续材料,9:告知书,10:矫正小组,11:矫正方案;12:矫正宣言)")
     public CommonResult<List<DictOutDTO>> getType(@RequestParam("type") Integer type) {
         // 获得用户分页列表
         List<Dict> list = dictService.selectDictByType(type);

@@ -89,4 +89,10 @@ public class FlowConstant {
      */
     public static final String SURVEY_COMPLETE_FLOW = "SURVEY_COMPLETE_FLOW";
     public static final String HANDLE_CORRECTION_COMPLETE_FLOW = "HANDLE_CORRECTION_COMPLETE_FLOW";
+
+
+    /**
+     * 制作文书类
+     */
+    public static final String DOCUMENT_MAKING_CORRECTION = "DOCUMENT_MAKING_CORRECTION";
 }

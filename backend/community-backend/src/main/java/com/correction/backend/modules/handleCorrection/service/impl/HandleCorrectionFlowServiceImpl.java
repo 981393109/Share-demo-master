@@ -5,6 +5,7 @@ import com.correction.backend.modules.flow.controller.dto.FlowNodeUserCreateInpu
 import com.correction.backend.modules.flow.convert.MFlowNodeUserConvert;
 import com.correction.backend.modules.flow.entity.FlowNodeUser;
 import com.correction.backend.modules.flow.mapper.FlowNodeUserMapper;
+import com.correction.backend.modules.handleCorrection.controller.dto.HandleCorrectionCreateInputDTO;
 import com.correction.backend.modules.handleCorrection.controller.dto.HandleCorrectionFlowDTO;
 import com.correction.backend.modules.handleCorrection.controller.dto.HandleCorrectionFlowListDTO;
 import com.correction.backend.modules.handleCorrection.controller.dto.HandleCorrectionUpdateInputDTO;
@@ -55,9 +56,14 @@ public class HandleCorrectionFlowServiceImpl implements HandleCorrectionFlowServ
     @Override
     public ActProcessInstance startFlow(HandleCorrectionFlowListDTO reqDTO) throws Exception {
         checkData(reqDTO);
-        HandleCorrectionUpdateInputDTO detail = reqDTO.getDetail();
+        HandleCorrectionCreateInputDTO detail = reqDTO.getDetail();
         List<FlowNodeUserCreateInputDTO> flowInfo = reqDTO.getFlowInfo();
         HandleCorrection handleCorrection = MHandleCorrectionConvert.INSTANCE.toHandleCorrection(detail);
+        if(handleCorrection.getId() == null){
+            handleCorrection = handleCorrectionService.createHandleCorrection(detail);
+        } else {
+            handleCorrection = handleCorrectionService.updateHandleCorrection(handleCorrection);
+        }
         //保存流程节点与用户的关联关系：
         handleCorrection.setRef(String.valueOf(System.currentTimeMillis()));
         assmberUserNode(flowInfo,handleCorrection);
@@ -65,9 +71,9 @@ public class HandleCorrectionFlowServiceImpl implements HandleCorrectionFlowServ
         LoginUser loginUser = WebFrameworkUtils.getLoginUser();
         Flow surveyFlow = FlowFactory.getByFlows(FlowConstant.HANDLE_CORRECTION_FLOW);
         ActProcessInstance actProcessInstance = surveyFlow.startFlow(FlowStartDTO.builder().userId(loginUser.getId()).flowType(FlowConstant.HANDLE_CORRECTION_FLOW).dataId(handleCorrection.getId()).ref(handleCorrection.getRef()).progress(String.valueOf(handleCorrection.getProgress())).build());
+        handleCorrection.setProgress(SurveyConstant.PROGRESS_2);
+        handleCorrection.setApplyStatus(SurveyConstant.FLOW_STATUS_2);
         handleCorrection.setApplyTime(LocalDateTime.now().toString());
-        handleCorrection.setProgress(SurveyConstant.PROGRESS_1);
-        handleCorrection.setApplyStatus(SurveyConstant.FLOW_STATUS_1);
         handleCorrection.setApplyUser(loginUser.getId());
         handleCorrection.setApplyName(loginUser.getUsername());
         handleCorrection.setProcessInstanceId(actProcessInstance.getProcessInstanceId());

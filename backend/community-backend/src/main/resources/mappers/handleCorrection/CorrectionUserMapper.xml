@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.correction.backend.modules.handleCorrection.mapper.CorrectionUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.correction.backend.modules.handleCorrection.entity.CorrectionUser">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="sex" property="sex" />
+        <result column="birthday" property="birthday" />
+        <result column="household" property="household" />
+        <result column="native_place" property="nativePlace" />
+        <result column="address" property="address" />
+        <result column="mobile" property="mobile" />
+        <result column="marital_status" property="maritalStatus" />
+        <result column="professional" property="professional" />
+        <result column="economy_state" property="economyState" />
+        <result column="area_jurisdiction" property="areaJurisdiction" />
+        <result column="street_jurisdiction" property="streetJurisdiction" />
+        <result column="cause_action" property="causeAction" />
+        <result column="handle_correction_id" property="handleCorrectionId" />
+        <result column="org_num" property="orgNum" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="creator" property="creator" />
+        <result column="updater" property="updater" />
+        <result column="deleted" property="deleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, sex, birthday, household, native_place, address, mobile, marital_status, professional, economy_state, area_jurisdiction, street_jurisdiction, cause_action, handle_correction_id, org_num, create_time, update_time, creator, updater, deleted
+    </sql>
+
+    <!-- 通用查询结果列 别名 -->
+    <sql id="Base_Column_List_Alias">
+        correctionUser.id,correctionUser.name,correctionUser.sex,correctionUser.birthday,correctionUser.household,correctionUser.native_place AS nativePlace,correctionUser.address,correctionUser.mobile,correctionUser.marital_status AS maritalStatus,correctionUser.professional,correctionUser.economy_state AS economyState,correctionUser.area_jurisdiction AS areaJurisdiction,correctionUser.street_jurisdiction AS streetJurisdiction,correctionUser.cause_action AS causeAction,correctionUser.handle_correction_id AS handleCorrectionId,correctionUser.org_num AS orgNum,correctionUser.create_time AS createTime,correctionUser.update_time AS updateTime,correctionUser.creator,correctionUser.updater,correctionUser.deleted
+    </sql>
+</mapper>

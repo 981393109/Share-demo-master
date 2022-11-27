@@ -32,13 +32,13 @@
     <select id="getPageList"
             resultType="com.correction.backend.modules.survey.controller.dto.SurveyDocumentsFilesDTO">
         select sd.dict_type ,sd.dict_value,sd.dict_name as dict_name , sdf.file_name ,sdf.file_url,sdf.file_status,sdf.data_id,sdf.id
-        from sys_dict sd LEFT JOIN survey_documents_files sdf on sd.dict_value = sdf.dict_value
+        from sys_dict sd LEFT JOIN (select * from survey_documents_files where deleted = 0)  sdf on sd.dict_value = sdf.dict_value
         where sd.dict_type = #{query.dictType} and (sdf.data_id = #{query.dataId} or sdf.data_id is null)
     </select>
     <select id="getList"
             resultType="com.correction.backend.modules.survey.controller.dto.SurveyDocumentsFilesDTO">
         select sd.dict_type ,sd.dict_value,sd.dict_name as dict_name , sdf.file_name ,sdf.file_url,sdf.file_status,sdf.data_id,sdf.id
-        from sys_dict sd LEFT JOIN survey_documents_files sdf on sd.dict_value = sdf.dict_value
+        from sys_dict sd LEFT JOIN (select * from survey_documents_files where deleted = 0)  sdf on sd.dict_value = sdf.dict_value
         where sd.dict_type = #{query.dictType} and (sdf.data_id = #{query.dataId} or sdf.data_id is null)
     </select>
     <select id="getAllFilePage"
@@ -51,6 +51,12 @@
               </foreach>
         and sdf.data_id = #{query.dataId}
         order by sd.dict_type desc
+    </select>
+    <select id="getListInfo"
+            resultType="com.correction.backend.modules.survey.controller.dto.SurveyDocumentsFilesDTO">
+        select sd.dict_type ,sd.dict_value,sd.dict_name as dict_name , sdf.file_name ,sdf.file_url,sdf.file_status,sdf.data_id,sdf.id
+        from sys_dict sd LEFT JOIN (select * from survey_documents_files where deleted = 0)  sdf on sd.dict_value = sdf.dict_value
+        where sd.dict_type = #{query.dictType} and (sdf.data_id = #{query.dataId} or sdf.data_id is null)
     </select>
 
 </mapper>

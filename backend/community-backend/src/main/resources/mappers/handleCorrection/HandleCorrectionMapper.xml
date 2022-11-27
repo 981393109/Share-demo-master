@@ -54,9 +54,10 @@
     </sql>
     <select id="getPageListFlow"
             resultType="com.correction.backend.modules.handleCorrection.controller.dto.HandleCorrectionListDTO">
-        select se.*,art.ASSIGNEE_ as nextUser,art.ID_ as taskId from handle_correction se left join act_ru_task art  on se.process_instance_id = art.PROC_INST_ID_
-        where ( se.apply_user = 1  or se.process_instance_id in (select PROC_INST_ID_ from ACT_HI_TASKINST where ASSIGNEE_ = 1) )
-        and se.deleted = 0
+        select se.*,art.ASSIGNEE_ as nextUser,art.ID_ as taskId,
+        if(se.apply_status = -1 or se.apply_status = 11, 2 , if (art.ASSIGNEE_=#{query.applyUser} or art.ASSIGNEE_ is null, 0 , 2 )) as flowStatus
+        from handle_correction se left join act_ru_task art  on se.process_instance_id = art.PROC_INST_ID_
+        where se.deleted = 0
         <if test="query.name!=null">
             and se.name like concat('%',#{query.name},'%')
         </if>
@@ -65,6 +66,18 @@
         </if>
         <if test="query.applyStatus!=null">
             and se.apply_status = #{query.applyStatus}
+        </if>
+        <if test="query.flowStatus == null">
+            and  ( se.apply_user is null or se.apply_user = #{query.applyUser}  or se.process_instance_id in (select PROC_INST_ID_ from ACT_HI_TASKINST where ASSIGNEE_ = 1) )
+        </if>
+        <if test="query.flowStatus == 0">
+            and art.ASSIGNEE_ = #{applyUser}
+        </if>
+        <if test="query.flowStatus == 1">
+            and se.process_instance_id in (select PROC_INST_ID_ from ACT_HI_TASKINST where ASSIGNEE_ = 1)
+        </if>
+        <if test="query.flowStatus == 2">
+            and se.apply_status in (-1 ,11)
         </if>
         order by se.id desc
     </select>

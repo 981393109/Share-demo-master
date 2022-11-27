@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.correction.backend.modules.handleCorrection.mapper.CorrectionWaysMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.correction.backend.modules.handleCorrection.entity.CorrectionWays">
+        <id column="id" property="id" />
+        <result column="correction_unit" property="correctionUnit" />
+        <result column="sentence_user" property="sentenceUser" />
+        <result column="sentence_user_id" property="sentenceUserId" />
+        <result column="ways_date" property="waysDate" />
+        <result column="analysis_situation" property="analysisSituation" />
+        <result column="correction_opinion" property="correctionOpinion" />
+        <result column="remark" property="remark" />
+        <result column="handle_correction_id" property="handleCorrectionId" />
+        <result column="org_num" property="orgNum" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="creator" property="creator" />
+        <result column="updater" property="updater" />
+        <result column="deleted" property="deleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, correction_unit, sentence_user, sentence_user_id, ways_date, analysis_situation, correction_opinion, remark, handle_correction_id, org_num, create_time, update_time, creator, updater, deleted
+    </sql>
+
+    <!-- 通用查询结果列 别名 -->
+    <sql id="Base_Column_List_Alias">
+        correctionWays.id,correctionWays.correction_unit AS correctionUnit,correctionWays.sentence_user AS sentenceUser,correctionWays.sentence_user_id AS sentenceUserId,correctionWays.ways_date AS waysDate,correctionWays.analysis_situation AS analysisSituation,correctionWays.correction_opinion AS correctionOpinion,correctionWays.remark,correctionWays.handle_correction_id AS handleCorrectionId,correctionWays.org_num AS orgNum,correctionWays.create_time AS createTime,correctionWays.update_time AS updateTime,correctionWays.creator,correctionWays.updater,correctionWays.deleted
+    </sql>
+</mapper>
