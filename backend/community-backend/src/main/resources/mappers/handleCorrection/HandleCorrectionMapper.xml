@@ -68,13 +68,13 @@
             and se.apply_status = #{query.applyStatus}
         </if>
         <if test="query.flowStatus == null">
-            and  ( se.apply_user is null or se.apply_user = #{query.applyUser}  or se.process_instance_id in (select PROC_INST_ID_ from ACT_HI_TASKINST where ASSIGNEE_ = 1) )
+            and  ( se.apply_user is null or se.apply_user = #{query.applyUser}  or se.process_instance_id in (select PROC_INST_ID_ from ACT_HI_TASKINST where ASSIGNEE_ = #{query.applyUser}) )
         </if>
         <if test="query.flowStatus == 0">
             and art.ASSIGNEE_ = #{applyUser}
         </if>
         <if test="query.flowStatus == 1">
-            and se.process_instance_id in (select PROC_INST_ID_ from ACT_HI_TASKINST where ASSIGNEE_ = 1)
+            and se.process_instance_id in (select PROC_INST_ID_ from ACT_HI_TASKINST where ASSIGNEE_ = #{query.applyUser})
         </if>
         <if test="query.flowStatus == 2">
             and se.apply_status in (-1 ,11)

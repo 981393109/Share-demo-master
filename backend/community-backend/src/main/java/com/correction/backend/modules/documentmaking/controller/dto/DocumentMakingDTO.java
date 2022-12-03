@@ -13,7 +13,7 @@ public class DocumentMakingDTO implements Serializable {
     @ApiModelProperty(value = "数据id")
     private Long dataId;
 
-    @ApiModelProperty(value = "制作类型 办理矫正文书：DOCUMENT_MAKING_CORRECTION  ")
+    @ApiModelProperty(value = "制作类型 办理矫正文书：HANDLE_CORRECTION_FLOW  ")
     private String dataType;
 
 }

@@ -27,10 +27,13 @@ import com.correction.backend.modules.survey.controller.dto.SurveyEvaluationList
 import com.correction.backend.modules.survey.convert.MSurveyEvaluationConvert;
 import com.correction.backend.modules.survey.entity.SurveyEvaluation;
 import com.correction.backend.modules.survey.service.SurveyDocumentsFilesService;
+import com.correction.backend.modules.sys.entity.SysUserDO;
+import com.correction.backend.modules.sys.mapper.SysUserMapper;
 import com.correction.framework.common.pojo.PageResult;
 import com.correction.framework.web.web.core.util.WebFrameworkUtils;
 import com.correction.frameworks.mybatis.mybatis.core.util.MyBatisUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -59,6 +62,9 @@ public class HandleCorrectionServiceImpl extends ServiceImpl<HandleCorrectionMap
     @Resource
     CorrectionWaysService correctionWaysService;
 
+    @Resource
+    SysUserMapper sysUserMapper;
+
 
     @Override
     public HandleCorrection createHandleCorrection(HandleCorrectionCreateInputDTO correctionCreateInputDTO) {
@@ -76,6 +82,7 @@ public class HandleCorrectionServiceImpl extends ServiceImpl<HandleCorrectionMap
     public HandleCorrection updateHandleCorrection(HandleCorrectionUpdateInputDTO correctionUpdateInputDTO) {
         HandleCorrection handleCorrection = MHandleCorrectionConvert.INSTANCE.toHandleCorrection(correctionUpdateInputDTO);
         baseMapper.updateById(handleCorrection);
+        handleCorrection = baseMapper.selectById(handleCorrection.getId());
         return handleCorrection;
     }
 
@@ -155,6 +162,20 @@ public class HandleCorrectionServiceImpl extends ServiceImpl<HandleCorrectionMap
         IPage<HandleCorrectionListDTO> mpPage = MyBatisUtils.buildPage(searchInputDTO);
         searchInputDTO.setApplyUser(WebFrameworkUtils.getLoginUserId());
         mpPage = baseMapper.getPageListFlow(mpPage, searchInputDTO);
+        List<HandleCorrectionListDTO> records = mpPage.getRecords();
+        if(!CollectionUtils.isEmpty(records)) {
+            for (HandleCorrectionListDTO record : records) {
+                if(record.getNextUser()!=null){
+                    SysUserDO userDO = sysUserMapper.selectById(Long.parseLong(record.getNextUser()));
+                    record.setNextUserName(userDO.getUserName());
+                } else {
+                    if(SurveyConstant.FLOW_STATUS_0.equals(record.getApplyStatus())){
+                        record.setNextUser(String.valueOf(record.getApplyUser()));
+                        record.setNextUserName(sysUserMapper.selectById(record.getApplyUser()).getUserName());
+                    }
+                }
+            }
+        }
         return mpPage;
     }
 }

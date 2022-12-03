@@ -2,6 +2,10 @@ package com.correction.backend.modules.survey.service.impl;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.correction.backend.modules.flow.constant.FlowConstant;
+import com.correction.backend.modules.flow.controller.dto.FlowOrgRoleDTO;
+import com.correction.backend.modules.flow.service.FlowUserService;
 import com.correction.backend.modules.survey.constant.SurveyConstant;
 import com.correction.backend.modules.survey.controller.dto.*;
 import com.correction.backend.modules.survey.convert.MSurveyEvaluationConvert;
@@ -11,6 +15,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.correction.backend.modules.survey.service.SurveyDocumentsFilesService;
 import com.correction.backend.modules.survey.service.SurveyEvaluationService;
 import com.correction.backend.modules.sys.constant.SysConstant;
+import com.correction.backend.modules.sys.entity.OrgDO;
+import com.correction.backend.modules.sys.entity.SysUserDO;
+import com.correction.backend.modules.sys.mapper.OrgMapper;
+import com.correction.backend.modules.sys.mapper.SysUserMapper;
+import com.correction.backend.modules.sys.service.OrgService;
 import com.correction.framework.common.pojo.PageResult;
 import com.correction.framework.web.web.LoginUser;
 import com.correction.framework.web.web.core.util.WebFrameworkUtils;
@@ -18,11 +27,13 @@ import com.correction.frameworks.mybatis.mybatis.core.util.MyBatisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.correction.backend.modules.sys.enums.SysErrorCodeConstants.SURVEY_FLOW_STATUS_EDIT;
@@ -43,6 +54,15 @@ public class SurveyEvaluationServiceImpl extends ServiceImpl<SurveyEvaluationMap
 
     @Resource
     private SurveyDocumentsFilesService surveyDocumentsFilesService;
+
+    @Resource
+    private SysUserMapper sysUserMapper;
+
+    @Resource
+    private FlowUserService flowUserService;
+
+    @Resource
+    private OrgMapper orgMapper;
 
 
     @Override
@@ -66,11 +86,12 @@ public class SurveyEvaluationServiceImpl extends ServiceImpl<SurveyEvaluationMap
     public SurveyEvaluation updateSurveyEvaluation(SurveyEvaluationUpdateInputDTO reqDTO) {
         this.checkCreateOrUpdate(reqDTO.getId(),reqDTO.getName(),reqDTO.getApplyStatus());
         SurveyEvaluation surveyEvaluation = MSurveyEvaluationConvert.INSTANCE.toSurveyEvaluation(reqDTO);
-        if ("2".equals(surveyEvaluation.getAssessmentLastOpinion()) && StringUtils.isBlank(surveyEvaluation.getReceptionDate())){
+        if (2 == surveyEvaluation.getAssessmentLastOpinion() && StringUtils.isBlank(surveyEvaluation.getReceptionDate())){
             surveyEvaluation.setReceptionDate(LocalDateTime.now().toString());
         }
         //surveyEvaluation.setApplyStatus(SurveyConstant.FLOW_STATUS_0);
         baseMapper.updateById(surveyEvaluation);
+        surveyEvaluation = baseMapper.selectById(surveyEvaluation.getId());
         return surveyEvaluation;
     }
 
@@ -113,7 +134,29 @@ public class SurveyEvaluationServiceImpl extends ServiceImpl<SurveyEvaluationMap
         IPage<SurveyEvaluationListDTO> mpPage = MyBatisUtils.buildPage(reqVO);
         reqVO.setApplyUser(WebFrameworkUtils.getLoginUserId());
         mpPage = baseMapper.getPageListFlow(mpPage, reqVO);
+        List<SurveyEvaluationListDTO> records = mpPage.getRecords();
+        if(!CollectionUtils.isEmpty(records)) {
+            for (SurveyEvaluationListDTO record : records) {
+                if(record.getNextUser()!=null) {
+                    SysUserDO userDO = sysUserMapper.selectById(Long.parseLong(record.getNextUser()));
+                    record.setNextUserName(userDO.getUserName());
+                } else {
+                    if(SurveyConstant.FLOW_STATUS_0.equals(record.getApplyStatus())){
+                        record.setNextUser(String.valueOf(record.getApplyUser()));
+                        record.setNextUserName(sysUserMapper.selectById(record.getApplyUser()).getUserName());
+                    }
+                }
+            }
+        }
         return mpPage;
+    }
+
+    @Override
+    public List<FlowOrgRoleDTO> getOrgRoleInfoList() {
+        //获取所有0级 1级组织
+        List<OrgDO> list = orgMapper.selectList(Wrappers.<OrgDO>lambdaQuery().in(OrgDO::getOrgType, Arrays.asList(SysConstant.ORG_0, SysConstant.ORG_1)).eq(OrgDO::getDeleted, 0));
+        List<FlowOrgRoleDTO> orgRoleInfo = flowUserService.getOrgRoleInfo(list);
+        return orgRoleInfo;
     }
 
 

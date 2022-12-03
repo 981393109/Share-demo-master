@@ -14,5 +14,5 @@ public class CorrectionWaysGroupOutDTO {
     CorrectionWaysListOutputDTO correctionWays;
 
     @ApiModelProperty(value = "矫正小组id集合")
-    List<Long> correctionUsers;
+    List<Long> correctionGroupId;
 }

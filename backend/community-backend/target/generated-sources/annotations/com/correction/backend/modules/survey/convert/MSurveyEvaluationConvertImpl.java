@@ -12,7 +12,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-11-27T12:07:08+0800",
+    date = "2022-12-03T15:42:13+0800",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 1.8.0_211 (Oracle Corporation)"
 )
 public class MSurveyEvaluationConvertImpl implements MSurveyEvaluationConvert {
@@ -217,6 +217,9 @@ public class MSurveyEvaluationConvertImpl implements MSurveyEvaluationConvert {
         surveyEvaluation.setOrgNum( surveyEvaluationUpdateInputDTO.getOrgNum() );
         surveyEvaluation.setOpinion( surveyEvaluationUpdateInputDTO.getOpinion() );
         surveyEvaluation.setReceptionDate( surveyEvaluationUpdateInputDTO.getReceptionDate() );
+        surveyEvaluation.setHandleCorrectionUserId( surveyEvaluationUpdateInputDTO.getHandleCorrectionUserId() );
+        surveyEvaluation.setHandleCorrectionOrgId( surveyEvaluationUpdateInputDTO.getHandleCorrectionOrgId() );
+        surveyEvaluation.setHandleCorrectionRoleId( surveyEvaluationUpdateInputDTO.getHandleCorrectionRoleId() );
 
         return surveyEvaluation;
     }
@@ -288,6 +291,9 @@ public class MSurveyEvaluationConvertImpl implements MSurveyEvaluationConvert {
         surveyEvaluationListOutputDTO.setReceptionDate( surveyEvaluation.getReceptionDate() );
         surveyEvaluationListOutputDTO.setRef( surveyEvaluation.getRef() );
         surveyEvaluationListOutputDTO.setProcessInstanceId( surveyEvaluation.getProcessInstanceId() );
+        surveyEvaluationListOutputDTO.setHandleCorrectionUserId( surveyEvaluation.getHandleCorrectionUserId() );
+        surveyEvaluationListOutputDTO.setHandleCorrectionOrgId( surveyEvaluation.getHandleCorrectionOrgId() );
+        surveyEvaluationListOutputDTO.setHandleCorrectionRoleId( surveyEvaluation.getHandleCorrectionRoleId() );
 
         return surveyEvaluationListOutputDTO;
     }
@@ -306,10 +312,12 @@ public class MSurveyEvaluationConvertImpl implements MSurveyEvaluationConvert {
         surveyEvaluationListDTO.setAreaJurisdiction( surveyEvaluation.getAreaJurisdiction() );
         surveyEvaluationListDTO.setName( surveyEvaluation.getName() );
         surveyEvaluationListDTO.setEntrustDate( surveyEvaluation.getEntrustDate() );
-        surveyEvaluationListDTO.setOpinion( surveyEvaluation.getOpinion() );
+        surveyEvaluationListDTO.setAssessmentLastOpinion( surveyEvaluation.getAssessmentLastOpinion() );
         surveyEvaluationListDTO.setReceptionDate( surveyEvaluation.getReceptionDate() );
         surveyEvaluationListDTO.setProgress( surveyEvaluation.getProgress() );
         surveyEvaluationListDTO.setApplyStatus( surveyEvaluation.getApplyStatus() );
+        surveyEvaluationListDTO.setApplyUser( surveyEvaluation.getApplyUser() );
+        surveyEvaluationListDTO.setJurisdictionOffice( surveyEvaluation.getJurisdictionOffice() );
 
         return surveyEvaluationListDTO;
     }

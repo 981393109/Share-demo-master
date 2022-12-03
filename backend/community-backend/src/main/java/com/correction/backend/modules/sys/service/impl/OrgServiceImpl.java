@@ -20,10 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.correction.backend.modules.sys.enums.SysErrorCodeConstants.*;
@@ -111,6 +108,16 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, OrgDO> implements Org
         result =  recursiveOrgList(result,id);
         Set<String> collect = result.stream().map(e -> e.getOrgCode()).collect(Collectors.toSet());
         return collect;
+    }
+
+    @Override
+    public Set<OrgDO> getTreeByUserOrgId(Long orgId) {
+        Set<OrgDO> orgSet = new HashSet<>();
+        List<OrgDO> orgParentList = getOrgParentList(orgId);
+        List<OrgDO> orgChildsList = getOrgChildsList(orgId);
+        orgSet.addAll(orgParentList);
+        orgSet.addAll(orgChildsList);
+        return orgSet;
     }
 
 

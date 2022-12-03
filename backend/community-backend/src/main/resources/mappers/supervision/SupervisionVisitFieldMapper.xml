@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.correction.backend.modules.supervision.mapper.SupervisionVisitFieldMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.correction.backend.modules.supervision.entity.SupervisionVisitField">
+        <id column="id" property="id" />
+        <result column="correction_unit" property="correctionUnit" />
+        <result column="correction_unit_id" property="correctionUnitId" />
+        <result column="user_name" property="userName" />
+        <result column="user_id" property="userId" />
+        <result column="visit_date" property="visitDate" />
+        <result column="visit_address" property="visitAddress" />
+        <result column="visit_purpose" property="visitPurpose" />
+        <result column="visit_opinion" property="visitOpinion" />
+        <result column="org_num" property="orgNum" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="creator" property="creator" />
+        <result column="updater" property="updater" />
+        <result column="deleted" property="deleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, correction_unit, correction_unit_id, user_name, user_id, visit_date, visit_address, visit_purpose, visit_opinion, org_num, create_time, update_time, creator, updater, deleted
+    </sql>
+
+    <!-- 通用查询结果列 别名 -->
+    <sql id="Base_Column_List_Alias">
+        supervisionVisitField.id,supervisionVisitField.correction_unit AS correctionUnit,supervisionVisitField.correction_unit_id AS correctionUnitId,supervisionVisitField.user_name AS userName,supervisionVisitField.user_id AS userId,supervisionVisitField.visit_date AS visitDate,supervisionVisitField.visit_address AS visitAddress,supervisionVisitField.visit_purpose AS visitPurpose,supervisionVisitField.visit_opinion AS visitOpinion,supervisionVisitField.org_num AS orgNum,supervisionVisitField.create_time AS createTime,supervisionVisitField.update_time AS updateTime,supervisionVisitField.creator,supervisionVisitField.updater,supervisionVisitField.deleted
+    </sql>
+</mapper>

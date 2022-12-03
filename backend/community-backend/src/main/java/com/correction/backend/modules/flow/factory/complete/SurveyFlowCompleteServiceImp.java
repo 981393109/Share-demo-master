@@ -63,6 +63,8 @@ public class SurveyFlowCompleteServiceImp implements FlowComplete{
         dto.setEntrustType(surveyEvaluation.getEntrustType());
         dto.setEntrustDate(surveyEvaluation.getEntrustDate());
         dto.setEntrustUnit(surveyEvaluation.getEntrustUnit());
+        dto.setApplyUser(surveyEvaluation.getHandleCorrectionUserId());
+        dto.setApplyTime(surveyEvaluation.getApplyTime());
         dto.setReceptionDate(surveyEvaluation.getReceptionDate());
         dto.setProgress(SurveyConstant.PROGRESS_0);
         dto.setApplyStatus(SurveyConstant.FLOW_STATUS_0);

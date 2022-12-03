@@ -11,7 +11,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-11-27T12:07:08+0800",
+    date = "2022-12-03T15:42:12+0800",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 1.8.0_211 (Oracle Corporation)"
 )
 public class MCorrectionUserConvertImpl implements MCorrectionUserConvert {
@@ -44,6 +44,7 @@ public class MCorrectionUserConvertImpl implements MCorrectionUserConvert {
         correctionUser.setCauseAction( correctionUserSearchInputDTO.getCauseAction() );
         correctionUser.setHandleCorrectionId( correctionUserSearchInputDTO.getHandleCorrectionId() );
         correctionUser.setOrgNum( correctionUserSearchInputDTO.getOrgNum() );
+        correctionUser.setIsHistory( correctionUserSearchInputDTO.getIsHistory() );
 
         return correctionUser;
     }

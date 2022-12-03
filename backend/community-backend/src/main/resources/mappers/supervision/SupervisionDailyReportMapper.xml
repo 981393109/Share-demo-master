@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.correction.backend.modules.supervision.mapper.SupervisionDailyReportMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.correction.backend.modules.supervision.entity.SupervisionDailyReport">
+        <id column="id" property="id" />
+        <result column="correction_unit" property="correctionUnit" />
+        <result column="correction_unit_id" property="correctionUnitId" />
+        <result column="registration_date" property="registrationDate" />
+        <result column="registration_way" property="registrationWay" />
+        <result column="benchmark_score" property="benchmarkScore" />
+        <result column="user_id" property="userId" />
+        <result column="user_name" property="userName" />
+        <result column="registration_view" property="registrationView" />
+        <result column="score" property="score" />
+        <result column="remark" property="remark" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="creator" property="creator" />
+        <result column="updater" property="updater" />
+        <result column="deleted" property="deleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, correction_unit, correction_unit_id, registration_date, registration_way, benchmark_score, user_id, user_name, registration_view, score, remark, create_time, update_time, creator, updater, deleted
+    </sql>
+
+    <!-- 通用查询结果列 别名 -->
+    <sql id="Base_Column_List_Alias">
+        supervisionDailyReport.id,supervisionDailyReport.correction_unit AS correctionUnit,supervisionDailyReport.correction_unit_id AS correctionUnitId,supervisionDailyReport.registration_date AS registrationDate,supervisionDailyReport.registration_way AS registrationWay,supervisionDailyReport.benchmark_score AS benchmarkScore,supervisionDailyReport.user_id AS userId,supervisionDailyReport.user_name AS userName,supervisionDailyReport.registration_view AS registrationView,supervisionDailyReport.score,supervisionDailyReport.remark,supervisionDailyReport.create_time AS createTime,supervisionDailyReport.update_time AS updateTime,supervisionDailyReport.creator,supervisionDailyReport.updater,supervisionDailyReport.deleted
+    </sql>
+</mapper>

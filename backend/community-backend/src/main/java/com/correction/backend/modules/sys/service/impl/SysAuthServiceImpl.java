@@ -1,6 +1,7 @@
 package com.correction.backend.modules.sys.service.impl;
 
 import cn.hutool.json.JSONObject;
+import com.correction.backend.modules.information.service.InformationMessageService;
 import com.correction.backend.modules.sys.controller.dto.auth.SysAuthLoginReqDTO;
 import com.correction.backend.modules.sys.controller.dto.logger.SysLoginLogCreateReqDTO;
 import com.correction.backend.modules.sys.convert.auth.SysAuthConvert;
@@ -66,6 +67,9 @@ public class SysAuthServiceImpl implements SysAuthService {
     @Resource
     private RoleMenuMapper roleMenuMapper;
 
+    @Resource
+    private InformationMessageService informationMessageService;
+
 
     @Override
     public String login(SysAuthLoginReqDTO reqVO, String userIp, String userAgent) {
@@ -90,10 +94,12 @@ public class SysAuthServiceImpl implements SysAuthService {
             menuCodes.addAll(collect);
             menuSet.addAll(menuByRoleId);
         }
+        Integer unReadCount = informationMessageService.getUnReadCount(user.getId());
         JSONObject result = new JSONObject();
         result.put("userInfo", SysUserConvert.INSTANCE.convertInfo(user));
         result.put("codes",menuCodes);
         result.put("menuTree", MMenuConvert.INSTANCE.buildMenuTree(menuSet));
+        result.put("unreadCount",unReadCount);
         return result;
     }
 

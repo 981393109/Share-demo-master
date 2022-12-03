@@ -35,7 +35,7 @@ public class DocumentMakeing {
     /**
      * 类型
      */
-    private Integer dataType;
+    private String  dataType;
 
     /**
      * 文件名称

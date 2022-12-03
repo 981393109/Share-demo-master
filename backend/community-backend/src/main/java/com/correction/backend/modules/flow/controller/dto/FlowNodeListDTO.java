@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class FlowNodeListDTO {
@@ -18,5 +20,8 @@ public class FlowNodeListDTO {
     /*流程id*/
     @ApiModelProperty(value = "流程id")
     private Long flowId;
+
+    @ApiModelProperty(value = "节点用户以及组")
+    private List<FlowOrgRoleDTO> nodeUserGroup;
 
 }

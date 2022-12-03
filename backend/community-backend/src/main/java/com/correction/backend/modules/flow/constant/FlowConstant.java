@@ -82,6 +82,9 @@ public class FlowConstant {
      */
     public static final String SURVEY_FLOW = "SURVEY_FLOW"; //调查评估
     public static final String HANDLE_CORRECTION_FLOW = "HANDLE_CORRECTION_FLOW"; //办理入矫
+    public static final String SUPERVISION_OUT_FLOW_ONE = "SUPERVISION_OUT_FLOW_ONE"; //外出审批1
+    public static final String SUPERVISION_OUT_FLOW_TWO = "SUPERVISION_OUT_FLOW_TWO"; //外出审批2
+    public static final String SUPERVISION_OUT_FLOW_THREE = "SUPERVISION_OUT_FLOW_THREE"; //外出审批3
 
     /**
      * 提交工程类
@@ -89,6 +92,9 @@ public class FlowConstant {
      */
     public static final String SURVEY_COMPLETE_FLOW = "SURVEY_COMPLETE_FLOW";
     public static final String HANDLE_CORRECTION_COMPLETE_FLOW = "HANDLE_CORRECTION_COMPLETE_FLOW";
+    public static final String SUPERVISION_OUT_ONE_COMPLETE_FLOW = "SUPERVISION_OUT_ONE_COMPLETE_FLOW";
+    public static final String SUPERVISION_OUT_TWO_COMPLETE_FLOW = "SUPERVISION_OUT_TWO_COMPLETE_FLOW";
+    public static final String SUPERVISION_OUT_THREE_COMPLETE_FLOW = "SUPERVISION_OUT_THREE_COMPLETE_FLOW";
 
 
     /**

@@ -213,12 +213,16 @@ public class ActTaskService implements ActFlowableTaskService {
             // 设置完成人
             taskService.setAssignee(task.getId(), userId);
         }
-        if (task != null && StrUtil.isNotBlank(task.getProcessInstanceId()) && StrUtil.isNotBlank(comment)) {
+        /*if (task != null && StrUtil.isNotBlank(task.getProcessInstanceId()) && StrUtil.isNotBlank(comment)) {
             // 保存意见
-
             taskService.addComment(task.getId(), task.getProcessInstanceId(), WorkFlowConstant.TASK_STATUS, String.valueOf(variables.get(WorkFlowConstant.TASK_STATUS)));
             taskService.addComment(task.getId(), task.getProcessInstanceId(), WorkFlowConstant.TASK_COMMENT, comment);
-        }
+        } else {
+
+        }*/
+        taskService.addComment(task.getId(), task.getProcessInstanceId(), WorkFlowConstant.TASK_COMMENT, comment);
+        taskService.addComment(task.getId(), task.getProcessInstanceId(), WorkFlowConstant.TASK_STATUS, String.valueOf(variables.get(WorkFlowConstant.TASK_STATUS)));
+
         //统计完成情况：
         Integer taskPassCount = !"null".equals(taskService.getVariable(task.getId(), "passCount") + "") ? Integer.parseInt(taskService.getVariable(task.getId(), "passCount") + "") : 0;
         Integer taskRefuseCount = !"null".equals(taskService.getVariable(task.getId(), "refusedCount") + "") ? Integer.parseInt(taskService.getVariable(task.getId(), "refusedCount") + "") : 0;

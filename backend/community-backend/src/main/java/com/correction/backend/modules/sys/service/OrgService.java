@@ -64,4 +64,10 @@ public interface OrgService extends IService<OrgDO> {
      * 根据当前组织id,得到子集所有code
      */
     Set<String> getCodes (Long id );
+
+    /**
+     * 根据当前用户组织ID 得到上下级关系
+     */
+    Set<OrgDO> getTreeByUserOrgId(Long orgId);
+
 }

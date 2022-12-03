@@ -39,6 +39,12 @@ public class HandleCorrectionListDTO implements Serializable {
     @ApiModelProperty(value = "待操作人")
     private String nextUser;
 
+    @ApiModelProperty(value = "申请人Id")
+    private Long applyUser;
+
+    @ApiModelProperty(value = "待操作人")
+    private String nextUserName;
+
     @ApiModelProperty(value = "taskId")
     private String taskId;
 

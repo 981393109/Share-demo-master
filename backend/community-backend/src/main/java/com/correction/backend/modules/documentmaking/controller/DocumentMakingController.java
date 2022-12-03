@@ -36,7 +36,7 @@ public class DocumentMakingController {
 
     @GetMapping("/getMaking")
     @ApiOperation("获取文书信息(传入dataId 以及dataType)")
-    public CommonResult<DocumentMakeing> getMaking(@Valid @RequestParam DocumentMakingDTO reqDTO) throws Exception {
+    public CommonResult<DocumentMakeing> getMaking(@Valid DocumentMakingDTO reqDTO) throws Exception {
         DocumentMakeing making = documentMakeingService.getMaking(reqDTO);
         return success(making);
     }

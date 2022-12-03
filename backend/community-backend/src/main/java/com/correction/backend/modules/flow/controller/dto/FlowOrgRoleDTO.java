@@ -15,6 +15,9 @@ public class FlowOrgRoleDTO {
     @ApiModelProperty("组织信息")
     private String orgName;
 
+    @ApiModelProperty("组织级别")
+    private Integer orgType;
+
     @ApiModelProperty("组织id")
     private Long orgId;
 

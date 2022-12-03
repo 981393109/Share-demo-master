@@ -2,6 +2,7 @@ package com.correction.backend.modules.survey.controller;
 
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.correction.backend.modules.flow.controller.dto.FlowOrgRoleDTO;
 import com.correction.backend.modules.survey.controller.dto.*;
 import com.correction.backend.modules.survey.convert.MSurveyEvaluationConvert;
 import com.correction.backend.modules.survey.entity.SurveyEvaluation;
@@ -118,5 +119,12 @@ public class SurveyEvaluationController {
         return success(sysUserPageVOS);
     }
 
+
+    @GetMapping("/getOrgInfoList")
+    @ApiOperation("获取区，市组织角色下拉")
+    public CommonResult<List<FlowOrgRoleDTO>> getOrgInfoList() {
+        List<FlowOrgRoleDTO> orgRoleInfoList = surveyEvaluationService.getOrgRoleInfoList();
+        return success(orgRoleInfoList);
+    }
 
 }

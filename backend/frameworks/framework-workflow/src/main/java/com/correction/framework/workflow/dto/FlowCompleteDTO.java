@@ -18,7 +18,7 @@ public class FlowCompleteDTO {
     private String taskId;
 
     @ApiModelProperty(value = "审批意见")
-    private String comment;
+    private String comment = "";
 
     @ApiModelProperty(value = "是否通过: 1通过 2:拒绝 3:驳回")
     private Integer adopt;

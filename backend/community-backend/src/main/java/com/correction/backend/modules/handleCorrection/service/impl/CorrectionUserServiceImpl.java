@@ -60,6 +60,7 @@ public class CorrectionUserServiceImpl extends ServiceImpl<CorrectionUserMapper,
         queryWrapper.like(StrUtil.isNotBlank(correctionUser.getOrgNum()), CorrectionUser::getOrgNum, correctionUser.getOrgNum());
         queryWrapper.like(StrUtil.isNotBlank(correctionUser.getCreator()), CorrectionUser::getCreator, correctionUser.getCreator());
         queryWrapper.like(StrUtil.isNotBlank(correctionUser.getUpdater()), CorrectionUser::getUpdater, correctionUser.getUpdater());
+        queryWrapper.like(correctionUser.getIsHistory() != null, CorrectionUser::getUpdater, correctionUser.getIsHistory());
         IPage<CorrectionUser> mpPage = MyBatisUtils.buildPage(correctionUser);
         mpPage = page(mpPage,queryWrapper);
         return mpPage;

@@ -20,7 +20,7 @@ public interface DocumentMakeingService extends IService<DocumentMakeing> {
     /**
      * 制作文书
      */
-    String makingDocFile (DocumentMakingDTO dto) throws IOException;
+    String makingDocFile (DocumentMakingDTO dto) throws Exception;
 
 
     DocumentMakeing getMaking(DocumentMakingDTO reqDTO);

@@ -6,7 +6,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-11-27T12:07:08+0800",
+    date = "2022-12-03T15:42:12+0800",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 1.8.0_211 (Oracle Corporation)"
 )
 public class MDocumentMakeingConvertImpl implements MDocumentMakeingConvert {
@@ -20,9 +20,7 @@ public class MDocumentMakeingConvertImpl implements MDocumentMakeingConvert {
         DocumentMakeing documentMakeing = new DocumentMakeing();
 
         documentMakeing.setDataId( dto.getDataId() );
-        if ( dto.getDataType() != null ) {
-            documentMakeing.setDataType( Integer.parseInt( dto.getDataType() ) );
-        }
+        documentMakeing.setDataType( dto.getDataType() );
 
         return documentMakeing;
     }

@@ -285,6 +285,21 @@ public class SurveyEvaluation extends BaseDO {
      */
     private String processInstanceId;
 
+    /**
+     * 矫正审批人Id
+     */
+    private Long handleCorrectionUserId;
+
+    /**
+     * 矫正组织ID
+     */
+    private Long handleCorrectionOrgId;
+
+    /**
+     * 矫正角色ID
+     */
+    private Long handleCorrectionRoleId;
+
 
     public static final String ID = "id";
 

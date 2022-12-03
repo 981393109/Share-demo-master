@@ -35,6 +35,7 @@ public class SurveyConstant {
     public static final Integer PROGRESS_9 = 9;
     public static final Integer PROGRESS_10 = 10;
     public static final Integer PROGRESS_11 = 11;
+    public static final Integer PROGRESS_12 = 12;
 
 
     /**

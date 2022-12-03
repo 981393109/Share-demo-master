@@ -31,8 +31,8 @@ public class SurveyEvaluationListDTO implements Serializable {
     @ApiModelProperty(value = "委托时间")
     private String entrustDate;
 
-    @ApiModelProperty(value = "意见")
-    private String opinion;
+    @ApiModelProperty(value = "最后意见")
+    private Integer assessmentLastOpinion;
 
     @ApiModelProperty(value = "接收时间")
     private String receptionDate;
@@ -43,11 +43,20 @@ public class SurveyEvaluationListDTO implements Serializable {
     @ApiModelProperty(value = "进度 0:未提交，1待指派，2待指派,3待调查，4调查中,5待评估，6评估中，7已评估")
     private Integer applyStatus;
 
+    @ApiModelProperty(value = "applyUser")
+    private Long applyUser;
+
     @ApiModelProperty(value = "flowStatus")
     private Integer flowStatus;
 
     @ApiModelProperty(value = "待操作人")
     private String nextUser;
+
+    @ApiModelProperty(value = "矫正机构")
+    private String jurisdictionOffice;
+
+    @ApiModelProperty(value = "待操作人")
+    private String nextUserName;
 
     @ApiModelProperty(value = "taskId")
     private String taskId;

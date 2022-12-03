@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public interface DocumentService {
 
-    String makingDoc (Long dataId) throws IOException;
+    String makingDoc (Long dataId) throws Exception;
 
 
 }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.correction.backend.modules.supervision.mapper.SupervisionVisitGroupMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.correction.backend.modules.supervision.entity.SupervisionVisitGroup">
+        <id column="id" property="id" />
+        <result column="correction_unit" property="correctionUnit" />
+        <result column="user_name" property="userName" />
+        <result column="user_id" property="userId" />
+        <result column="user_type" property="userType" />
+        <result column="sex" property="sex" />
+        <result column="id_card" property="idCard" />
+        <result column="job" property="job" />
+        <result column="data_id" property="dataId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, correction_unit, user_name, user_id, user_type, sex, id_card, job, data_id
+    </sql>
+
+    <!-- 通用查询结果列 别名 -->
+    <sql id="Base_Column_List_Alias">
+        supervisionVisitGroup.id,supervisionVisitGroup.correction_unit AS correctionUnit,supervisionVisitGroup.user_name AS userName,supervisionVisitGroup.user_id AS userId,supervisionVisitGroup.user_type AS userType,supervisionVisitGroup.sex,supervisionVisitGroup.id_card AS idCard,supervisionVisitGroup.job,supervisionVisitGroup.data_id AS dataId
+    </sql>
+    <delete id="deleteByDataId">
+        delete from supervision_visit_group where data_id = #{dataId}
+    </delete>
+</mapper>

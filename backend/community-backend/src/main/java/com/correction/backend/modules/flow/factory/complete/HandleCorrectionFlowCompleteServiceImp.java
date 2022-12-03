@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.correction.backend.modules.flow.constant.FlowConstant;
 import com.correction.backend.modules.handleCorrection.entity.HandleCorrection;
 import com.correction.backend.modules.handleCorrection.service.HandleCorrectionService;
+import com.correction.backend.modules.information.controller.dto.InformationMessageDTO;
+import com.correction.backend.modules.information.service.InformationMessageService;
 import com.correction.backend.modules.survey.constant.SurveyConstant;
 import com.correction.framework.workflow.constant.WorkFlowConstant;
 import org.springframework.stereotype.Component;
@@ -24,7 +26,7 @@ public class HandleCorrectionFlowCompleteServiceImp implements FlowComplete{
             //成功！
             if(StringUtils.isNotBlank(progress)){
                 byId.setProgress(Integer.parseInt(progress) + 1);
-                byId.setApplyStatus(switchProgree(progress) +1);
+                byId.setApplyStatus(switchProgree(progress) + 1);
             }
         } else {
             //驳回
@@ -40,8 +42,8 @@ public class HandleCorrectionFlowCompleteServiceImp implements FlowComplete{
     public void doEnd(String dataId, String ref, String progress, String status) {
         HandleCorrection byId = handleCorrectionService.getById(Long.parseLong(dataId));
         if(WorkFlowConstant.TASK_SUCCESS.equals(status)){
-            byId.setProgress(SurveyConstant.PROGRESS_11);
-            byId.setApplyStatus(SurveyConstant.FLOW_STATUS_10);
+            byId.setProgress(SurveyConstant.PROGRESS_12);
+            byId.setApplyStatus(SurveyConstant.PROGRESS_11);
         } else {
             byId.setApplyStatus(SurveyConstant.FLOW_STATUS_u1);
         }

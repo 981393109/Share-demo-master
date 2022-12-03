@@ -1,6 +1,7 @@
 package com.correction.backend.modules.flow.factory.complete;
 
 
+import com.correction.backend.modules.information.controller.dto.InformationMessageDTO;
 import com.correction.framework.workflow.dto.FlowCompleteDTO;
 import com.correction.framework.workflow.dto.FlowStartDTO;
 import com.correction.framework.workflow.factory.ActProcessInstance;

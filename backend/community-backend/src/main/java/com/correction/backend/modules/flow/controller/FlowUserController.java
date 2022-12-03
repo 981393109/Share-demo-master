@@ -36,6 +36,7 @@ import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static com.correction.framework.common.pojo.CommonResult.success;
 
@@ -63,12 +64,12 @@ public class FlowUserController {
     }
 
 
-    @GetMapping("/getFlowUser")
+    /*@GetMapping("/getFlowUser")
     @ApiOperation("获取审批数据：  组织、角色、人员，基于用户当前组织平级以及上级组织")
-    public CommonResult<List<FlowOrgRoleDTO>> getFlowUser() throws Exception {
-        List<FlowOrgRoleDTO> flowOrgInfo = flowUserService.getFlowOrgInfo();
+    public CommonResult<Map<FlowNodeListDTO, List<FlowOrgRoleDTO>>> getFlowUser(@RequestParam("flowType") String flowType) throws Exception {
+        Map<FlowNodeListDTO, List<FlowOrgRoleDTO>> flowOrgInfo = flowUserService.getFlowOrgInfo(flowType);
         return success(flowOrgInfo);
-    }
+    }*/
 
 
     @Resource

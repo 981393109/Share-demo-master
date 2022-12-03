@@ -30,6 +30,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.correction.backend.modules.documentmaking.constant.DocumentMakingConstant.Correction_Making;
+import static com.correction.backend.modules.survey.constant.SurveyConstant.PROGRESS_12;
+import static com.correction.backend.modules.sys.enums.SysErrorCodeConstants.FLOW_DATA_STOP;
+import static com.correction.backend.modules.sys.enums.SysErrorCodeConstants.USER_ROLE_IS_NOT_EXSIT;
+import static com.correction.framework.common.exception.util.ServiceExceptionUtil.exception;
 
 @Component
 @Slf4j
@@ -53,12 +57,14 @@ public class HandleCorrectionMakingServiceImpl implements DocumentService {
     FileProperties fileProperties;
 
     @Override
-    public String makingDoc(Long dataId) throws IOException {
+    public String makingDoc(Long dataId) throws Exception {
         HandleCorrection handleCorrection = handleCorrectionService.getById(dataId);
+        if (!PROGRESS_12.equals(handleCorrection.getProgress())){
+            throw exception(FLOW_DATA_STOP);
+        }
         //得到默认模板位置
         ClassPathResource classPathResource = new ClassPathResource("documentTemplate/CorrectionBasicInformationTable.pdf");
         InputStream inputStream = classPathResource.getInputStream();
-
         String filePath = File.separator + "PDF_TEMP" + File.separator + System.currentTimeMillis() + File.separator + FILE_NAME;
         String outFilePath =  File.separator + "DOCUMENT_MAKING" + File.separator+ System.currentTimeMillis() + File.separator + FILE_NAME;
         File file = new File(fileProperties.getLinuxpath() + filePath);
@@ -68,7 +74,7 @@ public class HandleCorrectionMakingServiceImpl implements DocumentService {
         //保存
         DocumentMakeing documentMakeing = new DocumentMakeing();
         documentMakeing.setDataId(dataId);
-        documentMakeing.setDataType(Correction_Making);
+        documentMakeing.setDataType(FlowConstant.HANDLE_CORRECTION_FLOW);
         documentMakeing.setFileName(FILE_NAME);
         documentMakeing.setFilePath(outFilePath);
         documentMakeing.setFileUrl(fileProperties.getBasePath() + outFilePath);
@@ -165,7 +171,7 @@ public class HandleCorrectionMakingServiceImpl implements DocumentService {
     @PostConstruct
     public void afterPropertiesSet() throws Exception {
         // 注册到Map中
-        DocumentMakingFactory.register(FlowConstant.DOCUMENT_MAKING_CORRECTION, this);
+        DocumentMakingFactory.register(FlowConstant.HANDLE_CORRECTION_FLOW, this);
     }
 
 

@@ -27,7 +27,7 @@ public class DocumentMakeingServiceImpl extends ServiceImpl<DocumentMakeingMappe
 
 
     @Override
-    public String makingDocFile(DocumentMakingDTO dto) throws IOException {
+    public String makingDocFile(DocumentMakingDTO dto) throws Exception {
         DocumentService byMaking = DocumentMakingFactory.getByMaking(dto.getDataType());
         String fileUrl = byMaking.makingDoc(dto.getDataId());
         return fileUrl;

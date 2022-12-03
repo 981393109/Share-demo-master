@@ -191,4 +191,23 @@ public class SurveyEvaluationUpdateInputDTO implements Serializable {
 
     @ApiModelProperty(value = "接收时间")
     private String receptionDate;
+
+    /**
+     * 矫正审批人Id
+     */
+    @ApiModelProperty(value = "矫正审批人Id")
+    private Long handleCorrectionUserId;
+
+    /**
+     * 矫正组织ID
+     */
+    @ApiModelProperty(value = "矫正组织ID")
+    private Long handleCorrectionOrgId;
+
+    /**
+     * 矫正角色ID
+     */
+    @ApiModelProperty(value = "矫正角色ID")
+    private Long handleCorrectionRoleId;
+
 }

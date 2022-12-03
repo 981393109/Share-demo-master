@@ -1,11 +1,14 @@
 package com.correction.backend.modules.survey.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.correction.backend.modules.flow.controller.dto.FlowOrgRoleDTO;
 import com.correction.backend.modules.survey.controller.dto.*;
 import com.correction.backend.modules.survey.entity.SurveyEvaluation;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.correction.framework.common.pojo.PageResult;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * <p>
@@ -49,4 +52,6 @@ public interface SurveyEvaluationService extends IService<SurveyEvaluation> {
 
 
     IPage<SurveyEvaluationListDTO> getPageListFlow(SurveyEvaluationSearchInputDTO reqVO);
+
+    List<FlowOrgRoleDTO> getOrgRoleInfoList();
 }

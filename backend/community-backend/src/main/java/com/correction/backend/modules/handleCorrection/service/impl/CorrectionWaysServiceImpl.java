@@ -142,7 +142,7 @@ public class CorrectionWaysServiceImpl extends ServiceImpl<CorrectionWaysMapper,
         List<Long> longs = correctionGroupService.batchCreate(correctionUsers);
         CorrectionWaysGroupOutDTO returnDTO = new CorrectionWaysGroupOutDTO();
         returnDTO.setCorrectionWays(MCorrectionWaysConvert.INSTANCE.toList(correctionWays1));
-        returnDTO.setCorrectionUsers(longs);
+        returnDTO.setCorrectionGroupId(longs);
         return returnDTO;
     }
 }
