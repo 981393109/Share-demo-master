@@ -39,6 +39,8 @@ public class SysUserPageVO {
     @ApiModelProperty(value = "所属组织", example = "orgId")
     private Long orgId;
 
+    @ApiModelProperty(value = "组织信息", example = "xxxx-xxx-xxxx")
+    private String orgParentInfo;
 
 
 }

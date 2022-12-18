@@ -1,11 +1,14 @@
 package com.correction.backend.modules.supervision.controller.dto;
 
+import com.correction.backend.modules.survey.entity.SurveyDocumentsFiles;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
 /**
  * <p>
  * 外出审批流程
@@ -26,7 +29,7 @@ public class SupervisionOutApprovalCreateInputDTO implements Serializable {
     private String correctionUnit;
 
     @ApiModelProperty(value = "矫正单位Id")
-    private String correctionUnitId;
+    private Long correctionUnitId;
 
     @ApiModelProperty(value = "用户名")
     private String userName;
@@ -154,5 +157,9 @@ public class SupervisionOutApprovalCreateInputDTO implements Serializable {
      */
     @ApiModelProperty(value = "延期销假材料")
     private String terminateMaterials;
+
+    
+    @ApiModelProperty(value = "新增时所需的文书附件")
+    private List<SurveyDocumentsFiles> surveyDocumentsFiles;
 
 }

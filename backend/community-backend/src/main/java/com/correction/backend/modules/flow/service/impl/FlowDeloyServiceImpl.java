@@ -15,6 +15,7 @@ import com.correction.backend.modules.flow.mapper.FlowNodeRelationMapper;
 import com.correction.backend.modules.flow.service.FlowCenterService;
 import com.correction.backend.modules.flow.service.FlowDeloyService;
 import com.correction.backend.modules.flow.utils.FlowNodeUtils;
+import com.correction.framework.workflow.constant.WorkFlowConstant;
 import com.correction.framework.workflow.service.FlowService;
 import lombok.extern.slf4j.Slf4j;
 import org.flowable.bpmn.converter.BpmnXMLConverter;
@@ -69,7 +70,14 @@ public class FlowDeloyServiceImpl implements FlowDeloyService {
         if (CollUtil.isNotEmpty(flowNodes)) {
             List<FlowCenter> flowCenters = MFlowCenterConvert.INSTANCE.toFlowCenterList(flowNodes);
             //保存流程中心配置:
-            flowCenterService.saveBatch(flowCenters);
+            for (int i = 0; i < flowCenters.size(); i++) {
+                FlowCenter flowCenter = flowCenters.get(i);
+                if(i != 0){
+                    flowCenter.setBeforeNode(flowCenters.get(i-1).getId());
+                }
+                flowCenterService.save(flowCenter);
+            }
+//            flowCenterService.saveBatch(flowCenters);
             //开始启动配置
             deployment(flowCenterDTO.getType(), flowCenters, version);
         }
@@ -134,7 +142,7 @@ public class FlowDeloyServiceImpl implements FlowDeloyService {
         taskFlowListenerList.add(taskFlowListener);
         List<FlowableListener> executionFlowListenerList = new ArrayList<>();
         executionFlowListenerList.add(executionFlowListener);
-        UserTask applyUserTask = FlowNodeUtils.userTaskNode(type,"提交审批", counter.get(), true, null, FlowConstant.DEFAULT_START_ASSIGNEE, taskFlowListenerList, executionFlowListenerList);
+        UserTask applyUserTask = FlowNodeUtils.userTaskNode(type,"提交审批", counter.get(), true, null, FlowConstant.DEFAULT_START_ASSIGNEE, new ArrayList<>(), executionFlowListenerList);
         //补充  开始 》 发起人 连线信息
         FlowNodeUtils.connectSequenceFlow(startSequenceFlow,startEvent.getId(),applyUserTask.getId(),null,new ArrayList<>());
         //创建连线 发起人 -》 下一审批人 串
@@ -157,7 +165,7 @@ public class FlowDeloyServiceImpl implements FlowDeloyService {
             //申明表达式：
             String completionCondition = FlowConstant.PASS_TYPE_ALL.equals(flowCenter.getPassType()) ? FlowConstant.FLOW_ALL_PASS : FlowConstant.FLOW_ONE_PASS;
             //创建变量
-            UserTask userTask = FlowNodeUtils.userTaskNode(type,flowCenter.getName(), counter.get(), false, completionCondition, FlowConstant.ASSIGNEEMENT_ASSIGNEE, new ArrayList<>(), new ArrayList<>());
+            UserTask userTask = FlowNodeUtils.userTaskNode(type,flowCenter.getName(), counter.get(), false, completionCondition, FlowConstant.ASSIGNEEMENT_ASSIGNEE, taskFlowListenerList, new ArrayList<>());
             //创建连线 审批人 -》 网关
             SequenceFlow toGateWaySequenceFlow = FlowNodeUtils.connectSequenceFlow("", counter.getAndIncrement());
             List<SequenceFlow> toGateWaySequenceFlowList = new ArrayList<>();
@@ -194,14 +202,14 @@ public class FlowDeloyServiceImpl implements FlowDeloyService {
             FlowNodeUtils.connectSequenceFlow(gateWaySequenceRefuseFlow,exclusiveGateway.getId(),FlowConstant.FLOW_NODE_END,FlowConstant.FLOW_ONE_REFUSE,refuseListenerList);
 
             // 创建连线：网关 -》 驳回
-            SequenceFlow gateWaySequenceRejectedFlow = FlowNodeUtils.connectSequenceFlow(type,"驳回", index,detailIndex.getAndIncrement());
+            SequenceFlow gateWaySequenceRejectedFlow = FlowNodeUtils.connectSequenceFlow(type +"_"+ WorkFlowConstant.TASK_REJECTED,"驳回", index,detailIndex.getAndIncrement());
             gateWaySequenceRejectedFlow.setDocumentation(String.valueOf(flowCenter.getId()));
             gateWaySequenceFlowList.add(gateWaySequenceRejectedFlow);
             //通过连线表达式:
             String completionConditionRejectedLink = FlowConstant.FLOW_ONE_REJECTED_LINK;
             FlowNodeUtils.connectSequenceFlow(gateWaySequenceRejectedFlow,exclusiveGateway.getId(),
                      FlowNodeUtils.formateId(type , FlowConstant.FLOW_NODE_USER , (list.size() == 1 || i == 0) ? 1 : (index -3))
-                    ,completionConditionRejectedLink,executionListeneList);
+                    ,completionConditionRejectedLink,Arrays.asList(executionFlowListener));
 
             //设置走向
             userTask.setOutgoingFlows(toGateWaySequenceFlowList);

@@ -65,8 +65,19 @@ public class SupervisionFlowServiceImpl implements SupervisionFlowService {
         assmberUserNode(flowInfo,supervisionOutApproval);
         //启动流程：
         LoginUser loginUser = WebFrameworkUtils.getLoginUser();
-        Flow surveyFlow = FlowFactory.getByFlows(FlowConstant.HANDLE_CORRECTION_FLOW);
-        ActProcessInstance actProcessInstance = surveyFlow.startFlow(FlowStartDTO.builder().userId(loginUser.getId()).flowType(FlowConstant.HANDLE_CORRECTION_FLOW).dataId(supervisionOutApproval.getId()).ref(supervisionOutApproval.getRef()).progress(String.valueOf(supervisionOutApproval.getProgress())).build());
+        Flow surveyFlow = null;
+        String flowType = "";
+        if(1 == supervisionOutApproval.getLeaveType()){
+            flowType = FlowConstant.SUPERVISION_OUT_FLOW_ONE;
+            surveyFlow =  FlowFactory.getByFlows(FlowConstant.SUPERVISION_OUT_FLOW_ONE);
+        } else if (2 == supervisionOutApproval.getLeaveType()){
+            flowType = FlowConstant.SUPERVISION_OUT_FLOW_TWO;
+            surveyFlow =  FlowFactory.getByFlows(FlowConstant.SUPERVISION_OUT_FLOW_TWO);
+        } else {
+            flowType = FlowConstant.SUPERVISION_OUT_FLOW_THREE;
+            surveyFlow =  FlowFactory.getByFlows(FlowConstant.SUPERVISION_OUT_FLOW_THREE);
+        }
+        ActProcessInstance actProcessInstance = surveyFlow.startFlow(FlowStartDTO.builder().userId(loginUser.getId()).flowType(flowType).dataId(supervisionOutApproval.getId()).ref(supervisionOutApproval.getRef()).progress(String.valueOf(supervisionOutApproval.getProgress())).build());
         supervisionOutApproval.setProgress(SurveyConstant.PROGRESS_2);
         supervisionOutApproval.setApplyStatus(SurveyConstant.FLOW_STATUS_2);
         supervisionOutApproval.setApplyTime(LocalDateTime.now().toString());
@@ -109,9 +120,9 @@ public class SupervisionFlowServiceImpl implements SupervisionFlowService {
         //0：所级审批  1：区级审批  2 市级审批  请假程序不同对应的进度也有所差别
         Integer progress = updateSupervisionOutApproval.getProgress();
         flowInfo.setProgress(progress);
-        if(0 == updateSupervisionOutApproval.getLeaveType()) {
+        if(1 == updateSupervisionOutApproval.getLeaveType()) {
             doComplete(flowInfo,FlowConstant.SUPERVISION_OUT_FLOW_ONE);
-        } else if (1 ==updateSupervisionOutApproval.getLeaveType() ) {
+        } else if (2 ==updateSupervisionOutApproval.getLeaveType() ) {
             doComplete(flowInfo,FlowConstant.SUPERVISION_OUT_FLOW_TWO);
         } else {
             doComplete(flowInfo,FlowConstant.SUPERVISION_OUT_FLOW_THREE);

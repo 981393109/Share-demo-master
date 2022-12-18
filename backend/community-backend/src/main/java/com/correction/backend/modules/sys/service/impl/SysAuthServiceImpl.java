@@ -94,6 +94,9 @@ public class SysAuthServiceImpl implements SysAuthService {
             menuCodes.addAll(collect);
             menuSet.addAll(menuByRoleId);
         }
+        //查看公告消息：
+        informationMessageService.initUserInfoMessage(user.getId());
+        //得到未读消息
         Integer unReadCount = informationMessageService.getUnReadCount(user.getId());
         JSONObject result = new JSONObject();
         result.put("userInfo", SysUserConvert.INSTANCE.convertInfo(user));

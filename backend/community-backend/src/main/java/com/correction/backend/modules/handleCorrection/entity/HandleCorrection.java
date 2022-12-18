@@ -196,6 +196,8 @@ public class HandleCorrection extends BaseDO {
      */
     private String orgNum;
 
+    private String endFlowTime;
+
 
     public static final String ID = "id";
 

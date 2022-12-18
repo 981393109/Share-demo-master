@@ -40,8 +40,14 @@ public class FlowCompleteFactory {
                 return strategyMap.get(SURVEY_COMPLETE_FLOW);
             case HANDLE_CORRECTION_FLOW:
                 return strategyMap.get(HANDLE_CORRECTION_COMPLETE_FLOW);
+            case SUPERVISION_OUT_FLOW_ONE:
+                return strategyMap.get(SUPERVISION_OUT_ONE_COMPLETE_FLOW);
+            case SUPERVISION_OUT_FLOW_TWO:
+                return strategyMap.get(SUPERVISION_OUT_TWO_COMPLETE_FLOW);
+            case SUPERVISION_OUT_FLOW_THREE:
+                return strategyMap.get(SUPERVISION_OUT_THREE_COMPLETE_FLOW);
         }
-        return null;
+        return strategyMap.get(flowType);
     }
 
 

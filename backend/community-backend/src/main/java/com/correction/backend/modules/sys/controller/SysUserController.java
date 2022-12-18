@@ -71,6 +71,7 @@ public class SysUserController {
         List<SysUserPageVO> userList = new ArrayList<>(pageResult.getList().size());
         pageResult.getList().forEach(user -> {
             SysUserPageVO respVO = SysUserConvert.INSTANCE.convertPage(user);
+            respVO.setOrgInfo(user.getOrgParentInfo());
             userList.add(respVO);
         });
         return success(new PageResult<>(userList, pageResult.getTotal()));

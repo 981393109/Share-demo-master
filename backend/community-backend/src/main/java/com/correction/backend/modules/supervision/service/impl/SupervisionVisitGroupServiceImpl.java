@@ -13,6 +13,7 @@ import com.correction.backend.modules.supervision.mapper.SupervisionVisitGroupMa
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -30,21 +31,27 @@ public class SupervisionVisitGroupServiceImpl extends ServiceImpl<SupervisionVis
 
 
     @Override
-    public void createSupervisionVisitGroupList(List<SupervisionVisitGroupCreateInputDTO> createInputDTO, Long dataId) {
+    public void createSupervisionVisitGroupList(List<SupervisionVisitGroupCreateInputDTO> createInputDTO, Long dataId,Integer type) {
         List<SupervisionVisitGroup> supervisionVisitGroups = MSupervisionVisitGroupConvert.INSTANCE.toVisitGroup(createInputDTO);
-        for (SupervisionVisitGroup supervisionVisitGroup : supervisionVisitGroups) {
-            supervisionVisitGroup.setDataId(dataId);
-            baseMapper.insert(supervisionVisitGroup);
+        if(!CollectionUtils.isEmpty(supervisionVisitGroups)){
+            for (SupervisionVisitGroup supervisionVisitGroup : supervisionVisitGroups) {
+                supervisionVisitGroup.setType(type);
+                supervisionVisitGroup.setDataId(dataId);
+                baseMapper.insert(supervisionVisitGroup);
+            }
         }
     }
 
     @Override
-    public List<SupervisionVisitGroup> updateSupervisionVisitGroupList(List<SupervisionVisitGroupCreateInputDTO> createInputDTO, Long dataId) {
-        this.deleteByDataId(dataId);
+    public List<SupervisionVisitGroup> updateSupervisionVisitGroupList(List<SupervisionVisitGroupCreateInputDTO> createInputDTO, Long dataId,Integer type) {
         List<SupervisionVisitGroup> supervisionVisitGroups = MSupervisionVisitGroupConvert.INSTANCE.toVisitGroup(createInputDTO);
-        for (SupervisionVisitGroup supervisionVisitGroup : supervisionVisitGroups) {
-            supervisionVisitGroup.setDataId(dataId);
-            baseMapper.insert(supervisionVisitGroup);
+        if(supervisionVisitGroups != null) {
+            this.deleteByDataId(dataId);
+            for (SupervisionVisitGroup supervisionVisitGroup : supervisionVisitGroups) {
+                supervisionVisitGroup.setDataId(dataId);
+                supervisionVisitGroup.setType(type);
+                baseMapper.insert(supervisionVisitGroup);
+            }
         }
         return supervisionVisitGroups;
     }
@@ -55,8 +62,8 @@ public class SupervisionVisitGroupServiceImpl extends ServiceImpl<SupervisionVis
     }
 
     @Override
-    public List<SupervisionVisitGroup> getListByDataId(Long dataId) {
-        List<SupervisionVisitGroup> supervisionVisitGroups = baseMapper.selectList(Wrappers.<SupervisionVisitGroup>lambdaQuery().eq(SupervisionVisitGroup::getDataId, dataId));
+    public List<SupervisionVisitGroup> getListByDataId(Long dataId,Integer type) {
+        List<SupervisionVisitGroup> supervisionVisitGroups = baseMapper.selectList(Wrappers.<SupervisionVisitGroup>lambdaQuery().eq(SupervisionVisitGroup::getDataId, dataId).eq(SupervisionVisitGroup::getType,type));
         return supervisionVisitGroups;
     }
 

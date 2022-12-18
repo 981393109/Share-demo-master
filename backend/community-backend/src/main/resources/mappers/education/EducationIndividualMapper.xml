@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.correction.backend.modules.education.mapper.EducationIndividualMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.correction.backend.modules.education.entity.EducationIndividual">
+        <id column="id" property="id" />
+        <result column="correction_unit" property="correctionUnit" />
+        <result column="correction_unit_id" property="correctionUnitId" />
+        <result column="user_name" property="userName" />
+        <result column="user_id" property="userId" />
+        <result column="talk_date" property="talkDate" />
+        <result column="talk_user" property="talkUser" />
+        <result column="record_user" property="recordUser" />
+        <result column="talk_address" property="talkAddress" />
+        <result column="talk_content" property="talkContent" />
+        <result column="remark" property="remark" />
+        <result column="org_num" property="orgNum" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="creator" property="creator" />
+        <result column="updater" property="updater" />
+        <result column="deleted" property="deleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, correction_unit, correction_unit_id, user_name, user_id, talk_date, talk_user, record_user, talk_address, talk_content, remark, org_num, create_time, update_time, creator, updater, deleted
+    </sql>
+
+    <!-- 通用查询结果列 别名 -->
+    <sql id="Base_Column_List_Alias">
+        educationIndividual.id,educationIndividual.correction_unit AS correctionUnit,educationIndividual.correction_unit_id AS correctionUnitId,educationIndividual.user_name AS userName,educationIndividual.user_id AS userId,educationIndividual.talk_date AS talkDate,educationIndividual.talk_user AS talkUser,educationIndividual.record_user AS recordUser,educationIndividual.talk_address AS talkAddress,educationIndividual.talk_content AS talkContent,educationIndividual.remark,educationIndividual.org_num AS orgNum,educationIndividual.create_time AS createTime,educationIndividual.update_time AS updateTime,educationIndividual.creator,educationIndividual.updater,educationIndividual.deleted
+    </sql>
+</mapper>

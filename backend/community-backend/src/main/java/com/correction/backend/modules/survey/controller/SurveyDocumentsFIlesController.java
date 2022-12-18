@@ -61,9 +61,9 @@ public class SurveyDocumentsFIlesController {
 
     @PostMapping("/uploadfiles")
     @ApiOperation("文书上传(多文件)")
-    public CommonResult<Boolean> uploadfiles(@RequestParam("dataId")  Long dataId,@RequestParam("dictType") Integer dictType,@RequestParam("dictValue") String  dictValue,@RequestParam("files") MultipartFile[] files) throws IOException {
-        surveyDocumentsFilesService.saveFiles(dataId,dictType,dictValue,files);
-        return success(true);
+    public CommonResult<List<SurveyDocumentsFiles>> uploadfiles(@RequestParam("dataId")  Long dataId ,@RequestParam("dictType") Integer dictType,@RequestParam("dictValue") String  dictValue,@RequestParam("files") MultipartFile[] files) throws IOException {
+        List<SurveyDocumentsFiles> surveyDocumentsFiles = surveyDocumentsFilesService.saveFiles(dataId, dictType, dictValue, files);
+        return success(surveyDocumentsFiles);
     }
 
     @PostMapping("/delete")

@@ -78,18 +78,6 @@ public class SurveyEvaluationController {
     @GetMapping("/page")
     @ApiOperation("获取所有调查评估列表记录")
     public CommonResult<PageResult<SurveyEvaluationListDTO>> getUserPage(@Valid SurveyEvaluationSearchInputDTO reqVO) {
-        /*// 获得用户分页列表
-        PageResult<SurveyEvaluation> pageResult = surveyEvaluationService.getPageList(reqVO);
-        if (CollUtil.isEmpty(pageResult.getList())) {
-            return success(new PageResult<>(pageResult.getTotal())); // 返回空
-        }
-        // 拼接结果返回
-        List<SurveyEvaluationListDTO> surveyEvaluationListOutputDTOS = new ArrayList<>(pageResult.getList().size());
-        pageResult.getList().forEach(surveyEvaluation -> {
-            SurveyEvaluationListDTO surveyEvaluationListDTO = MSurveyEvaluationConvert.INSTANCE.toEsyList(surveyEvaluation);
-            surveyEvaluationListOutputDTOS.add(surveyEvaluationListDTO);
-        });
-        return success(new PageResult<>(surveyEvaluationListOutputDTOS, pageResult.getTotal()));*/
         IPage<SurveyEvaluationListDTO> pageResult = surveyEvaluationService.getPageListFlow(reqVO);
         return success(new PageResult<SurveyEvaluationListDTO>(pageResult.getRecords(), pageResult.getTotal()));
     }

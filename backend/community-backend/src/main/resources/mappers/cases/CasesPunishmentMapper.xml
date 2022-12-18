@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.correction.backend.modules.cases.mapper.CasesPunishmentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.correction.backend.modules.cases.entity.CasesPunishment">
+        <id column="id" property="id" />
+        <result column="correction_unit" property="correctionUnit" />
+        <result column="correction_unit_id" property="correctionUnitId" />
+        <result column="user_name" property="userName" />
+        <result column="user_id" property="userId" />
+        <result column="violations_type" property="violationsType" />
+        <result column="seven_days_record" property="sevenDaysRecord" />
+        <result column="related_information" property="relatedInformation" />
+        <result column="collegiate_bench" property="collegiateBench" />
+        <result column="violations_type_advice" property="violationsTypeAdvice" />
+        <result column="push_request_complete" property="pushRequestComplete" />
+        <result column="re_investigation_evidence" property="reInvestigationEvidence" />
+        <result column="re_organize_discuss" property="reOrganizeDiscuss" />
+        <result column="trial_result" property="trialResult" />
+        <result column="back_info" property="backInfo" />
+        <result column="review_complete" property="reviewComplete" />
+        <result column="charge_apply_result" property="chargeApplyResult" />
+        <result column="drafting_instrument_complete" property="draftingInstrumentComplete" />
+        <result column="send_drafting_instrument_complete" property="sendDraftingInstrumentComplete" />
+        <result column="apply_drafting_instrument_complete" property="applyDraftingInstrumentComplete" />
+        <result column="print_drafting_instrument_complete" property="printDraftingInstrumentComplete" />
+        <result column="three_days_send_correction" property="threeDaysSendCorrection" />
+        <result column="send_duplicate" property="sendDuplicate" />
+        <result column="education_complete" property="educationComplete" />
+        <result column="delivery_complete" property="deliveryComplete" />
+        <result column="send_duplicate_complete" property="sendDuplicateComplete" />
+        <result column="all_drafting_instrument_upload" property="allDraftingInstrumentUpload" />
+        <result column="put_prison_complete" property="putPrisonComplete" />
+        <result column="progress" property="progress" />
+        <result column="apply_status" property="applyStatus" />
+        <result column="apply_user" property="applyUser" />
+        <result column="apply_name" property="applyName" />
+        <result column="apply_time" property="applyTime" />
+        <result column="ref" property="ref" />
+        <result column="process_instance_id" property="processInstanceId" />
+        <result column="next_ref" property="nextRef" />
+        <result column="next_process_instance_id" property="nextProcessInstanceId" />
+        <result column="org_num" property="orgNum" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="creator" property="creator" />
+        <result column="updater" property="updater" />
+        <result column="deleted" property="deleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, correction_unit, correction_unit_id, user_name, user_id, violations_type, seven_days_record, related_information, collegiate_bench, violations_type_advice, push_request_complete, re_investigation_evidence, re_organize_discuss, trial_result, back_info, review_complete, charge_apply_result, drafting_instrument_complete, send_drafting_instrument_complete, apply_drafting_instrument_complete, print_drafting_instrument_complete, three_days_send_correction, send_duplicate, education_complete, delivery_complete, send_duplicate_complete, all_drafting_instrument_upload, put_prison_complete, progress, apply_status, apply_user, apply_name, apply_time, ref, process_instance_id, next_ref, next_process_instance_id, org_num, create_time, update_time, creator, updater, deleted
+    </sql>
+
+    <!-- 通用查询结果列 别名 -->
+    <sql id="Base_Column_List_Alias">
+        casesPunishment.id,casesPunishment.correction_unit AS correctionUnit,casesPunishment.correction_unit_id AS correctionUnitId,casesPunishment.user_name AS userName,casesPunishment.user_id AS userId,casesPunishment.violations_type AS violationsType,casesPunishment.seven_days_record AS sevenDaysRecord,casesPunishment.related_information AS relatedInformation,casesPunishment.collegiate_bench AS collegiateBench,casesPunishment.violations_type_advice AS violationsTypeAdvice,casesPunishment.push_request_complete AS pushRequestComplete,casesPunishment.re_investigation_evidence AS reInvestigationEvidence,casesPunishment.re_organize_discuss AS reOrganizeDiscuss,casesPunishment.trial_result AS trialResult,casesPunishment.back_info AS backInfo,casesPunishment.review_complete AS reviewComplete,casesPunishment.charge_apply_result AS chargeApplyResult,casesPunishment.drafting_instrument_complete AS draftingInstrumentComplete,casesPunishment.send_drafting_instrument_complete AS sendDraftingInstrumentComplete,casesPunishment.apply_drafting_instrument_complete AS applyDraftingInstrumentComplete,casesPunishment.print_drafting_instrument_complete AS printDraftingInstrumentComplete,casesPunishment.three_days_send_correction AS threeDaysSendCorrection,casesPunishment.send_duplicate AS sendDuplicate,casesPunishment.education_complete AS educationComplete,casesPunishment.delivery_complete AS deliveryComplete,casesPunishment.send_duplicate_complete AS sendDuplicateComplete,casesPunishment.all_drafting_instrument_upload AS allDraftingInstrumentUpload,casesPunishment.put_prison_complete AS putPrisonComplete,casesPunishment.progress,casesPunishment.apply_status AS applyStatus,casesPunishment.apply_user AS applyUser,casesPunishment.apply_name AS applyName,casesPunishment.apply_time AS applyTime,casesPunishment.ref,casesPunishment.process_instance_id AS processInstanceId,casesPunishment.next_ref AS nextRef,casesPunishment.next_process_instance_id AS nextProcessInstanceId,casesPunishment.org_num AS orgNum,casesPunishment.create_time AS createTime,casesPunishment.update_time AS updateTime,casesPunishment.creator,casesPunishment.updater,casesPunishment.deleted
+    </sql>
+
+    <select id="getPageListFlow"
+            resultType="com.correction.backend.modules.cases.controller.dto.CasesPunishmentPageListDTO">
+        select se.*,art.ASSIGNEE_ as nextUser,art.ID_ as taskId
+        from cases_punishment se left join act_ru_task art  on se.next_process_instance_id = art.PROC_INST_ID_
+        where se.deleted = 0
+        <if test="query.userName!=null">
+            and se.user_name like concat('%',#{query.userName},'%')
+        </if>
+        <if test="query.applyStatus!=null">
+            and se.apply_status = #{query.applyStatus}
+        </if>
+        <if test="query.flowStatus == null">
+            and  ( se.apply_user is null or se.apply_user = #{query.applyUser}  or se.next_process_instance_id in (select PROC_INST_ID_ from ACT_HI_TASKINST where ASSIGNEE_ = #{query.applyUser}) )
+        </if>
+        <if test="query.flowStatus == 0">
+            and art.ASSIGNEE_ = #{applyUser}
+        </if>
+        <if test="query.flowStatus == 1">
+            and se.next_process_instance_id in (select PROC_INST_ID_ from ACT_HI_TASKINST where ASSIGNEE_ = #{query.applyUser})
+        </if>
+        <if test="query.flowStatus == 2">
+            and se.apply_status in (-1 ,99)
+        </if>
+        order by se.id desc
+    </select>
+</mapper>

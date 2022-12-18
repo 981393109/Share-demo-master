@@ -27,7 +27,7 @@ public class SupervisionVisitFieldListOutputDTO implements Serializable {
     private String correctionUnit;
 
     @ApiModelProperty(value = "矫正单位Id")
-    private String correctionUnitId;
+    private Long correctionUnitId;
 
     @ApiModelProperty(value = "服刑人员")
     private String userName;

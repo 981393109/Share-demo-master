@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.correction.backend.modules.cases.mapper.RewardRecordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.correction.backend.modules.cases.entity.RewardRecord">
+        <id column="id" property="id" />
+        <result column="correction_unit" property="correctionUnit" />
+        <result column="correction_unit_id" property="correctionUnitId" />
+        <result column="user_name" property="userName" />
+        <result column="user_id" property="userId" />
+        <result column="reward_type" property="rewardType" />
+        <result column="seven_days_record" property="sevenDaysRecord" />
+        <result column="related_information" property="relatedInformation" />
+        <result column="collegiate_bench" property="collegiateBench" />
+        <result column="reward_type_advice" property="rewardTypeAdvice" />
+        <result column="push_request_complete" property="pushRequestComplete" />
+        <result column="re_investigation_evidence" property="reInvestigationEvidence" />
+        <result column="re_organize_discuss" property="reOrganizeDiscuss" />
+        <result column="trial_result" property="trialResult" />
+        <result column="back_info" property="backInfo" />
+        <result column="review_complete" property="reviewComplete" />
+        <result column="public_coplete" property="publicCoplete" />
+        <result column="charge_apply_result" property="chargeApplyResult" />
+        <result column="drafting_instrument_complete" property="draftingInstrumentComplete" />
+        <result column="send_drafting_instrument_complete" property="sendDraftingInstrumentComplete" />
+        <result column="apply_drafting_instrument_complete" property="applyDraftingInstrumentComplete" />
+        <result column="print_drafting_instrument_complete" property="printDraftingInstrumentComplete" />
+        <result column="three_days_send_correction" property="threeDaysSendCorrection" />
+        <result column="send_duplicate" property="sendDuplicate" />
+        <result column="all_drafting_instrument_upload" property="allDraftingInstrumentUpload" />
+        <result column="delivery_complete" property="deliveryComplete" />
+        <result column="send_duplicate_complete" property="sendDuplicateComplete" />
+        <result column="progress" property="progress" />
+        <result column="apply_status" property="applyStatus" />
+        <result column="apply_user" property="applyUser" />
+        <result column="apply_name" property="applyName" />
+        <result column="apply_time" property="applyTime" />
+        <result column="ref" property="ref" />
+        <result column="process_instance_id" property="processInstanceId" />
+        <result column="next_ref" property="nextRef" />
+        <result column="next_process_instance_id" property="nextProcessInstanceId" />
+        <result column="org_num" property="orgNum" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="creator" property="creator" />
+        <result column="updater" property="updater" />
+        <result column="deleted" property="deleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, correction_unit, correction_unit_id, user_name, user_id, reward_type, seven_days_record, related_information, collegiate_bench, reward_type_advice, push_request_complete, re_investigation_evidence, re_organize_discuss, trial_result, back_info, review_complete, public_coplete, charge_apply_result, drafting_instrument_complete, send_drafting_instrument_complete, apply_drafting_instrument_complete, print_drafting_instrument_complete, three_days_send_correction, send_duplicate, all_drafting_instrument_upload, delivery_complete, send_duplicate_complete, progress, apply_status, apply_user, apply_name, apply_time, ref, process_instance_id, next_ref, next_process_instance_id, org_num, create_time, update_time, creator, updater, deleted
+    </sql>
+
+    <!-- 通用查询结果列 别名 -->
+    <sql id="Base_Column_List_Alias">
+        rewardRecord.id,rewardRecord.correction_unit AS correctionUnit,rewardRecord.correction_unit_id AS correctionUnitId,rewardRecord.user_name AS userName,rewardRecord.user_id AS userId,rewardRecord.reward_type AS rewardType,rewardRecord.seven_days_record AS sevenDaysRecord,rewardRecord.related_information AS relatedInformation,rewardRecord.collegiate_bench AS collegiateBench,rewardRecord.reward_type_advice AS rewardTypeAdvice,rewardRecord.push_request_complete AS pushRequestComplete,rewardRecord.re_investigation_evidence AS reInvestigationEvidence,rewardRecord.re_organize_discuss AS reOrganizeDiscuss,rewardRecord.trial_result AS trialResult,rewardRecord.back_info AS backInfo,rewardRecord.review_complete AS reviewComplete,rewardRecord.public_coplete AS publicCoplete,rewardRecord.charge_apply_result AS chargeApplyResult,rewardRecord.drafting_instrument_complete AS draftingInstrumentComplete,rewardRecord.send_drafting_instrument_complete AS sendDraftingInstrumentComplete,rewardRecord.apply_drafting_instrument_complete AS applyDraftingInstrumentComplete,rewardRecord.print_drafting_instrument_complete AS printDraftingInstrumentComplete,rewardRecord.three_days_send_correction AS threeDaysSendCorrection,rewardRecord.send_duplicate AS sendDuplicate,rewardRecord.all_drafting_instrument_upload AS allDraftingInstrumentUpload,rewardRecord.delivery_complete AS deliveryComplete,rewardRecord.send_duplicate_complete AS sendDuplicateComplete,rewardRecord.progress,rewardRecord.apply_status AS applyStatus,rewardRecord.apply_user AS applyUser,rewardRecord.apply_name AS applyName,rewardRecord.apply_time AS applyTime,rewardRecord.ref,rewardRecord.process_instance_id AS processInstanceId,rewardRecord.next_ref AS nextRef,rewardRecord.next_process_instance_id AS nextProcessInstanceId,rewardRecord.org_num AS orgNum,rewardRecord.create_time AS createTime,rewardRecord.update_time AS updateTime,rewardRecord.creator,rewardRecord.updater,rewardRecord.deleted
+    </sql>
+    <select id="getPageListFlow"
+            resultType="com.correction.backend.modules.cases.controller.dto.RewardRecordPageListDTO">
+        select se.*,art.ASSIGNEE_ as nextUser,art.ID_ as taskId
+        from reward_record se left join act_ru_task art  on se.next_process_instance_id = art.PROC_INST_ID_
+        where se.deleted = 0
+        <if test="query.userName!=null">
+            and se.user_name like concat('%',#{query.userName},'%')
+        </if>
+        <if test="query.applyStatus!=null">
+            and se.apply_status = #{query.applyStatus}
+        </if>
+        <if test="query.flowStatus == null">
+            and  ( se.apply_user is null or se.apply_user = #{query.applyUser}  or se.next_process_instance_id in (select PROC_INST_ID_ from ACT_HI_TASKINST where ASSIGNEE_ = #{query.applyUser}) )
+        </if>
+        <if test="query.flowStatus == 0">
+            and art.ASSIGNEE_ = #{applyUser}
+        </if>
+        <if test="query.flowStatus == 1">
+            and se.next_process_instance_id in (select PROC_INST_ID_ from ACT_HI_TASKINST where ASSIGNEE_ = #{query.applyUser})
+        </if>
+        <if test="query.flowStatus == 2">
+            and se.apply_status in (-1 ,99)
+        </if>
+        order by se.id desc
+    </select>
+</mapper>

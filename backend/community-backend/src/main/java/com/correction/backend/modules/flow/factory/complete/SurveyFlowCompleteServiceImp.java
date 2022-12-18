@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Component
@@ -48,6 +49,7 @@ public class SurveyFlowCompleteServiceImp implements FlowComplete{
         if(WorkFlowConstant.TASK_SUCCESS.equals(status)){
             byId.setProgress(SurveyConstant.PROGRESS_8);
             byId.setApplyStatus(SurveyConstant.FLOW_STATUS_7);
+            byId.setEndFlowTime(LocalDateTime.now().toString());
             //添加入矫申请
             handleCorrectionService.createHandleCorrection(assmberHandleCorrection(byId));
         } else {

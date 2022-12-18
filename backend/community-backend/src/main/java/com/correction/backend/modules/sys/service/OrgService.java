@@ -31,6 +31,7 @@ public interface OrgService extends IService<OrgDO> {
      */
     OrgDO updateOrg(OrgUpdateInputDTO reqDTO);
 
+    void delete (Long id );
 
     /**
      * 获取详情

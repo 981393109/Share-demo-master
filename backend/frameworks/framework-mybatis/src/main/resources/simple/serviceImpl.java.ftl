@@ -2,9 +2,8 @@ package ${package.ServiceImpl};
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.correction.framework.common.pojo.PageResult;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.suyuan.common.model.PageModel;
 import ${package.Entity}.${entity};
 import ${package.Mapper}.${table.mapperName};
 import ${superServiceImplClassPackage};
@@ -34,14 +33,14 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
      * @param pageModel
      * @return
      */
-    public IPage<${entity}> pageListByEntity(${entity} ${entity?uncap_first}, PageModel pageModel) {
+    public PageResult<${entity}> pageListByEntity(${entity}SearchInputDTO ${entity?uncap_first}) {
         LambdaQueryWrapper<${entity}> queryWrapper = Wrappers.lambdaQuery();
     <#list table.fields as field>
         <#if field.propertyType == "String" && !field.keyFlag>
         queryWrapper.like(StrUtil.isNotBlank(${entity?uncap_first}.get${field.capitalName}()), ${entity}::get${field.capitalName}, ${entity?uncap_first}.get${field.capitalName}());
         </#if>
     </#list>
-        return super.page(pageModel, queryWrapper);
+        return baseMapper.selectPage(${entity?uncap_first}, queryWrapper);
     }
 
 }

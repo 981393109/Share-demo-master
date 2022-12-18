@@ -67,6 +67,11 @@ public class SupervisionVisitGroup{
      */
     private Long dataId;
 
+    /**
+     * 类型
+     */
+    private Integer type;
+
 
     public static final String ID = "id";
 

@@ -266,6 +266,8 @@ public class SurveyEvaluation extends BaseDO {
      */
     private String applyTime;
 
+    private String endFlowTime;
+
     /**
      * 组织架构num
      */

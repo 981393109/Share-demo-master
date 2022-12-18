@@ -60,13 +60,13 @@ public class SurveyFlowServiceImpl implements SurveyFlowService {
         assmberUserNode(flowInfo,surveyEvaluation);
         //启动流程：
         LoginUser loginUser = WebFrameworkUtils.getLoginUser();
+        surveyEvaluation.setApplyTime(LocalDateTime.now().toString());
+        surveyEvaluation.setApplyUser(loginUser.getId());
+        surveyEvaluation.setApplyName(loginUser.getUsername());
         Flow surveyFlow = FlowFactory.getByFlows(FlowConstant.SURVEY_FLOW);
         ActProcessInstance actProcessInstance = surveyFlow.startFlow(FlowStartDTO.builder().userId(loginUser.getId()).flowType(FlowConstant.SURVEY_FLOW).dataId(surveyEvaluation.getId()).ref(surveyEvaluation.getRef()).progress(String.valueOf(surveyEvaluation.getProgress())).build());
         surveyEvaluation.setProgress(SurveyConstant.PROGRESS_2);//补充材料
         surveyEvaluation.setApplyStatus(SurveyConstant.FLOW_STATUS_2);
-        surveyEvaluation.setApplyTime(LocalDateTime.now().toString());
-        surveyEvaluation.setApplyUser(loginUser.getId());
-        surveyEvaluation.setApplyName(loginUser.getUsername());
         surveyEvaluation.setProcessInstanceId(actProcessInstance.getProcessInstanceId());
         surveyEvaluationService.updateById(surveyEvaluation);
         return actProcessInstance;

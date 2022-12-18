@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.correction.backend.modules.sys.mapper.SysNotesMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.correction.backend.modules.sys.entity.SysNotes">
+        <id column="id" property="id" />
+        <result column="use_date" property="useDate" />
+        <result column="user_id" property="userId" />
+        <result column="content" property="content" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="creator" property="creator" />
+        <result column="updater" property="updater" />
+        <result column="deleted" property="deleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, use_date, user_id, content, create_time, update_time, creator, updater, deleted
+    </sql>
+
+    <!-- 通用查询结果列 别名 -->
+    <sql id="Base_Column_List_Alias">
+        sysNotes.id,sysNotes.use_date AS useDate,sysNotes.user_id AS userId,sysNotes.content,sysNotes.create_time AS createTime,sysNotes.update_time AS updateTime,sysNotes.creator,sysNotes.updater,sysNotes.deleted
+    </sql>
+</mapper>

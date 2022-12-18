@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.correction.backend.modules.termination.mapper.TerminationCorrectMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.correction.backend.modules.termination.entity.TerminationCorrect">
+        <id column="id" property="id" />
+        <result column="correction_unit" property="correctionUnit" />
+        <result column="correction_unit_id" property="correctionUnitId" />
+        <result column="user_name" property="userName" />
+        <result column="user_id" property="userId" />
+        <result column="supervision_level" property="supervisionLevel" />
+        <result column="perform_type" property="performType" />
+        <result column="termination_reason" property="terminationReason" />
+        <result column="approval_result" property="approvalResult" />
+        <result column="send_duplicate_complete" property="sendDuplicateComplete" />
+        <result column="remove_complete" property="removeComplete" />
+        <result column="progress" property="progress" />
+        <result column="apply_status" property="applyStatus" />
+        <result column="apply_user" property="applyUser" />
+        <result column="apply_name" property="applyName" />
+        <result column="apply_time" property="applyTime" />
+        <result column="ref" property="ref" />
+        <result column="process_instance_id" property="processInstanceId" />
+        <result column="org_num" property="orgNum" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="creator" property="creator" />
+        <result column="updater" property="updater" />
+        <result column="deleted" property="deleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, correction_unit, correction_unit_id, user_name, user_id, supervision_level, perform_type, termination_reason, approval_result, send_duplicate_complete, remove_complete, progress, apply_status, apply_user, apply_name, apply_time, ref, process_instance_id, org_num, create_time, update_time, creator, updater, deleted
+    </sql>
+
+    <!-- 通用查询结果列 别名 -->
+    <sql id="Base_Column_List_Alias">
+        terminationCorrect.id,terminationCorrect.correction_unit AS correctionUnit,terminationCorrect.correction_unit_id AS correctionUnitId,terminationCorrect.user_name AS userName,terminationCorrect.user_id AS userId,terminationCorrect.supervision_level AS supervisionLevel,terminationCorrect.perform_type AS performType,terminationCorrect.termination_reason AS terminationReason,terminationCorrect.approval_result AS approvalResult,terminationCorrect.send_duplicate_complete AS sendDuplicateComplete,terminationCorrect.remove_complete AS removeComplete,terminationCorrect.progress,terminationCorrect.apply_status AS applyStatus,terminationCorrect.apply_user AS applyUser,terminationCorrect.apply_name AS applyName,terminationCorrect.apply_time AS applyTime,terminationCorrect.ref,terminationCorrect.process_instance_id AS processInstanceId,terminationCorrect.org_num AS orgNum,terminationCorrect.create_time AS createTime,terminationCorrect.update_time AS updateTime,terminationCorrect.creator,terminationCorrect.updater,terminationCorrect.deleted
+    </sql>
+    <select id="getPageListFlow"
+            resultType="com.correction.backend.modules.termination.controller.dto.TerminationCorrectPageListDTO">
+        select se.*,art.ASSIGNEE_ as nextUser,art.ID_ as taskId
+        from termination_correct se left join act_ru_task art  on se.process_instance_id = art.PROC_INST_ID_
+        where se.deleted = 0
+        <if test="query.userName!=null">
+            and se.user_name like concat('%',#{query.userName},'%')
+        </if>
+        <if test="query.applyStatus!=null">
+            and se.apply_status = #{query.applyStatus}
+        </if>
+        <if test="query.flowStatus == null">
+            and  ( se.apply_user is null or se.apply_user = #{query.applyUser}  or se.process_instance_id in (select PROC_INST_ID_ from ACT_HI_TASKINST where ASSIGNEE_ = #{query.applyUser}) )
+        </if>
+        <if test="query.flowStatus == 0">
+            and art.ASSIGNEE_ = #{applyUser}
+        </if>
+        <if test="query.flowStatus == 1">
+            and se.process_instance_id in (select PROC_INST_ID_ from ACT_HI_TASKINST where ASSIGNEE_ = #{query.applyUser})
+        </if>
+        <if test="query.flowStatus == 2">
+            and se.apply_status in (-1 ,99)
+        </if>
+        order by se.id desc
+    </select>
+</mapper>

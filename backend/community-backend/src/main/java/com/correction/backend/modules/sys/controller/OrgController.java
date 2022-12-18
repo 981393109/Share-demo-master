@@ -8,6 +8,7 @@ import com.correction.backend.modules.sys.entity.OrgDO;
 import com.correction.backend.modules.sys.service.OrgService;
 import com.correction.framework.common.pojo.CommonResult;
 import com.correction.framework.common.pojo.PageResult;
+import com.correction.framework.web.web.core.util.WebFrameworkUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -49,7 +50,7 @@ public class OrgController {
     @PostMapping("delete")
     @ApiOperation("删除组织")
     public CommonResult<Boolean> delete(@Valid @RequestParam Long id) {
-        orgService.removeById(id);
+        orgService.delete(id);
         return success(true);
     }
 
@@ -93,6 +94,16 @@ public class OrgController {
         List<OrgDO> list = orgService.getList();
         return success(MOrgConvert.INSTANCE.buildMenuTree(list));
     }
+
+    @GetMapping("/getTreeByUserList")
+    @ApiOperation("获取(用户实体)组织架构树结构")
+    public CommonResult<List<OrgTreeDTO>> getTreeByUserList() {
+        List<OrgDO> list = orgService.getOrgChildsList(WebFrameworkUtils.getLoginOrgId());
+        OrgDO byId = orgService.getById(WebFrameworkUtils.getLoginOrgId());
+        list.add(byId);
+        return success(MOrgConvert.INSTANCE.buildMenuTreeV2(list));
+    }
+
 
     @GetMapping("/getList")
     @ApiOperation("获取所有组织集合")

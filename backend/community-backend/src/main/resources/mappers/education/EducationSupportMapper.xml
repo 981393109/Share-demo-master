@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.correction.backend.modules.education.mapper.EducationSupportMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.correction.backend.modules.education.entity.EducationSupport">
+        <id column="id" property="id" />
+        <result column="correction_unit" property="correctionUnit" />
+        <result column="correction_unit_id" property="correctionUnitId" />
+        <result column="user_name" property="userName" />
+        <result column="user_id" property="userId" />
+        <result column="learning_date" property="learningDate" />
+        <result column="education_way" property="educationWay" />
+        <result column="benchmark_score" property="benchmarkScore" />
+        <result column="education_content" property="educationContent" />
+        <result column="affiliated_unit" property="affiliatedUnit" />
+        <result column="registration_view" property="registrationView" />
+        <result column="score" property="score" />
+        <result column="remark" property="remark" />
+        <result column="org_num" property="orgNum" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="creator" property="creator" />
+        <result column="updater" property="updater" />
+        <result column="deleted" property="deleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, correction_unit, correction_unit_id, user_name, user_id, learning_date, education_way, benchmark_score, education_content, affiliated_unit, registration_view, score, remark, org_num, create_time, update_time, creator, updater, deleted
+    </sql>
+
+    <!-- 通用查询结果列 别名 -->
+    <sql id="Base_Column_List_Alias">
+        educationSupport.id,educationSupport.correction_unit AS correctionUnit,educationSupport.correction_unit_id AS correctionUnitId,educationSupport.user_name AS userName,educationSupport.user_id AS userId,educationSupport.learning_date AS learningDate,educationSupport.education_way AS educationWay,educationSupport.benchmark_score AS benchmarkScore,educationSupport.education_content AS educationContent,educationSupport.affiliated_unit AS affiliatedUnit,educationSupport.registration_view AS registrationView,educationSupport.score,educationSupport.remark,educationSupport.org_num AS orgNum,educationSupport.create_time AS createTime,educationSupport.update_time AS updateTime,educationSupport.creator,educationSupport.updater,educationSupport.deleted
+    </sql>
+</mapper>

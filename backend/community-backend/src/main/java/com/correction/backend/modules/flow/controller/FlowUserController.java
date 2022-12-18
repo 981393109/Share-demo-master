@@ -57,7 +57,7 @@ public class FlowUserController {
 
     @GetMapping("/getFlowNode")
     @ApiOperation("获取流程审批节点")
-    @ApiImplicitParam(name = "flowType", value = "flowType", required = true, example = "调查评估：SURVEY_FLOW,入矫办理：HANDLE_CORRECTION_FLOW", dataTypeClass = String.class)
+    @ApiImplicitParam(name = "flowType", value = "flowType", required = true, example = "调查评估：SURVEY_FLOW,入矫办理：HANDLE_CORRECTION_FLOW，处罚第一个流程：CASESPUNISHMENT_FLOW_FIRST, ", dataTypeClass = String.class)
     public CommonResult<List<FlowNodeListDTO>> getFlowNode(@RequestParam("flowType") String flowType) throws Exception {
         List<FlowNodeListDTO> flowNodeUserList = flowUserService.getFlowNode(flowType);
         return success(flowNodeUserList);

@@ -32,6 +32,7 @@ import com.correction.backend.modules.sys.mapper.SysUserMapper;
 import com.correction.framework.common.pojo.PageResult;
 import com.correction.framework.web.web.core.util.WebFrameworkUtils;
 import com.correction.frameworks.mybatis.mybatis.core.util.MyBatisUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -173,6 +174,13 @@ public class HandleCorrectionServiceImpl extends ServiceImpl<HandleCorrectionMap
                         record.setNextUser(String.valueOf(record.getApplyUser()));
                         record.setNextUserName(sysUserMapper.selectById(record.getApplyUser()).getUserName());
                     }
+                }
+                if (String.valueOf(WebFrameworkUtils.getLoginUserId()).equals(record.getNextUser())){
+                    record.setFlowStatus(0);
+                } else if (!String.valueOf(WebFrameworkUtils.getLoginUserId()).equals(record.getNextUser())  && StringUtils.isNotBlank(record.getTaskId())) {
+                    record.setFlowStatus(1);
+                } else {
+                    record.setFlowStatus(2);
                 }
             }
         }

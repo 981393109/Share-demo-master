@@ -21,6 +21,8 @@ public interface SurveyEntrustUnitMapper extends BaseMapperX<SurveyEntrustUnit> 
     default PageResult<SurveyEntrustUnit> getPageList(SurveyEntrustUnitSearchInputDTO searchInputDTO) {
         return selectPage(searchInputDTO, new QueryWrapperX<SurveyEntrustUnit>()
         .likeIfPresent("unit_name",searchInputDTO.getUnitName())
+        .likeIfPresent("mobile",searchInputDTO.getMobile())
+        .likeIfPresent("unit_address",searchInputDTO.getUnitAddress())
         .eqIfPresent("unit_type",searchInputDTO.getUnitType()));
     }
 }

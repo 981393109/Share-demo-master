@@ -74,6 +74,8 @@ public class FlowCenter extends BaseDO {
      */
     private String passType;
 
+    private Long beforeNode;
+
 
     public static final String ID = "id";
 

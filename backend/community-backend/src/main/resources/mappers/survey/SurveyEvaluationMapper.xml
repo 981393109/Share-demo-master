@@ -70,8 +70,7 @@
     </sql>
     <select id="getPageListFlow"
             resultType="com.correction.backend.modules.survey.controller.dto.SurveyEvaluationListDTO">
-        select se.*,art.ASSIGNEE_ as nextUser,art.ID_ as taskId ,
-        if(se.apply_status = -1 or se.apply_status = 7, 2 , if (art.ASSIGNEE_=#{query.applyUser} or art.ASSIGNEE_ is null, 0 , 2 )) as flowStatus
+        select se.*,art.ASSIGNEE_ as nextUser,art.ID_ as taskId
         from survey_evaluation se left join act_ru_task art  on se.process_instance_id = art.PROC_INST_ID_
         where se.deleted = 0
         <if test="query.flowStatus == null">

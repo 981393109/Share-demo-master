@@ -30,4 +30,8 @@ public interface FlowCenterService extends IService<FlowCenter> {
     List<String> getUserIdListByFlowCenter(FlowCenter flowCenter);
 
     List<String> getUserIdListByFlow (String currentActivityId,String busKey,FlowCenter flowCenter);
+
+    FlowCenter getFlowRejectedFlowCenter(String documentation);
+
+    List<String> getUserIdListByFlow(String processInstanceBusinessKey, FlowCenter flowCenter);
 }

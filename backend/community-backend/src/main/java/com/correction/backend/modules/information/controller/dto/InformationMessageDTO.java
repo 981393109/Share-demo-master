@@ -1,7 +1,11 @@
 package com.correction.backend.modules.information.controller.dto;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class InformationMessageDTO {
 
     @ApiModelProperty(value = "接收用户id")
@@ -28,7 +32,7 @@ public class InformationMessageDTO {
     @ApiModelProperty(value = "信息类别 SURVEY_FLOW: 调查评估  HANDLE_CORRECTION_FLOW: 办理矫正    。。。")
     private String dataType;
 
-    @ApiModelProperty(value = "0未读 1已读")
+    @ApiModelProperty(value = "1未读 2已读")
     private Integer status;
 
     @ApiModelProperty(value = "流程任务id")

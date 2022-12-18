@@ -11,7 +11,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-03T15:42:12+0800",
+    date = "2022-12-19T02:18:58+0800",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 1.8.0_211 (Oracle Corporation)"
 )
 public class MSupervisionVisitGroupConvertImpl implements MSupervisionVisitGroupConvert {
@@ -52,6 +52,7 @@ public class MSupervisionVisitGroupConvertImpl implements MSupervisionVisitGroup
         supervisionVisitGroup.setIdCard( supervisionVisitGroupCreateInputDTO.getIdCard() );
         supervisionVisitGroup.setJob( supervisionVisitGroupCreateInputDTO.getJob() );
         supervisionVisitGroup.setDataId( supervisionVisitGroupCreateInputDTO.getDataId() );
+        supervisionVisitGroup.setType( supervisionVisitGroupCreateInputDTO.getType() );
 
         return supervisionVisitGroup;
     }

@@ -4,14 +4,14 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.correction.backend.modules.flow.constant.FlowConstant;
 import com.correction.backend.modules.handleCorrection.entity.HandleCorrection;
 import com.correction.backend.modules.handleCorrection.service.HandleCorrectionService;
-import com.correction.backend.modules.information.controller.dto.InformationMessageDTO;
-import com.correction.backend.modules.information.service.InformationMessageService;
 import com.correction.backend.modules.survey.constant.SurveyConstant;
 import com.correction.framework.workflow.constant.WorkFlowConstant;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Component
 public class HandleCorrectionFlowCompleteServiceImp implements FlowComplete{
@@ -44,6 +44,7 @@ public class HandleCorrectionFlowCompleteServiceImp implements FlowComplete{
         if(WorkFlowConstant.TASK_SUCCESS.equals(status)){
             byId.setProgress(SurveyConstant.PROGRESS_12);
             byId.setApplyStatus(SurveyConstant.PROGRESS_11);
+            byId.setEndFlowTime(LocalDateTime.now().toString());
         } else {
             byId.setApplyStatus(SurveyConstant.FLOW_STATUS_u1);
         }

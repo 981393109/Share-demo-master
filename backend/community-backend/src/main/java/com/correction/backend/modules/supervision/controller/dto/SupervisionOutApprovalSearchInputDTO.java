@@ -25,7 +25,7 @@ public class SupervisionOutApprovalSearchInputDTO  extends PageParam  {
     private String correctionUnit;
 
     @ApiModelProperty(value = "矫正单位Id")
-    private String correctionUnitId;
+    private Long correctionUnitId;
 
     @ApiModelProperty(value = "用户名")
     private String userName;
@@ -101,6 +101,9 @@ public class SupervisionOutApprovalSearchInputDTO  extends PageParam  {
 
     @ApiModelProperty(value = "进度 0 未审批 1处理中  6结束")
     private Integer applyStatus;
+
+    @ApiModelProperty(value = "")
+    private Integer flowStatus;
 
     @ApiModelProperty(value = "申请人code")
     private Long applyUser;

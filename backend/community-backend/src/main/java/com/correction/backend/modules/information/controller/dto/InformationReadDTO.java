@@ -13,6 +13,6 @@ public class InformationReadDTO {
     @ApiModelProperty(value = "消息id")
     List<Long> ids;
 
-    @ApiModelProperty(value = "已读/未读  1/0")
+    @ApiModelProperty(value = "已读/未读  1未读 2已读")
     Integer status;
 }

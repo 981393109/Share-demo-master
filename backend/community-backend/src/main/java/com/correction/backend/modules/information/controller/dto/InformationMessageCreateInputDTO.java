@@ -48,7 +48,7 @@ public class InformationMessageCreateInputDTO implements Serializable {
     @ApiModelProperty(value = "信息类别 SURVEY_FLOW: 调查评估  HANDLE_CORRECTION_FLOW: 办理矫正    。。。")
     private String dataType;
 
-    @ApiModelProperty(value = "0未读 1已读")
+    @ApiModelProperty(value = "1未读 2已读")
     private Integer status;
 
     @ApiModelProperty(value = "流程任务id")

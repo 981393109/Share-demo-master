@@ -86,7 +86,7 @@ public class SurveyEvaluationServiceImpl extends ServiceImpl<SurveyEvaluationMap
     public SurveyEvaluation updateSurveyEvaluation(SurveyEvaluationUpdateInputDTO reqDTO) {
         this.checkCreateOrUpdate(reqDTO.getId(),reqDTO.getName(),reqDTO.getApplyStatus());
         SurveyEvaluation surveyEvaluation = MSurveyEvaluationConvert.INSTANCE.toSurveyEvaluation(reqDTO);
-        if (2 == surveyEvaluation.getAssessmentLastOpinion() && StringUtils.isBlank(surveyEvaluation.getReceptionDate())){
+        if (surveyEvaluation.getAssessmentLastOpinion()!=null && 2 == surveyEvaluation.getAssessmentLastOpinion() && StringUtils.isBlank(surveyEvaluation.getReceptionDate())){
             surveyEvaluation.setReceptionDate(LocalDateTime.now().toString());
         }
         //surveyEvaluation.setApplyStatus(SurveyConstant.FLOW_STATUS_0);
@@ -145,6 +145,13 @@ public class SurveyEvaluationServiceImpl extends ServiceImpl<SurveyEvaluationMap
                         record.setNextUser(String.valueOf(record.getApplyUser()));
                         record.setNextUserName(sysUserMapper.selectById(record.getApplyUser()).getUserName());
                     }
+                }
+                if (String.valueOf(WebFrameworkUtils.getLoginUserId()).equals(record.getNextUser())){
+                    record.setFlowStatus(0);
+                } else if (!String.valueOf(WebFrameworkUtils.getLoginUserId()).equals(record.getNextUser()) && StringUtils.isNotBlank(record.getTaskId())) {
+                    record.setFlowStatus(1);
+                } else {
+                    record.setFlowStatus(2);
                 }
             }
         }

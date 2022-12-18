@@ -65,6 +65,11 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, OrgDO> implements Org
     }
 
     @Override
+    public void delete(Long id) {
+        baseMapper.deleteById(id);
+    }
+
+    @Override
     public OrgDO detail(Long id) {
         OrgDO orgDO = orgMapper.selectById(id);
         return orgDO;

@@ -118,7 +118,7 @@ public class FlowUserServiceImpl implements FlowUserService {
                         if (i == 0 || i == 1) {
                             nodeList.get(i).setNodeUserGroup(topOrg);
                         } else {
-                            nodeList.get(i).setNodeUserGroup(areaOrg);
+                            nodeList.get(i).setNodeUserGroup(lowOrg);
                         }
                     break;
                 case HANDLE_CORRECTION_FLOW:
@@ -148,6 +148,48 @@ public class FlowUserServiceImpl implements FlowUserService {
                     } else {
                         nodeList.get(i).setNodeUserGroup(areaOrg);
                     }
+                    break;
+                case SUPERVISION_POSITION_FLOW_ONE:
+                        nodeList.get(i).setNodeUserGroup(areaOrg);
+                    break;
+                case SUPERVISION_POSITION_FLOW_TWO:
+                    nodeList.get(i).setNodeUserGroup(areaOrg);
+                    break;
+                case SUPERVISION_POSITION_FLOW_THREE:
+                    nodeList.get(i).setNodeUserGroup(areaOrg);
+                    break;
+                case SUPERVISION_POSITION_FLOW_FOUR:
+                    nodeList.get(i).setNodeUserGroup(areaOrg);
+                    break;
+
+                case CASESPUNISHMENT_FLOW_FIRST:
+                    nodeList.get(i).setNodeUserGroup(areaOrg);
+                    break;
+                case CASESPUNISHMENT_FLOW_ONE:
+                    nodeList.get(i).setNodeUserGroup(areaOrg);
+                    break;
+                case CASESPUNISHMENT_FLOW_TWO:
+                    nodeList.get(i).setNodeUserGroup(areaOrg);
+                    break;
+                case CASESPUNISHMENT_FLOW_THREE:
+                    nodeList.get(i).setNodeUserGroup(areaOrg);
+                    break;
+
+                case REWARDRECORD_FLOW_FIRST:
+                    nodeList.get(i).setNodeUserGroup(areaOrg);
+                    break;
+                case REWARDRECORD_FLOW_ONE:
+                    nodeList.get(i).setNodeUserGroup(areaOrg);
+                    break;
+                case REWARDRECORD_FLOW_TWO:
+                    nodeList.get(i).setNodeUserGroup(areaOrg);
+                    break;
+
+                case TERMINATION_SOLUTIONS_FLOW:
+                    nodeList.get(i).setNodeUserGroup(areaOrg);
+                    break;
+                case TERMINATION_CORRECT_FLOW:
+                    nodeList.get(i).setNodeUserGroup(areaOrg);
                     break;
             }
         }

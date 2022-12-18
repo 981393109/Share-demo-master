@@ -127,6 +127,7 @@ public interface SysErrorCodeConstants {
     ErrorCode FLOW_TASKID_ISNULL = new ErrorCode(1002017003, "taskId is null");
     ErrorCode FLOW_DATA_ISEXSIT = new ErrorCode(1002017004, "当前数据已经存在");
     ErrorCode FLOW_DATA_STOP = new ErrorCode(1002017005, "当前未审批通过，不可执行此操作");
+    ErrorCode FLOW_TYPE_ISNULL = new ErrorCode(1002017006, "levea Type is null");
 
 
 }

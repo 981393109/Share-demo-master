@@ -86,6 +86,27 @@ public class FlowConstant {
     public static final String SUPERVISION_OUT_FLOW_TWO = "SUPERVISION_OUT_FLOW_TWO"; //外出审批2
     public static final String SUPERVISION_OUT_FLOW_THREE = "SUPERVISION_OUT_FLOW_THREE"; //外出审批3
 
+    public static final String SUPERVISION_POSITION_FLOW_ONE = "SUPERVISION_POSITION_FLOW_ONE"; //电子定位装置审批1
+    public static final String SUPERVISION_POSITION_FLOW_TWO = "SUPERVISION_POSITION_FLOW_TWO"; //电子定位装置审批2
+    public static final String SUPERVISION_POSITION_FLOW_THREE = "SUPERVISION_POSITION_FLOW_THREE"; //电子定位装置审批3
+    public static final String SUPERVISION_POSITION_FLOW_FOUR = "SUPERVISION_POSITION_FLOW_FOUR"; //电子定位装置审批4
+
+
+    public static final String CASESPUNISHMENT_FLOW_FIRST = "CASESPUNISHMENT_FLOW_FIRST"; //处罚流程1
+    public static final String CASESPUNISHMENT_FLOW_ONE = "CASESPUNISHMENT_FLOW_ONE"; //处罚流程
+    public static final String CASESPUNISHMENT_FLOW_TWO = "CASESPUNISHMENT_FLOW_TWO"; //处罚流程
+    public static final String CASESPUNISHMENT_FLOW_THREE = "CASESPUNISHMENT_FLOW_THREE"; //处罚流程
+
+
+    public static final String REWARDRECORD_FLOW_FIRST = "REWARDRECORD_FLOW_FIRST"; //奖励流程
+    public static final String REWARDRECORD_FLOW_ONE = "REWARDRECORD_FLOW_ONE"; //奖励流程
+    public static final String REWARDRECORD_FLOW_TWO = "REWARDRECORD_FLOW_TWO"; //奖励流程
+
+
+    public static final String TERMINATION_SOLUTIONS_FLOW = "TERMINATION_SOLUTIONS_FLOW"; //解矫
+    public static final String TERMINATION_CORRECT_FLOW = "TERMINATION_CORRECT_FLOW"; //解矫
+
+
     /**
      * 提交工程类
      * handle_correction

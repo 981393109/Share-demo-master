@@ -1,8 +1,6 @@
 package com.correction.backend.modules.information.service;
 
-import com.correction.backend.modules.information.controller.dto.InformationMessageCreateInputDTO;
-import com.correction.backend.modules.information.controller.dto.InformationMessageSearchInputDTO;
-import com.correction.backend.modules.information.controller.dto.InformationReadDTO;
+import com.correction.backend.modules.information.controller.dto.*;
 import com.correction.backend.modules.information.entity.InformationMessage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.correction.framework.common.pojo.PageResult;
@@ -48,4 +46,16 @@ public interface InformationMessageService extends IService<InformationMessage> 
      * 推送消息
      */
     void sendMsg (InformationMessageCreateInputDTO reqDto);
+
+    /**
+     * 发送公告消息
+     * @param reqDTO
+     */
+    void sendAnnouncement(InformationAnnouncementMessageDTO reqDTO);
+
+    void setEnable(InformationAnnouncementMessageDTO reqDTO);
+
+    void delete (Long id);
+
+    void initUserInfoMessage(Long id);
 }

@@ -22,13 +22,13 @@ public interface SupervisionVisitGroupService extends IService<SupervisionVisitG
      * @param createInputDTO
      * @param dataId
      */
-    void createSupervisionVisitGroupList(List<SupervisionVisitGroupCreateInputDTO> createInputDTO,Long dataId);
+    void createSupervisionVisitGroupList(List<SupervisionVisitGroupCreateInputDTO> createInputDTO,Long dataId,Integer type);
 
     /**
      * 修改调查小组
      * @return
      */
-    List<SupervisionVisitGroup> updateSupervisionVisitGroupList (List<SupervisionVisitGroupCreateInputDTO> updateInputDTOS, Long dataId);
+    List<SupervisionVisitGroup> updateSupervisionVisitGroupList (List<SupervisionVisitGroupCreateInputDTO> updateInputDTOS, Long dataId,Integer type);
 
 
     /**
@@ -39,5 +39,5 @@ public interface SupervisionVisitGroupService extends IService<SupervisionVisitG
     /**
      * 根据dataId获取集合
      */
-    List<SupervisionVisitGroup> getListByDataId (Long dataId);
+    List<SupervisionVisitGroup> getListByDataId (Long dataId,Integer type);
 }

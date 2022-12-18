@@ -70,7 +70,36 @@ public class FlowCenterServiceImpl extends ServiceImpl<FlowCenterMapper, FlowCen
     @Override
     public List<String> getUserIdListByFlow(String currentActivityId, String busKey,FlowCenter flowCenter) {
         String[] split = busKey.split(":");
-        List<FlowNodeUser> flowNodeUsers = flowNodeUserMapper.selectList(Wrappers.<FlowNodeUser>lambdaQuery().eq(FlowNodeUser::getNodeId, currentActivityId)
+        List<FlowNodeUser> flowNodeUsers = flowNodeUserMapper.selectList(Wrappers.<FlowNodeUser>lambdaQuery()
+                .eq(FlowNodeUser::getNodeId, currentActivityId)
+                .eq(FlowNodeUser::getFlowId, flowCenter.getId())
+                .eq(FlowNodeUser::getDataId, split[1])
+                .eq(FlowNodeUser::getRef, split[2])
+        );
+        List<String> collect = flowNodeUsers.stream().map(e -> String.valueOf(e.getUserId())).collect(Collectors.toList());
+        return collect;
+    }
+
+    @Override
+    public FlowCenter getFlowRejectedFlowCenter(String documentation) {
+        //当前id
+        FlowCenter flowCenter = baseMapper.selectById(Long.parseLong(documentation));
+        //找上一级节点
+        Long beforeNode = flowCenter.getBeforeNode();
+        if(beforeNode == null){
+            return  null;
+        }
+        FlowCenter beforeCenter = baseMapper.selectById(beforeNode);
+        return beforeCenter;
+    }
+
+    @Override
+    public List<String> getUserIdListByFlow(String processInstanceBusinessKey, FlowCenter flowCenter) {
+        //根据flowId找到node
+        FlowNodeRelation flowNodeRelation = flowNodeRelationMapper.selectOne(Wrappers.<FlowNodeRelation>lambdaQuery().eq(FlowNodeRelation::getFlowId, flowCenter.getId()));
+        String[] split = processInstanceBusinessKey.split(":");
+        List<FlowNodeUser> flowNodeUsers = flowNodeUserMapper.selectList(Wrappers.<FlowNodeUser>lambdaQuery()
+                .eq(FlowNodeUser::getNodeId, flowNodeRelation.getNodeId())
                 .eq(FlowNodeUser::getFlowId, flowCenter.getId())
                 .eq(FlowNodeUser::getDataId, split[1])
                 .eq(FlowNodeUser::getRef, split[2])

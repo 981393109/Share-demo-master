@@ -5,11 +5,11 @@ import com.correction.backend.modules.handleCorrection.controller.dto.Correction
 import com.correction.backend.modules.handleCorrection.controller.dto.CorrectionUserSearchInputDTO;
 import com.correction.backend.modules.handleCorrection.convert.MCorrectionUserConvert;
 import com.correction.backend.modules.handleCorrection.entity.CorrectionUser;
-import com.correction.backend.modules.information.controller.dto.InformationMessageListOutputDTO;
-import com.correction.backend.modules.information.controller.dto.InformationMessageSearchInputDTO;
-import com.correction.backend.modules.information.controller.dto.InformationReadDTO;
+import com.correction.backend.modules.information.controller.dto.*;
 import com.correction.backend.modules.information.convert.MInformationMessageConvert;
+import com.correction.backend.modules.information.entity.InformationAnnouncementMessage;
 import com.correction.backend.modules.information.entity.InformationMessage;
+import com.correction.backend.modules.information.service.InformationAnnouncementMessageService;
 import com.correction.backend.modules.information.service.InformationMessageService;
 import com.correction.framework.common.pojo.CommonResult;
 import com.correction.framework.common.pojo.PageResult;
@@ -35,6 +35,9 @@ public class InformationController {
     @Resource
     private InformationMessageService informationMessageService;
 
+    @Resource
+    private InformationAnnouncementMessageService informationAnnouncementMessageService;
+
     @GetMapping("/page")
     @ApiOperation("获取消息通知列表（分页）")
     public CommonResult<PageResult<InformationMessageListOutputDTO>> getPageList(@Valid InformationMessageSearchInputDTO reqVO) {
@@ -44,6 +47,13 @@ public class InformationController {
             list.add(MInformationMessageConvert.INSTANCE.toList(informationMessage));
         }
         return success(new PageResult<InformationMessageListOutputDTO>(list, pageList.getTotal()));
+    }
+
+    @GetMapping("/infoPage")
+    @ApiOperation("获取公告列表")
+    public CommonResult<PageResult<InformationAnnouncementMessage>> infoPage(@Valid InformationAnnouncementMessageSearchInputDTO reqVO) {
+        PageResult<InformationAnnouncementMessage> pageList = informationAnnouncementMessageService.pageListByEntity(reqVO);
+        return success(pageList);
     }
 
 
@@ -61,5 +71,26 @@ public class InformationController {
         return success(true);
     }
 
+
+    @PostMapping("/sendAnnouncement")
+    @ApiOperation("发送公告")
+    public CommonResult<Boolean> sendAnnouncement(@Valid @RequestBody InformationAnnouncementMessageDTO reqDTO) {
+        informationMessageService.sendAnnouncement(reqDTO);
+        return success(true);
+    }
+
+    @PostMapping("/setEnable")
+    @ApiOperation("设置是否有效")
+    public CommonResult<Boolean> setEnable(@Valid @RequestBody InformationAnnouncementMessageDTO reqDTO) {
+        informationMessageService.setEnable(reqDTO);
+        return success(true);
+    }
+
+    @PostMapping("deleteInfo")
+    @ApiOperation("删除公告")
+    public CommonResult<Boolean> deleteInfo(@Valid @RequestParam Long id) {
+        informationMessageService.delete(id);
+        return success(true);
+    }
 
 }

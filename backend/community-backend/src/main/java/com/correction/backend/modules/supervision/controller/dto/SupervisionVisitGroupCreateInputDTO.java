@@ -45,4 +45,7 @@ public class SupervisionVisitGroupCreateInputDTO implements Serializable {
     @ApiModelProperty(value = "实地查访ID")
     private Long dataId;
 
+    @ApiModelProperty(value = "类型")
+    private Integer type;
+
 }

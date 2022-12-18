@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.correction.backend.modules.supervision.mapper.SupervisionPositioningDevicesMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.correction.backend.modules.supervision.entity.SupervisionPositioningDevices">
+        <id column="id" property="id" />
+        <result column="correction_unit" property="correctionUnit" />
+        <result column="correction_unit_id" property="correctionUnitId" />
+        <result column="user_name" property="userName" />
+        <result column="type" property="type" />
+        <result column="user_id" property="userId" />
+        <result column="case_use" property="caseUse" />
+        <result column="consensus_opinion" property="consensusOpinion" />
+        <result column="area_apply_opinion" property="areaApplyOpinion" />
+        <result column="justice_apply_opinion" property="justiceApplyOpinion" />
+        <result column="inform_commit_one" property="informCommitOne" />
+        <result column="inform_commit_two" property="informCommitTwo" />
+        <result column="inform_commit_three" property="informCommitThree" />
+        <result column="wear_device" property="wearDevice" />
+        <result column="inform_commit_four" property="informCommitFour" />
+        <result column="inform_commit_five" property="informCommitFive" />
+        <result column="progress" property="progress" />
+        <result column="apply_status" property="applyStatus" />
+        <result column="apply_user" property="applyUser" />
+        <result column="apply_name" property="applyName" />
+        <result column="apply_time" property="applyTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, correction_unit, correction_unit_id, user_name, type, user_id, case_use, consensus_opinion, area_apply_opinion, justice_apply_opinion, inform_commit_one, inform_commit_two, inform_commit_three, wear_device, inform_commit_four, inform_commit_five, progress, apply_status, apply_user, apply_name, apply_time
+    </sql>
+
+    <!-- 通用查询结果列 别名 -->
+    <sql id="Base_Column_List_Alias">
+        supervisionPositioningDevices.id,supervisionPositioningDevices.correction_unit AS correctionUnit,supervisionPositioningDevices.correction_unit_id AS correctionUnitId,supervisionPositioningDevices.user_name AS userName,supervisionPositioningDevices.type,supervisionPositioningDevices.user_id AS userId,supervisionPositioningDevices.case_use AS caseUse,supervisionPositioningDevices.consensus_opinion AS consensusOpinion,supervisionPositioningDevices.area_apply_opinion AS areaApplyOpinion,supervisionPositioningDevices.justice_apply_opinion AS justiceApplyOpinion,supervisionPositioningDevices.inform_commit_one AS informCommitOne,supervisionPositioningDevices.inform_commit_two AS informCommitTwo,supervisionPositioningDevices.inform_commit_three AS informCommitThree,supervisionPositioningDevices.wear_device AS wearDevice,supervisionPositioningDevices.inform_commit_four AS informCommitFour,supervisionPositioningDevices.inform_commit_five AS informCommitFive,supervisionPositioningDevices.progress,supervisionPositioningDevices.apply_status AS applyStatus,supervisionPositioningDevices.apply_user AS applyUser,supervisionPositioningDevices.apply_name AS applyName,supervisionPositioningDevices.apply_time AS applyTime
+    </sql>
+    <select id="getPageList"
+            resultType="com.correction.backend.modules.supervision.controller.dto.SupervisionPositioningDevicesFlowDTO">
+        select se.*,art.ASSIGNEE_ as nextUser,art.ID_ as taskId
+        from supervision_positioning_devices se left join act_ru_task art  on se.process_instance_id = art.PROC_INST_ID_
+        where se.deleted = 0
+        <if test="query.userName!=null and query.userName!='' ">
+            and se.user_name like concat('%',#{queryuserName},'%')
+        </if>
+        <if test="query.correctionUnit!=null and query.correctionUnit!='' ">
+            and se.correction_unit = #{query.correctionUnit}
+        </if>
+        <if test="query.applyStatus!=null and query.applyStatus!=''">
+            and se.apply_status = #{query.applyStatus}
+        </if>
+        <if test="query.flowStatus == null">
+            and  ( se.apply_user is null or se.apply_user = #{query.applyUser}  or se.process_instance_id in (select PROC_INST_ID_ from ACT_HI_TASKINST where ASSIGNEE_ = #{query.applyUser}) )
+        </if>
+        <if test="query.flowStatus == 0">
+            and art.ASSIGNEE_ = #{applyUser}
+        </if>
+        <if test="query.flowStatus == 1">
+            and se.process_instance_id in (select PROC_INST_ID_ from ACT_HI_TASKINST where ASSIGNEE_ = #{query.applyUser})
+        </if>
+        <if test="query.flowStatus == 2">
+            and se.apply_status in (-1 ,11)
+        </if>
+        order by se.id desc
+    </select>
+</mapper>

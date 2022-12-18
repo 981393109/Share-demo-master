@@ -37,7 +37,7 @@ public class SupervisionVisitField extends BaseDO {
     /**
      * 矫正单位Id
      */
-    private String correctionUnitId;
+    private Long correctionUnitId;
 
     /**
      * 服刑人员

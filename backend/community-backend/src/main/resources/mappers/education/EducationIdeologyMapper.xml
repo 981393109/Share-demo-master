@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.correction.backend.modules.education.mapper.EducationIdeologyMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.correction.backend.modules.education.entity.EducationIdeology">
+        <id column="id" property="id" />
+        <result column="correction_unit" property="correctionUnit" />
+        <result column="correction_unit_id" property="correctionUnitId" />
+        <result column="user_name" property="userName" />
+        <result column="user_id" property="userId" />
+        <result column="report_date" property="reportDate" />
+        <result column="performance_information" property="performanceInformation" />
+        <result column="benchmark_score" property="benchmarkScore" />
+        <result column="score" property="score" />
+        <result column="org_num" property="orgNum" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="creator" property="creator" />
+        <result column="updater" property="updater" />
+        <result column="deleted" property="deleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, correction_unit, correction_unit_id, user_name, user_id, report_date, performance_information, benchmark_score, score, org_num, create_time, update_time, creator, updater, deleted
+    </sql>
+
+    <!-- 通用查询结果列 别名 -->
+    <sql id="Base_Column_List_Alias">
+        educationIdeology.id,educationIdeology.correction_unit AS correctionUnit,educationIdeology.correction_unit_id AS correctionUnitId,educationIdeology.user_name AS userName,educationIdeology.user_id AS userId,educationIdeology.report_date AS reportDate,educationIdeology.performance_information AS performanceInformation,educationIdeology.benchmark_score AS benchmarkScore,educationIdeology.score,educationIdeology.org_num AS orgNum,educationIdeology.create_time AS createTime,educationIdeology.update_time AS updateTime,educationIdeology.creator,educationIdeology.updater,educationIdeology.deleted
+    </sql>
+</mapper>

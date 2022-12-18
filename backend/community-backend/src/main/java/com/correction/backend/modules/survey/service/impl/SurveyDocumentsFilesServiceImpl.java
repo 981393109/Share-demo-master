@@ -21,6 +21,7 @@ import com.correction.backend.modules.sys.mapper.DictMapper;
 import com.correction.framework.common.pojo.PageResult;
 import com.correction.frameworks.mybatis.mybatis.core.util.MyBatisUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.regexp.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -76,7 +77,7 @@ public class SurveyDocumentsFilesServiceImpl extends ServiceImpl<SurveyDocuments
      * @throws IOException
      */
     @Override
-    public void saveFile(Long dataId,Integer dictType,String  dictValue, MultipartFile file) throws IOException {
+    public SurveyDocumentsFiles saveFile(Long dataId,Integer dictType,String  dictValue, MultipartFile file) throws IOException {
         FilePathDTO fileFilePath = fileResouceService.createFileFilePath(file);
         SurveyDocumentsFiles surveyDocumentsFiles  = new SurveyDocumentsFiles();
         surveyDocumentsFiles.setDictType(dictType);
@@ -88,6 +89,7 @@ public class SurveyDocumentsFilesServiceImpl extends ServiceImpl<SurveyDocuments
         surveyDocumentsFiles.setFileUrl(fileFilePath.getUrlPath());
         surveyDocumentsFiles.setFileType(fileFilePath.getFileType());
         baseMapper.insert(surveyDocumentsFiles);
+        return surveyDocumentsFiles;
     }
 
 
@@ -129,10 +131,12 @@ public class SurveyDocumentsFilesServiceImpl extends ServiceImpl<SurveyDocuments
     }
 
     @Override
-    public void saveFiles(Long dataId, Integer dictType, String dictValue, MultipartFile[] files) throws IOException {
+    public List<SurveyDocumentsFiles> saveFiles(Long dataId, Integer dictType, String dictValue, MultipartFile[] files) throws IOException {
+        List<SurveyDocumentsFiles> list = new ArrayList<>();
         for (MultipartFile file : files) {
-            this.saveFile(dataId,dictType,dictValue,file);
+            list.add(this.saveFile(dataId,dictType,dictValue,file));
         }
+        return list;
     }
 
 

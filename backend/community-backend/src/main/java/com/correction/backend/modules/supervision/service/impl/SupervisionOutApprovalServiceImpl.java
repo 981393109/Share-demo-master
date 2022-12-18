@@ -15,6 +15,7 @@ import com.correction.backend.modules.supervision.service.SupervisionOutApproval
 import com.correction.backend.modules.survey.constant.SurveyConstant;
 import com.correction.backend.modules.survey.controller.dto.SurveyDocumentsFilesDTO;
 import com.correction.backend.modules.survey.controller.dto.SurveyDocumentsFilesQuery;
+import com.correction.backend.modules.survey.entity.SurveyDocumentsFiles;
 import com.correction.backend.modules.survey.service.SurveyDocumentsFilesService;
 import com.correction.backend.modules.sys.entity.SysUserDO;
 import com.correction.backend.modules.sys.mapper.SysUserMapper;
@@ -36,6 +37,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.correction.backend.modules.sys.enums.SysErrorCodeConstants.FLOW_TYPE_ISNULL;
 import static com.correction.backend.modules.sys.enums.SysErrorCodeConstants.SURVEY_FLOW_STATUS_EDIT;
 import static com.correction.framework.common.exception.util.ServiceExceptionUtil.exception;
 
@@ -68,7 +70,7 @@ public class SupervisionOutApprovalServiceImpl extends ServiceImpl<SupervisionOu
     public PageResult<SupervisionOutApproval> pageListByEntity(SupervisionOutApprovalSearchInputDTO supervisionOutApproval) {
         LambdaQueryWrapper<SupervisionOutApproval> queryWrapper = Wrappers.lambdaQuery();
         queryWrapper.like(StrUtil.isNotBlank(supervisionOutApproval.getCorrectionUnit()), SupervisionOutApproval::getCorrectionUnit, supervisionOutApproval.getCorrectionUnit());
-        queryWrapper.like(StrUtil.isNotBlank(supervisionOutApproval.getCorrectionUnitId()), SupervisionOutApproval::getCorrectionUnitId, supervisionOutApproval.getCorrectionUnitId());
+        queryWrapper.like(supervisionOutApproval.getCorrectionUnitId()!=null, SupervisionOutApproval::getCorrectionUnitId, supervisionOutApproval.getCorrectionUnitId());
         queryWrapper.like(StrUtil.isNotBlank(supervisionOutApproval.getUserName()), SupervisionOutApproval::getUserName, supervisionOutApproval.getUserName());
         queryWrapper.like(StrUtil.isNotBlank(supervisionOutApproval.getDestination()), SupervisionOutApproval::getDestination, supervisionOutApproval.getDestination());
         queryWrapper.like(StrUtil.isNotBlank(supervisionOutApproval.getDeparture()), SupervisionOutApproval::getDeparture, supervisionOutApproval.getDeparture());
@@ -96,21 +98,25 @@ public class SupervisionOutApprovalServiceImpl extends ServiceImpl<SupervisionOu
         supervisionOutApproval.setOrgNum(WebFrameworkUtils.getLoginOrgNum());
         supervisionOutApproval.setRef(String.valueOf(System.currentTimeMillis()));
         baseMapper.insert(supervisionOutApproval);
+        List<SurveyDocumentsFiles> surveyDocumentsFiles = createInputDTO.getSurveyDocumentsFiles();
+        for (SurveyDocumentsFiles surveyDocumentsFile : surveyDocumentsFiles) {
+            surveyDocumentsFile.setDataId(supervisionOutApproval.getId());
+            surveyDocumentsFilesService.updateById(surveyDocumentsFile);
+        }
         return supervisionOutApproval;
     }
 
     private void checkSaveOrUpdate(Integer leaveType) {
         if(leaveType == null){
-            throw exception(SURVEY_FLOW_STATUS_EDIT);
+            throw exception(FLOW_TYPE_ISNULL);
         }
     }
 
     @Override
     public SupervisionOutApproval updateSupervisionOutApproval(SupervisionOutApprovalUpdateInputDTO updateInputDTO) {
-        checkSaveOrUpdate(updateInputDTO.getLeaveType());
         SupervisionOutApproval supervisionOutApproval = MSupervisionOutApprovalConvert.INSTANCE.toSupervisionOutApproval(updateInputDTO);
         baseMapper.updateById(supervisionOutApproval);
-        return null;
+        return baseMapper.selectById(updateInputDTO.getId());
     }
 
     @Override
@@ -123,10 +129,14 @@ public class SupervisionOutApprovalServiceImpl extends ServiceImpl<SupervisionOu
     public SupervisionOutApprovalDetailDTO getDetail(Long id) {
         SupervisionOutApproval supervisionOutApproval = baseMapper.selectById(id);
         SupervisionOutApprovalDetailDTO result = new SupervisionOutApprovalDetailDTO();
-        List<SurveyDocumentsFilesDTO> DICT_TYPE_SUPERVISION = surveyDocumentsFilesService.getSurveyDocumentList(SurveyDocumentsFilesQuery.builder().dictType(SupervisionConstant.DICT_TYPE_SUPERVISION).dataId(id).build());
-        List<SurveyDocumentsFilesDTO> DICT_TYPE_SUPERVISION_2 = surveyDocumentsFilesService.getSurveyDocumentList(SurveyDocumentsFilesQuery.builder().dictType(SupervisionConstant.DICT_TYPE_SUPERVISION_2).dataId(id).build());
-        List<SurveyDocumentsFilesDTO> DICT_TYPE_SUPERVISION_3 = surveyDocumentsFilesService.getSurveyDocumentList(SurveyDocumentsFilesQuery.builder().dictType(SupervisionConstant.DICT_TYPE_SUPERVISION_3).dataId(id).build());
-        List<SurveyDocumentsFilesDTO> DICT_TYPE_SUPERVISION_4 = surveyDocumentsFilesService.getSurveyDocumentList(SurveyDocumentsFilesQuery.builder().dictType(SupervisionConstant.DICT_TYPE_SUPERVISION_4).dataId(id).build());
+        List<SurveyDocumentsFilesDTO> DICT_TYPE_SUPERVISION = surveyDocumentsFilesService.getSurveyDocumentList(SurveyDocumentsFilesQuery.builder()
+                .dictType(SupervisionConstant.DICT_TYPE_SUPERVISION).dataId(id).build());
+        List<SurveyDocumentsFilesDTO> DICT_TYPE_SUPERVISION_2 = surveyDocumentsFilesService.getSurveyDocumentList(SurveyDocumentsFilesQuery.builder()
+                .dictType(SupervisionConstant.DICT_TYPE_SUPERVISION_2).dataId(id).build());
+        List<SurveyDocumentsFilesDTO> DICT_TYPE_SUPERVISION_3 = surveyDocumentsFilesService.getSurveyDocumentList(SurveyDocumentsFilesQuery.builder()
+                .dictType(SupervisionConstant.DICT_TYPE_SUPERVISION_3).dataId(id).build());
+        List<SurveyDocumentsFilesDTO> DICT_TYPE_SUPERVISION_4 = surveyDocumentsFilesService.getSurveyDocumentList(SurveyDocumentsFilesQuery.builder()
+                .dictType(SupervisionConstant.DICT_TYPE_SUPERVISION_4).dataId(id).build());
         result.setCityApplyMaterials(DICT_TYPE_SUPERVISION_4);
         result.setAreaApplyMaterials(DICT_TYPE_SUPERVISION_3);
         result.setNoticeMaterials(DICT_TYPE_SUPERVISION_2);
@@ -158,6 +168,13 @@ public class SupervisionOutApprovalServiceImpl extends ServiceImpl<SupervisionOu
                         record.setNextUser(String.valueOf(record.getApplyUser()));
                         record.setNextUserName(sysUserMapper.selectById(record.getApplyUser()).getUserName());
                     }
+                }
+                if (String.valueOf(WebFrameworkUtils.getLoginUserId()).equals(record.getNextUser())){
+                    record.setFlowStatus(0);
+                } else if (!String.valueOf(WebFrameworkUtils.getLoginUserId()).equals(record.getNextUser())  && org.apache.commons.lang3.StringUtils.isNotBlank(record.getTaskId())) {
+                    record.setFlowStatus(1);
+                } else {
+                    record.setFlowStatus(2);
                 }
             }
         }

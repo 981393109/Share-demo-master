@@ -36,7 +36,7 @@ public class SupervisionOutApproval extends BaseDO {
     /**
      * 矫正单位Id
      */
-    private String correctionUnitId;
+    private Long correctionUnitId;
 
     /**
      * 用户名

@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 public class SupervisionOutApprovalList {
 
+    private Long   id;
 
     @ApiModelProperty(value = "矫正单位")
     private String correctionUnit;

@@ -12,7 +12,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-03T15:42:12+0800",
+    date = "2022-12-19T02:18:57+0800",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 1.8.0_211 (Oracle Corporation)"
 )
 public class MSupervisionVisitFieldConvertImpl implements MSupervisionVisitFieldConvert {
@@ -144,22 +144,6 @@ public class MSupervisionVisitFieldConvertImpl implements MSupervisionVisitField
         }
 
         SupervisionVisitFieldDTO supervisionVisitFieldDTO = new SupervisionVisitFieldDTO();
-
-        supervisionVisitFieldDTO.setId( supervisionVisitField.getId() );
-        supervisionVisitFieldDTO.setCorrectionUnit( supervisionVisitField.getCorrectionUnit() );
-        supervisionVisitFieldDTO.setCorrectionUnitId( supervisionVisitField.getCorrectionUnitId() );
-        supervisionVisitFieldDTO.setUserName( supervisionVisitField.getUserName() );
-        supervisionVisitFieldDTO.setUserId( supervisionVisitField.getUserId() );
-        supervisionVisitFieldDTO.setVisitDate( supervisionVisitField.getVisitDate() );
-        supervisionVisitFieldDTO.setVisitAddress( supervisionVisitField.getVisitAddress() );
-        supervisionVisitFieldDTO.setVisitPurpose( supervisionVisitField.getVisitPurpose() );
-        supervisionVisitFieldDTO.setVisitOpinion( supervisionVisitField.getVisitOpinion() );
-        supervisionVisitFieldDTO.setOrgNum( supervisionVisitField.getOrgNum() );
-        supervisionVisitFieldDTO.setCreateTime( supervisionVisitField.getCreateTime() );
-        supervisionVisitFieldDTO.setUpdateTime( supervisionVisitField.getUpdateTime() );
-        supervisionVisitFieldDTO.setCreator( supervisionVisitField.getCreator() );
-        supervisionVisitFieldDTO.setUpdater( supervisionVisitField.getUpdater() );
-        supervisionVisitFieldDTO.setDeleted( supervisionVisitField.getDeleted() );
 
         return supervisionVisitFieldDTO;
     }

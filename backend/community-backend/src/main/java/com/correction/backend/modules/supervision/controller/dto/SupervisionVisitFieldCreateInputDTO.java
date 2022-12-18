@@ -1,5 +1,6 @@
 package com.correction.backend.modules.supervision.controller.dto;
 
+import com.correction.backend.modules.survey.entity.SurveyDocumentsFiles;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -27,7 +28,7 @@ public class SupervisionVisitFieldCreateInputDTO implements Serializable {
     private String correctionUnit;
 
     @ApiModelProperty(value = "矫正单位Id")
-    private String correctionUnitId;
+    private Long correctionUnitId;
 
     @ApiModelProperty(value = "服刑人员")
     private String userName;
@@ -67,5 +68,8 @@ public class SupervisionVisitFieldCreateInputDTO implements Serializable {
 
     @ApiModelProperty(value = "查访小组")
     private List<SupervisionVisitGroupCreateInputDTO> userGroupList;
+
+    @ApiModelProperty(value = "新增时所需的文书附件")
+    private List<SurveyDocumentsFiles> surveyDocumentsFiles;
 
 }
