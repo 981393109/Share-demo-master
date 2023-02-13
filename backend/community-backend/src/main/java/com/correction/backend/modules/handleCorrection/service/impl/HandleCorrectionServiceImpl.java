@@ -26,6 +26,7 @@ import com.correction.backend.modules.survey.controller.dto.SurveyEvaluationFile
 import com.correction.backend.modules.survey.controller.dto.SurveyEvaluationListDTO;
 import com.correction.backend.modules.survey.convert.MSurveyEvaluationConvert;
 import com.correction.backend.modules.survey.entity.SurveyEvaluation;
+import com.correction.backend.modules.survey.mapper.SurveyEvaluationMapper;
 import com.correction.backend.modules.survey.service.SurveyDocumentsFilesService;
 import com.correction.backend.modules.sys.entity.SysUserDO;
 import com.correction.backend.modules.sys.mapper.SysUserMapper;
@@ -37,6 +38,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -66,6 +68,9 @@ public class HandleCorrectionServiceImpl extends ServiceImpl<HandleCorrectionMap
     @Resource
     SysUserMapper sysUserMapper;
 
+    @Resource
+    SurveyEvaluationMapper surveyEvaluationMapper;
+
 
     @Override
     public HandleCorrection createHandleCorrection(HandleCorrectionCreateInputDTO correctionCreateInputDTO) {
@@ -73,7 +78,8 @@ public class HandleCorrectionServiceImpl extends ServiceImpl<HandleCorrectionMap
         HandleCorrection handleCorrection = MHandleCorrectionConvert.INSTANCE.toHandleCorrection(correctionCreateInputDTO);
         handleCorrection.setApplyStatus(SurveyConstant.FLOW_STATUS_0);
         handleCorrection.setProgress(SurveyConstant.PROGRESS_1);
-        handleCorrection.setOrgNum(WebFrameworkUtils.getLoginOrgNum());
+        if(handleCorrection.getOrgNum() == null)
+            handleCorrection.setOrgNum(WebFrameworkUtils.getLoginOrgId());
         handleCorrection.setRef(String.valueOf(System.currentTimeMillis()));
         baseMapper.insert(handleCorrection);
         return handleCorrection;
@@ -101,6 +107,7 @@ public class HandleCorrectionServiceImpl extends ServiceImpl<HandleCorrectionMap
     @Override
     public HandleCorrectionFilesDTO getDetail(Long id) {
         HandleCorrection handleCorrection = baseMapper.selectById(id);
+        SurveyEvaluation surveyEvaluation = surveyEvaluationMapper.selectById(handleCorrection.getSurveyEvaluationId());
         //文书补充
         List<SurveyDocumentsFilesDTO> DICT_TYPE_docSupplement = surveyDocumentsFilesService.getSurveyDocumentList(SurveyDocumentsFilesQuery.builder().dictType(SurveyConstant.DICT_TYPE_docSupplement).dataId(id).build());
         //人员报到
@@ -115,6 +122,7 @@ public class HandleCorrectionServiceImpl extends ServiceImpl<HandleCorrectionMap
         List<SurveyDocumentsFilesDTO> DICT_TYPE_group = surveyDocumentsFilesService.getSurveyDocumentList(SurveyDocumentsFilesQuery.builder().dictType(SurveyConstant.DICT_TYPE_group).dataId(id).build());
         List<SurveyDocumentsFilesDTO> DICT_TYPE_ways = surveyDocumentsFilesService.getSurveyDocumentList(SurveyDocumentsFilesQuery.builder().dictType(SurveyConstant.DICT_TYPE_ways).dataId(id).build());
         List<SurveyDocumentsFilesDTO> DICT_TYPE_say = surveyDocumentsFilesService.getSurveyDocumentList(SurveyDocumentsFilesQuery.builder().dictType(SurveyConstant.DICT_TYPE_say).dataId(id).build());
+        List<SurveyDocumentsFilesDTO> receiptMaterialsFiles = surveyDocumentsFilesService.getSurveyDocumentList(SurveyDocumentsFilesQuery.builder().dictType(1101).dataId(id).build());
         HandleCorrectionListOutputDTO handleCorrectionListOutputDTO = MHandleCorrectionConvert.INSTANCE.toList(handleCorrection);
         //矫正档案
         CorrectionUser correctionUser = correctionUserService.getByCorrectionId(handleCorrection.getId());
@@ -135,6 +143,8 @@ public class HandleCorrectionServiceImpl extends ServiceImpl<HandleCorrectionMap
         handleCorrectionFilesDTO.setGroupFiles(DICT_TYPE_group);
         handleCorrectionFilesDTO.setWaysFiles(DICT_TYPE_ways);
         handleCorrectionFilesDTO.setSaysFiles(DICT_TYPE_say);
+        handleCorrectionFilesDTO.setSurveyEvaluation(surveyEvaluation);
+        handleCorrectionFilesDTO.setReceiptMaterialsFiles(receiptMaterialsFiles);
         return handleCorrectionFilesDTO;
     }
 
@@ -152,7 +162,7 @@ public class HandleCorrectionServiceImpl extends ServiceImpl<HandleCorrectionMap
         queryWrapper.like(handleCorrection.getApplyUser() !=null, HandleCorrection::getApplyUser, handleCorrection.getApplyUser());
         queryWrapper.like(StrUtil.isNotBlank(handleCorrection.getApplyName()), HandleCorrection::getApplyName, handleCorrection.getApplyName());
         queryWrapper.like(StrUtil.isNotBlank(handleCorrection.getApplyTime()), HandleCorrection::getApplyTime, handleCorrection.getApplyTime());
-        queryWrapper.like(StrUtil.isNotBlank(handleCorrection.getOrgNum()), HandleCorrection::getOrgNum, handleCorrection.getOrgNum());
+        queryWrapper.eq(handleCorrection.getOrgNum()!=null, HandleCorrection::getOrgNum, handleCorrection.getOrgNum());
         queryWrapper.like(StrUtil.isNotBlank(handleCorrection.getCreator()), HandleCorrection::getCreator, handleCorrection.getCreator());
         queryWrapper.like(StrUtil.isNotBlank(handleCorrection.getUpdater()), HandleCorrection::getUpdater, handleCorrection.getUpdater());
         return baseMapper.selectList(queryWrapper);
@@ -162,6 +172,7 @@ public class HandleCorrectionServiceImpl extends ServiceImpl<HandleCorrectionMap
     public IPage<HandleCorrectionListDTO> getPageList(HandleCorrectionSearchInputDTO searchInputDTO) {
         IPage<HandleCorrectionListDTO> mpPage = MyBatisUtils.buildPage(searchInputDTO);
         searchInputDTO.setApplyUser(WebFrameworkUtils.getLoginUserId());
+        initApplyStatus(searchInputDTO);
         mpPage = baseMapper.getPageListFlow(mpPage, searchInputDTO);
         List<HandleCorrectionListDTO> records = mpPage.getRecords();
         if(!CollectionUtils.isEmpty(records)) {
@@ -185,5 +196,54 @@ public class HandleCorrectionServiceImpl extends ServiceImpl<HandleCorrectionMap
             }
         }
         return mpPage;
+    }
+
+    @Override
+    public IPage<HandleCorrectionListDTO> getPageAllList(HandleCorrectionSearchInputDTO searchInputDTO) {
+        IPage<HandleCorrectionListDTO> mpPage = MyBatisUtils.buildPage(searchInputDTO);
+        searchInputDTO.setOrgIds(WebFrameworkUtils.getLoginOrgIdsList());
+        initApplyStatus(searchInputDTO);
+        mpPage = baseMapper.getPageAllListFlow(mpPage, searchInputDTO);
+        List<HandleCorrectionListDTO> records = mpPage.getRecords();
+        if(!CollectionUtils.isEmpty(records)) {
+            for (HandleCorrectionListDTO record : records) {
+                if(record.getNextUser()!=null){
+                    SysUserDO userDO = sysUserMapper.selectById(Long.parseLong(record.getNextUser()));
+                    record.setNextUserName(userDO.getUserName());
+                } else {
+                    if(SurveyConstant.FLOW_STATUS_0.equals(record.getApplyStatus())){
+                        record.setNextUser(String.valueOf(record.getApplyUser()));
+                        record.setNextUserName(sysUserMapper.selectById(record.getApplyUser()).getUserName());
+                    }
+                }
+            }
+        }
+        return mpPage;
+    }
+
+    private void initApplyStatus(HandleCorrectionSearchInputDTO searchInputDTO) {
+        List<Integer> list = new ArrayList<>();
+        if(searchInputDTO.getApplyStatus()!=null){
+            if(1 == searchInputDTO.getApplyStatus()){
+                list.add(0);
+            } else if (2 == searchInputDTO.getApplyStatus()) {
+                list.add(1);
+                list.add(2);
+                list.add(3);
+                list.add(4);
+                list.add(5);
+                list.add(6);
+                list.add(7);
+            } else if (4 == searchInputDTO.getApplyStatus()) {
+                list.add(99);
+            } else {
+                list.add(8);
+                list.add(9);
+                list.add(10);
+                list.add(11);
+                list.add(12);
+            }
+        }
+        searchInputDTO.setApplyStatusList(list.size() == 0?null:list);
     }
 }

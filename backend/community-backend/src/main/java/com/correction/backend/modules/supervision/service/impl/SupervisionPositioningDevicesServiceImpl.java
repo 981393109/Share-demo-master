@@ -64,7 +64,7 @@ public class SupervisionPositioningDevicesServiceImpl extends ServiceImpl<Superv
         supervisionPositioningDevices.setApplyUser(loginUser.getId());
         supervisionPositioningDevices.setApplyStatus(SurveyConstant.FLOW_STATUS_0);
         supervisionPositioningDevices.setProgress(SurveyConstant.PROGRESS_1);
-        supervisionPositioningDevices.setOrgNum(WebFrameworkUtils.getLoginOrgNum());
+        supervisionPositioningDevices.setOrgNum(WebFrameworkUtils.getLoginOrgId());
         supervisionPositioningDevices.setRef(String.valueOf(System.currentTimeMillis()));
         baseMapper.insert(supervisionPositioningDevices);
         supervisionVisitGroupService.createSupervisionVisitGroupList(createInputDTO.getUserGroupList(),supervisionPositioningDevices.getId(),2);
@@ -185,6 +185,28 @@ public class SupervisionPositioningDevicesServiceImpl extends ServiceImpl<Superv
                     record.setFlowStatus(1);
                 } else {
                     record.setFlowStatus(2);
+                }
+            }
+        }
+        return mpPage;
+    }
+
+    @Override
+    public IPage<SupervisionPositioningDevicesFlowDTO> getPageAllList(SupervisionPositioningDevicesSearchInputDTO searchInputDTO) {
+        IPage<SupervisionPositioningDevicesFlowDTO> mpPage = MyBatisUtils.buildPage(searchInputDTO);
+        searchInputDTO.setOrgIds(WebFrameworkUtils.getLoginOrgIdsList());
+        mpPage = baseMapper.getPageAllList(mpPage, searchInputDTO);
+        List<SupervisionPositioningDevicesFlowDTO> records = mpPage.getRecords();
+        if(!CollectionUtils.isEmpty(records)) {
+            for (SupervisionPositioningDevicesFlowDTO record : records) {
+                if(record.getNextUser()!=null){
+                    SysUserDO userDO = sysUserMapper.selectById(Long.parseLong(record.getNextUser()));
+                    record.setNextUserName(userDO.getUserName());
+                } else {
+                    if(SurveyConstant.FLOW_STATUS_0.equals(record.getApplyStatus())){
+                        record.setNextUser(String.valueOf(record.getApplyUser()));
+                        record.setNextUserName(sysUserMapper.selectById(record.getApplyUser()).getUserName());
+                    }
                 }
             }
         }

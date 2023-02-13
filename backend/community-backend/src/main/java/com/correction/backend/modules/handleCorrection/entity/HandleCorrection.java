@@ -194,7 +194,7 @@ public class HandleCorrection extends BaseDO {
     /**
      * 组织架构num
      */
-    private String orgNum;
+    private Long orgNum;
 
     private String endFlowTime;
 

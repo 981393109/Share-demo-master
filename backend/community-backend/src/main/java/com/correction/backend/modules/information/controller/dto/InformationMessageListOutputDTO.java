@@ -26,6 +26,9 @@ public class InformationMessageListOutputDTO implements Serializable {
     @ApiModelProperty(value = "接收用户id")
     private Long userId;
 
+    @ApiModelProperty(value = "用户名称")
+    private String userName;
+
     @ApiModelProperty(value = "信息类型(1：审批 2：通告 3：其他)")
     private Integer msgType;
 

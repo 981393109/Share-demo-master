@@ -79,6 +79,8 @@ public class SupervisionDailyReport extends BaseDO {
      */
     private String remark;
 
+    private Long orgNum;
+
 
     public static final String ID = "id";
 

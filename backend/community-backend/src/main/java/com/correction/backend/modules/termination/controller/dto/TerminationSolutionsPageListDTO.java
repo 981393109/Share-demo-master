@@ -57,4 +57,11 @@ public class TerminationSolutionsPageListDTO {
     @ApiModelProperty(value = "flowStatus")
     private Integer flowStatus;
 
+    private String solutionsTime;
+
+    private String correctionTime;
+
+    @ApiModelProperty(value = "终止原因")
+    private Integer terminationReason;
+
 }

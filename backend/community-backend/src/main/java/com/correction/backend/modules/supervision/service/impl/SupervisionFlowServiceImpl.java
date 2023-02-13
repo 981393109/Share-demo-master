@@ -20,6 +20,7 @@ import com.correction.backend.modules.supervision.entity.SupervisionOutApproval;
 import com.correction.backend.modules.supervision.service.SupervisionFlowService;
 import com.correction.backend.modules.supervision.service.SupervisionOutApprovalService;
 import com.correction.backend.modules.survey.constant.SurveyConstant;
+import com.correction.framework.common.util.date.DateUtils;
 import com.correction.framework.web.web.LoginUser;
 import com.correction.framework.web.web.core.util.WebFrameworkUtils;
 import com.correction.framework.workflow.dto.FlowCompleteDTO;
@@ -31,6 +32,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import static com.correction.backend.modules.sys.enums.SysErrorCodeConstants.*;
@@ -80,7 +82,7 @@ public class SupervisionFlowServiceImpl implements SupervisionFlowService {
         ActProcessInstance actProcessInstance = surveyFlow.startFlow(FlowStartDTO.builder().userId(loginUser.getId()).flowType(flowType).dataId(supervisionOutApproval.getId()).ref(supervisionOutApproval.getRef()).progress(String.valueOf(supervisionOutApproval.getProgress())).build());
         supervisionOutApproval.setProgress(SurveyConstant.PROGRESS_2);
         supervisionOutApproval.setApplyStatus(SurveyConstant.FLOW_STATUS_2);
-        supervisionOutApproval.setApplyTime(LocalDateTime.now().toString());
+        supervisionOutApproval.setApplyTime(DateUtils.formatDate(new Date()));
         supervisionOutApproval.setApplyUser(loginUser.getId());
         supervisionOutApproval.setApplyName(loginUser.getUsername());
         supervisionOutApproval.setProcessInstanceId(actProcessInstance.getProcessInstanceId());

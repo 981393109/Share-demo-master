@@ -63,8 +63,11 @@
         <if test="query.entrustType!=null">
             and se.entrust_type = #{query.entrustType}
         </if>
-        <if test="query.applyStatus!=null">
-            and se.apply_status = #{query.applyStatus}
+        <if test="query.applyStatusList !=null">
+            and se.apply_status in
+            <foreach collection="query.applyStatusList" item="apply" open="(" close=")" separator="," >
+                #{apply}
+            </foreach>
         </if>
         <if test="query.flowStatus == null">
             and  ( se.apply_user is null or se.apply_user = #{query.applyUser}  or se.process_instance_id in (select PROC_INST_ID_ from ACT_HI_TASKINST where ASSIGNEE_ = #{query.applyUser}) )
@@ -73,10 +76,41 @@
             and art.ASSIGNEE_ = #{applyUser}
         </if>
         <if test="query.flowStatus == 1">
-            and se.process_instance_id in (select PROC_INST_ID_ from ACT_HI_TASKINST where ASSIGNEE_ = #{query.applyUser})
+            and se.process_instance_id in (select PROC_INST_ID_ from ACT_HI_TASKINST where ASSIGNEE_ =#{query.applyUser})  and se.apply_status not in (-1,99)
         </if>
         <if test="query.flowStatus == 2">
-            and se.apply_status in (-1 ,11)
+            and se.apply_status in (-1 ,99) and se.process_instance_id in (select PROC_INST_ID_ from ACT_HI_TASKINST where ASSIGNEE_ =#{query.applyUser})
+        </if>
+        <if test="query.orgNum!=null">
+            and se.org_num = #{query.orgNum}
+        </if>
+        <if test="query.jurisdictionOffice!=null">
+            and se.jurisdiction_office like concat ('%',#{query.jurisdictionOffice},'%')
+        </if>
+        order by se.id desc
+    </select>
+    <select id="getPageAllListFlow"
+            resultType="com.correction.backend.modules.handleCorrection.controller.dto.HandleCorrectionListDTO">
+        select se.*,art.ASSIGNEE_ as nextUser,art.ID_ as taskId
+        from handle_correction se left join act_ru_task art  on se.process_instance_id = art.PROC_INST_ID_
+        where se.deleted = 0
+        <if test="query.name!=null">
+            and se.name like concat('%',#{query.name},'%')
+        </if>
+        <if test="query.entrustType!=null">
+            and se.entrust_type = #{query.entrustType}
+        </if>
+        <if test="query.applyStatusList !=null">
+            and se.apply_status in
+            <foreach collection="query.applyStatusList" item="apply" open="(" close=")" separator="," >
+                #{apply}
+            </foreach>
+        </if>
+        <if test="query.orgIds!=null">
+            and se.org_num in
+            <foreach collection="query.orgIds" item="orgId" open="(" close=")" separator="," >
+                #{orgId}
+            </foreach>
         </if>
         order by se.id desc
     </select>

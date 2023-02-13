@@ -51,6 +51,8 @@ public interface SupervisionOutApprovalService extends IService<SupervisionOutAp
      */
     IPage<SupervisionOutApprovalList> getPageList (SupervisionOutApprovalSearchInputDTO queryDTO);
 
+    IPage<SupervisionOutApprovalList> getPageAllList (SupervisionOutApprovalSearchInputDTO queryDTO);
+
     /**
      * 获取近两个月请假天数
      * @param currUserId

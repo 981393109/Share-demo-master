@@ -59,7 +59,7 @@ public class SysUserDO extends BaseDO {
      */
     private Long orgId;
 
-    private String orgNum;
+    private Long orgNum;
 
     private Long roleId;
 

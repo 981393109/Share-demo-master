@@ -19,6 +19,7 @@ import com.correction.framework.web.web.core.util.WebFrameworkUtils;
 import com.google.common.annotations.VisibleForTesting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class SurveyEntrustUnitServiceImpl extends ServiceImpl<SurveyEntrustUnitM
         //校验
         checkCreateOrUpdate(null,dto.getUnitName());
         SurveyEntrustUnit surveyEntrustUnit = MSurveyEntrustUnitConvert.INSTANCE.toSurveyEntrustUnit(dto);
-        surveyEntrustUnit.setOrgNum(WebFrameworkUtils.getLoginOrgNum());
+        surveyEntrustUnit.setOrgNum(WebFrameworkUtils.getLoginOrgId());
         surveyEntrustUnit.setUnitName(surveyEntrustUnit.getUnitName().trim());
         surveyEntrustUnit.setUnitAddress(surveyEntrustUnit.getUnitAddress().trim());
         baseMapper.insert(surveyEntrustUnit);
@@ -71,12 +72,20 @@ public class SurveyEntrustUnitServiceImpl extends ServiceImpl<SurveyEntrustUnitM
 
     @Override
     public PageResult<SurveyEntrustUnit> getPageList(SurveyEntrustUnitSearchInputDTO searchInputDTO) {
+        searchInputDTO.setOrgIds(WebFrameworkUtils.getLoginOrgIdsList());
         return baseMapper.getPageList(searchInputDTO);
     }
 
     @Override
     public List<SurveyEntrustUnit> getList(SurveyEntrustUnitSearchInputDTO searchInputDTO) {
-        return baseMapper.selectList(Wrappers.<SurveyEntrustUnit>lambdaQuery().eq(searchInputDTO.getUnitType() !=null,SurveyEntrustUnit::getUnitType,searchInputDTO.getUnitType()).like(StringUtils.isNotBlank(searchInputDTO.getUnitName()),SurveyEntrustUnit::getUnitName,searchInputDTO.getUnitName()).orderByDesc(SurveyEntrustUnit::getId));
+        searchInputDTO.setOrgIds(WebFrameworkUtils.getLoginOrgIdsList());
+        return baseMapper.selectList(Wrappers.<SurveyEntrustUnit>lambdaQuery()
+                .eq(searchInputDTO.getOrgNum()!=null ,SurveyEntrustUnit::getOrgNum,searchInputDTO.getOrgNum())
+                .eq(searchInputDTO.getUnitType() !=null,SurveyEntrustUnit::getUnitType,searchInputDTO.getUnitType())
+                .eq(SurveyEntrustUnit::getDeleted,0)
+                .like(StringUtils.isNotBlank(searchInputDTO.getUnitName()),SurveyEntrustUnit::getUnitName,searchInputDTO.getUnitName())
+                .in(!CollectionUtils.isEmpty(searchInputDTO.getOrgIds()),SurveyEntrustUnit::getOrgNum,searchInputDTO.getOrgIds())
+                .orderByDesc(SurveyEntrustUnit::getId));
     }
 
     private void checkCreateOrUpdate(Long id, String name) {

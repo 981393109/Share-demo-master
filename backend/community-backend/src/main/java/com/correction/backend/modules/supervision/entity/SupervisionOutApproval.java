@@ -166,7 +166,7 @@ public class SupervisionOutApproval extends BaseDO {
     /**
      * orgNum
      */
-    private String orgNum;
+    private Long orgNum;
 
     /**
      * Ref

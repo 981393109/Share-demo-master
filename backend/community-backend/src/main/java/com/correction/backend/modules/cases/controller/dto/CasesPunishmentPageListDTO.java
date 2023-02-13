@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @ApiModel(value="CasesPunishmentPageListDTO", description="处罚案件列表")
@@ -62,6 +64,9 @@ public class CasesPunishmentPageListDTO {
 
     @ApiModelProperty(value = "flowStatus")
     private Integer flowStatus;
+
+    @ApiModelProperty(value = "创建时间")
+    private Date createTime;
 
 
 }

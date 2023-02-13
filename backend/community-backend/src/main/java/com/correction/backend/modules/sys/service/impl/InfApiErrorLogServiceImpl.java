@@ -12,7 +12,6 @@ import java.util.concurrent.Future;
 /**
  * API 错误日志 Service 实现类
  *
- * @author 芋道源码
  */
 @Service
 @Validated

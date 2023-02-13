@@ -3,6 +3,7 @@ package com.correction.backend.modules.survey.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.correction.backend.modules.file.config.FileProperties;
@@ -31,6 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -107,7 +109,20 @@ public class SurveyDocumentsFilesServiceImpl extends ServiceImpl<SurveyDocuments
 
     @Override
     public List<SurveyDocumentsFilesDTO> getSurveyDocumentList(SurveyDocumentsFilesQuery query) {
-        return baseMapper.getList(query);
+        List<Dict> dicts = dictMapper.selectList(Wrappers.<Dict>lambdaQuery().eq(Dict::getDictType, query.getDictType()));
+        List<SurveyDocumentsFilesDTO> list = baseMapper.getList(query);
+        List<Integer> collect = list.stream().map(e -> e.getDictValue()).collect(Collectors.toList());
+        for (Dict dict : dicts) {
+            if(!collect.contains(dict.getDictValue())){
+                SurveyDocumentsFilesDTO newDto = new SurveyDocumentsFilesDTO();
+                newDto.setDictType(dict.getDictType());
+                newDto.setDictValue(dict.getDictValue());
+                newDto.setDictName(dict.getDictName());
+                newDto.setUseType(dict.getUseType());
+                list.add(newDto);
+            }
+        }
+        return list;
     }
 
     @Override

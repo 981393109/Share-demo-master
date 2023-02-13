@@ -21,6 +21,7 @@ import com.correction.backend.modules.sys.mapper.OrgMapper;
 import com.correction.backend.modules.sys.mapper.SysUserMapper;
 import com.correction.backend.modules.sys.service.OrgService;
 import com.correction.framework.common.pojo.PageResult;
+import com.correction.framework.common.util.date.DateUtils;
 import com.correction.framework.web.web.LoginUser;
 import com.correction.framework.web.web.core.util.WebFrameworkUtils;
 import com.correction.frameworks.mybatis.mybatis.core.util.MyBatisUtils;
@@ -34,6 +35,7 @@ import javax.annotation.Resource;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import static com.correction.backend.modules.sys.enums.SysErrorCodeConstants.SURVEY_FLOW_STATUS_EDIT;
@@ -74,7 +76,7 @@ public class SurveyEvaluationServiceImpl extends ServiceImpl<SurveyEvaluationMap
         surveyEvaluation.setApplyUser(loginUser.getId());
         surveyEvaluation.setApplyStatus(SurveyConstant.FLOW_STATUS_0);
         surveyEvaluation.setProgress(SurveyConstant.PROGRESS_1);
-        surveyEvaluation.setOrgNum(WebFrameworkUtils.getLoginOrgNum());
+        surveyEvaluation.setOrgNum(WebFrameworkUtils.getLoginOrgId());
         surveyEvaluation.setRef(String.valueOf(System.currentTimeMillis()));
         baseMapper.insert(surveyEvaluation);
         return surveyEvaluation;
@@ -87,7 +89,7 @@ public class SurveyEvaluationServiceImpl extends ServiceImpl<SurveyEvaluationMap
         this.checkCreateOrUpdate(reqDTO.getId(),reqDTO.getName(),reqDTO.getApplyStatus());
         SurveyEvaluation surveyEvaluation = MSurveyEvaluationConvert.INSTANCE.toSurveyEvaluation(reqDTO);
         if (surveyEvaluation.getAssessmentLastOpinion()!=null && 2 == surveyEvaluation.getAssessmentLastOpinion() && StringUtils.isBlank(surveyEvaluation.getReceptionDate())){
-            surveyEvaluation.setReceptionDate(LocalDateTime.now().toString());
+            surveyEvaluation.setReceptionDate(DateUtils.formatDate(new Date()));
         }
         //surveyEvaluation.setApplyStatus(SurveyConstant.FLOW_STATUS_0);
         baseMapper.updateById(surveyEvaluation);
@@ -125,6 +127,7 @@ public class SurveyEvaluationServiceImpl extends ServiceImpl<SurveyEvaluationMap
 
     @Override
     public PageResult<SurveyEvaluation> getPageList(SurveyEvaluationSearchInputDTO searchInputDTO) {
+        searchInputDTO.setOrgNum(WebFrameworkUtils.getLoginOrgId());
         PageResult<SurveyEvaluation> surveyEvaluationPageResult = this.baseMapper.selectPage(searchInputDTO);
         return surveyEvaluationPageResult;
     }
@@ -133,6 +136,7 @@ public class SurveyEvaluationServiceImpl extends ServiceImpl<SurveyEvaluationMap
     public IPage<SurveyEvaluationListDTO> getPageListFlow(SurveyEvaluationSearchInputDTO reqVO) {
         IPage<SurveyEvaluationListDTO> mpPage = MyBatisUtils.buildPage(reqVO);
         reqVO.setApplyUser(WebFrameworkUtils.getLoginUserId());
+        //reqVO.setOrgNum(WebFrameworkUtils.getLoginOrgId());
         mpPage = baseMapper.getPageListFlow(mpPage, reqVO);
         List<SurveyEvaluationListDTO> records = mpPage.getRecords();
         if(!CollectionUtils.isEmpty(records)) {
@@ -164,6 +168,35 @@ public class SurveyEvaluationServiceImpl extends ServiceImpl<SurveyEvaluationMap
         List<OrgDO> list = orgMapper.selectList(Wrappers.<OrgDO>lambdaQuery().in(OrgDO::getOrgType, Arrays.asList(SysConstant.ORG_0, SysConstant.ORG_1)).eq(OrgDO::getDeleted, 0));
         List<FlowOrgRoleDTO> orgRoleInfo = flowUserService.getOrgRoleInfo(list);
         return orgRoleInfo;
+    }
+
+    @Override
+    public IPage<SurveyEvaluationListDTO> getPageAllListFlow(SurveyEvaluationSearchInputDTO reqVO) {
+        IPage<SurveyEvaluationListDTO> mpPage = MyBatisUtils.buildPage(reqVO);
+        reqVO.setOrgIds(WebFrameworkUtils.getLoginOrgIdsList());
+        mpPage = baseMapper.getPageAllListFlow(mpPage, reqVO);
+        List<SurveyEvaluationListDTO> records = mpPage.getRecords();
+        if(!CollectionUtils.isEmpty(records)) {
+            for (SurveyEvaluationListDTO record : records) {
+                if(record.getNextUser()!=null) {
+                    SysUserDO userDO = sysUserMapper.selectById(Long.parseLong(record.getNextUser()));
+                    record.setNextUserName(userDO.getUserName());
+                } else {
+                    if(SurveyConstant.FLOW_STATUS_0.equals(record.getApplyStatus())){
+                        record.setNextUser(String.valueOf(record.getApplyUser()));
+                        record.setNextUserName(sysUserMapper.selectById(record.getApplyUser()).getUserName());
+                    }
+                }
+            }
+        }
+        return mpPage;
+    }
+
+    @Override
+    public void updateApplyStatus(Long id, Integer applyStatus) {
+        SurveyEvaluation byId = getById(id);
+        byId.setApplyStatus(applyStatus);
+        updateById(byId);
     }
 
 

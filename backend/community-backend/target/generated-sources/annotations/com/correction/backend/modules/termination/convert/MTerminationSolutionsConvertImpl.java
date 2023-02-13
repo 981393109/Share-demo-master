@@ -11,7 +11,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-19T02:18:58+0800",
+    date = "2023-02-13T01:51:14+0800",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 1.8.0_211 (Oracle Corporation)"
 )
 public class MTerminationSolutionsConvertImpl implements MTerminationSolutionsConvert {
@@ -84,6 +84,7 @@ public class MTerminationSolutionsConvertImpl implements MTerminationSolutionsCo
         terminationSolutions.setRef( terminationSolutionsCreateInputDTO.getRef() );
         terminationSolutions.setProcessInstanceId( terminationSolutionsCreateInputDTO.getProcessInstanceId() );
         terminationSolutions.setOrgNum( terminationSolutionsCreateInputDTO.getOrgNum() );
+        terminationSolutions.setSendProveComplete( terminationSolutionsCreateInputDTO.getSendProveComplete() );
 
         return terminationSolutions;
     }
@@ -121,6 +122,7 @@ public class MTerminationSolutionsConvertImpl implements MTerminationSolutionsCo
         terminationSolutions.setRef( terminationSolutionsUpdateInputDTO.getRef() );
         terminationSolutions.setProcessInstanceId( terminationSolutionsUpdateInputDTO.getProcessInstanceId() );
         terminationSolutions.setOrgNum( terminationSolutionsUpdateInputDTO.getOrgNum() );
+        terminationSolutions.setSendProveComplete( terminationSolutionsUpdateInputDTO.getSendProveComplete() );
 
         return terminationSolutions;
     }
@@ -158,6 +160,7 @@ public class MTerminationSolutionsConvertImpl implements MTerminationSolutionsCo
         terminationSolutionsListOutputDTO.setCreator( terminationSolutions.getCreator() );
         terminationSolutionsListOutputDTO.setUpdater( terminationSolutions.getUpdater() );
         terminationSolutionsListOutputDTO.setDeleted( terminationSolutions.getDeleted() );
+        terminationSolutionsListOutputDTO.setSendProveComplete( terminationSolutions.getSendProveComplete() );
 
         return terminationSolutionsListOutputDTO;
     }

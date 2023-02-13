@@ -1,13 +1,17 @@
 package com.correction.backend.modules.handleCorrection.controller;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.correction.backend.modules.handleCorrection.controller.dto.*;
 import com.correction.backend.modules.handleCorrection.convert.MCorrectionUserConvert;
 import com.correction.backend.modules.handleCorrection.entity.CorrectionUser;
 import com.correction.backend.modules.handleCorrection.entity.HandleCorrection;
 import com.correction.backend.modules.handleCorrection.service.CorrectionUserService;
+import com.correction.backend.modules.survey.controller.dto.SurveyDocumentsFilesDTO;
+import com.correction.backend.modules.survey.controller.dto.SurveyDocumentsFilesQuery;
 import com.correction.framework.common.pojo.CommonResult;
 import com.correction.framework.common.pojo.PageResult;
+import com.correction.framework.web.web.core.util.WebFrameworkUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -18,6 +22,7 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.correction.framework.common.pojo.CommonResult.success;

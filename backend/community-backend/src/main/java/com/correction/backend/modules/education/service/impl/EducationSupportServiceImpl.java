@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.correction.backend.modules.education.controller.dto.*;
 import com.correction.backend.modules.education.convert.MEducationSupportConvert;
+import com.correction.backend.modules.education.entity.EducationIdeology;
 import com.correction.backend.modules.education.service.EducationSupportService;
 import com.correction.backend.modules.education.entity.EducationSupport;
 import com.correction.backend.modules.education.mapper.EducationSupportMapper;
@@ -13,8 +14,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.correction.backend.modules.supervision.controller.dto.SupervisionDailyReportUser;
 import com.correction.backend.modules.supervision.entity.SupervisionDailyReport;
 import com.correction.framework.common.pojo.PageResult;
+import com.correction.framework.web.web.core.util.WebFrameworkUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -49,6 +52,7 @@ public class EducationSupportServiceImpl extends ServiceImpl<EducationSupportMap
         queryWrapper.like(StrUtil.isNotBlank(educationSupport.getRemark()), EducationSupport::getRemark, educationSupport.getRemark());
         queryWrapper.like(StrUtil.isNotBlank(educationSupport.getCreator()), EducationSupport::getCreator, educationSupport.getCreator());
         queryWrapper.like(StrUtil.isNotBlank(educationSupport.getUpdater()), EducationSupport::getUpdater, educationSupport.getUpdater());
+        queryWrapper.in(!CollectionUtils.isEmpty(educationSupport.getOrgIds()), EducationSupport::getOrgNum,educationSupport.getOrgIds());
         return baseMapper.selectPage(educationSupport, queryWrapper);
     }
 
@@ -56,6 +60,7 @@ public class EducationSupportServiceImpl extends ServiceImpl<EducationSupportMap
     @Override
     public void createEducationSupport(EducationSupportUserDTO educationSupportUserDTO) {
         EducationSupport educationSupport = new EducationSupport();
+        educationSupport.setOrgNum(WebFrameworkUtils.getLoginOrgId());
         List<EducationSupportUser> userList = educationSupportUserDTO.getUserList();
         for (EducationSupportUser educationSupportUser : userList) {
             educationSupport.setUserId(educationSupportUser.getUserId());
@@ -68,6 +73,7 @@ public class EducationSupportServiceImpl extends ServiceImpl<EducationSupportMap
             educationSupport.setEducationWay(educationSupportUserDTO.getEducationWay());
             educationSupport.setEducationContent(educationSupportUserDTO.getEducationContent());
             educationSupport.setLearningDate(educationSupportUserDTO.getLearningDate());
+            educationSupport.setRemark(educationSupportUser.getRemark());
             baseMapper.insert(educationSupport);
         }
     }

@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
 /**
  * <p>
  * 办理入矫表
@@ -102,6 +104,8 @@ public class HandleCorrectionSearchInputDTO  extends PageParam  {
     @ApiModelProperty(value = "进度 0:未提交，1文书补充中，2办理中，3办理中，4办理中，5办理中，6办理中，7办理中8 办理中，9办理中，10办理中，11已结案")
     private Integer applyStatus;
 
+    private List<Integer> applyStatusList;
+
     @ApiModelProperty(value = "flowStatus 0:代办 1 已办 2 办结")
     private Integer flowStatus;
 
@@ -115,7 +119,7 @@ public class HandleCorrectionSearchInputDTO  extends PageParam  {
     private String applyTime;
 
     @ApiModelProperty(value = "组织架构num")
-    private String orgNum;
+    private Long orgNum;
 
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
@@ -132,4 +136,9 @@ public class HandleCorrectionSearchInputDTO  extends PageParam  {
     @ApiModelProperty(value = "是否删除")
     private Boolean deleted;
 
+    @ApiModelProperty(value = "jurisdictionOffice")
+    private String jurisdictionOffice;
+
+    @ApiModelProperty(value = "jurisdictionOfficeId")
+    private Long  jurisdictionOfficeId;
 }

@@ -99,4 +99,5 @@ public class TerminationSolutionsCreateInputDTO implements Serializable {
     @ApiModelProperty(value = "新增时所需的文书附件")
     private List<SurveyDocumentsFiles> surveyDocumentsFiles;
 
+    private Integer sendProveComplete;
 }

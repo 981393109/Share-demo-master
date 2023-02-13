@@ -61,4 +61,7 @@ public class SurveyEvaluationListDTO implements Serializable {
     @ApiModelProperty(value = "taskId")
     private String taskId;
 
+    @ApiModelProperty(value = "proId")
+    private String processInstanceId;
+
 }

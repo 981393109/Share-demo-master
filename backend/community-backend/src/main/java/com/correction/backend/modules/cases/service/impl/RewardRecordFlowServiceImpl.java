@@ -1,5 +1,6 @@
 package com.correction.backend.modules.cases.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.correction.backend.modules.cases.controller.dto.*;
 import com.correction.backend.modules.cases.convert.MCasesPunishmentConvert;
 import com.correction.backend.modules.cases.convert.MRewardRecordConvert;
@@ -13,6 +14,7 @@ import com.correction.backend.modules.flow.convert.MFlowNodeUserConvert;
 import com.correction.backend.modules.flow.entity.FlowNodeUser;
 import com.correction.backend.modules.flow.mapper.FlowNodeUserMapper;
 import com.correction.backend.modules.survey.constant.SurveyConstant;
+import com.correction.framework.common.util.date.DateUtils;
 import com.correction.framework.web.web.LoginUser;
 import com.correction.framework.web.web.core.util.WebFrameworkUtils;
 import com.correction.framework.workflow.dto.FlowCompleteDTO;
@@ -24,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import static com.correction.backend.modules.sys.enums.SysErrorCodeConstants.*;
@@ -60,7 +63,7 @@ public class RewardRecordFlowServiceImpl implements RewardRecordFlowService {
         ActProcessInstance actProcessInstance = surveyFlow.startFlow(FlowStartDTO.builder().userId(loginUser.getId()).flowType(FlowConstant.REWARDRECORD_FLOW_FIRST).dataId(rewardRecord.getId()).ref(rewardRecord.getRef()).progress(String.valueOf(rewardRecord.getProgress())).build());
         rewardRecord.setProgress(SurveyConstant.PROGRESS_2);
         rewardRecord.setApplyStatus(SurveyConstant.FLOW_STATUS_2);
-        rewardRecord.setApplyTime(LocalDateTime.now().toString());
+        rewardRecord.setApplyTime(DateUtils.formatDate(new Date()));
         rewardRecord.setApplyUser(loginUser.getId());
         rewardRecord.setApplyName(loginUser.getUsername());
         rewardRecord.setProcessInstanceId(actProcessInstance.getProcessInstanceId());
@@ -73,12 +76,18 @@ public class RewardRecordFlowServiceImpl implements RewardRecordFlowService {
     public ActProcessInstance startFlow(RewardRecordFlowCreateDTO reqDTO) throws Exception {
         //结束第一个流程
         LoginUser loginUser = WebFrameworkUtils.getLoginUser();
-        FlowCompleteDTO flowCompleteDTO = new FlowCompleteDTO();
-        flowCompleteDTO.setAdopt(1);
-        flowCompleteDTO.setProgress(4);
-        flowCompleteDTO.setTaskId(reqDTO.getTaskId());
-        flowCompleteDTO.setUserId(loginUser.getId());
-        doComplete(flowCompleteDTO);
+        if (StringUtils.isNotBlank(reqDTO.getTaskId())){
+            try {
+                FlowCompleteDTO flowCompleteDTO = new FlowCompleteDTO();
+                flowCompleteDTO.setAdopt(1);
+                flowCompleteDTO.setProgress(4);
+                flowCompleteDTO.setTaskId(reqDTO.getTaskId());
+                flowCompleteDTO.setUserId(loginUser.getId());
+                doComplete(flowCompleteDTO);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
         //进行第二个流程
         checkData(reqDTO);
         RewardRecordCreateInputDTO detail = reqDTO.getDetail();
@@ -101,7 +110,7 @@ public class RewardRecordFlowServiceImpl implements RewardRecordFlowService {
         ActProcessInstance actProcessInstance = surveyFlow.startFlow(FlowStartDTO.builder().userId(loginUser.getId()).flowType(flowType).dataId(rewardRecord.getId()).ref(rewardRecord.getNextRef()).progress(String.valueOf(rewardRecord.getProgress())).build());
         rewardRecord.setProgress(SurveyConstant.PROGRESS_5);
         rewardRecord.setApplyStatus(SurveyConstant.FLOW_STATUS_5);
-        rewardRecord.setApplyTime(LocalDateTime.now().toString());
+        rewardRecord.setApplyTime(DateUtils.formatDate(new Date()));
         rewardRecord.setApplyUser(loginUser.getId());
         rewardRecord.setApplyName(loginUser.getUsername());
         rewardRecord.setNextProcessInstanceId(actProcessInstance.getProcessInstanceId());

@@ -9,6 +9,8 @@ import com.correction.backend.modules.handleCorrection.controller.dto.Correction
 import com.correction.backend.modules.handleCorrection.controller.dto.CorrectionUserSearchInputDTO;
 import com.correction.backend.modules.handleCorrection.controller.dto.CorrectionUserUpdateInputDTO;
 import com.correction.backend.modules.handleCorrection.convert.MCorrectionUserConvert;
+import com.correction.backend.modules.handleCorrection.entity.HandleCorrection;
+import com.correction.backend.modules.handleCorrection.mapper.HandleCorrectionMapper;
 import com.correction.backend.modules.handleCorrection.service.CorrectionUserService;
 import com.correction.framework.common.pojo.PageResult;
 import com.correction.framework.web.web.core.util.WebFrameworkUtils;
@@ -19,6 +21,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 import static com.correction.backend.modules.sys.enums.SysErrorCodeConstants.FLOW_DATA_ISEXSIT;
@@ -36,6 +39,8 @@ import static com.correction.framework.common.exception.util.ServiceExceptionUti
 @Service
 public class CorrectionUserServiceImpl extends ServiceImpl<CorrectionUserMapper, CorrectionUser> implements CorrectionUserService {
 
+    @Resource
+    HandleCorrectionMapper handleCorrectionMapper;
 
     /**
      * 获取表格数据
@@ -57,10 +62,10 @@ public class CorrectionUserServiceImpl extends ServiceImpl<CorrectionUserMapper,
         queryWrapper.like(StrUtil.isNotBlank(correctionUser.getAreaJurisdiction()), CorrectionUser::getAreaJurisdiction, correctionUser.getAreaJurisdiction());
         queryWrapper.like(StrUtil.isNotBlank(correctionUser.getStreetJurisdiction()), CorrectionUser::getStreetJurisdiction, correctionUser.getStreetJurisdiction());
         queryWrapper.like(StrUtil.isNotBlank(correctionUser.getCauseAction()), CorrectionUser::getCauseAction, correctionUser.getCauseAction());
-        queryWrapper.like(StrUtil.isNotBlank(correctionUser.getOrgNum()), CorrectionUser::getOrgNum, correctionUser.getOrgNum());
+        queryWrapper.in(!CollectionUtils.isEmpty(correctionUser.getOrgIds()), CorrectionUser::getOrgNum, correctionUser.getOrgIds());
         queryWrapper.like(StrUtil.isNotBlank(correctionUser.getCreator()), CorrectionUser::getCreator, correctionUser.getCreator());
         queryWrapper.like(StrUtil.isNotBlank(correctionUser.getUpdater()), CorrectionUser::getUpdater, correctionUser.getUpdater());
-        queryWrapper.like(correctionUser.getIsHistory() != null, CorrectionUser::getUpdater, correctionUser.getIsHistory());
+        queryWrapper.eq(correctionUser.getIsHistory() != null, CorrectionUser::getIsHistory, correctionUser.getIsHistory());
         IPage<CorrectionUser> mpPage = MyBatisUtils.buildPage(correctionUser);
         mpPage = page(mpPage,queryWrapper);
         return mpPage;
@@ -72,7 +77,9 @@ public class CorrectionUserServiceImpl extends ServiceImpl<CorrectionUserMapper,
         //校验该矫正申请下是否存在矫正档案信息
         checkCreateOrUpdate(reqDTO.getHandleCorrectionId(),null);
         CorrectionUser correctionUser = MCorrectionUserConvert.INSTANCE.toCorrectionUser(reqDTO);
-        correctionUser.setOrgNum(WebFrameworkUtils.getLoginOrgNum());
+        //得到决定接收对象
+        HandleCorrection handleCorrection = handleCorrectionMapper.selectById(reqDTO.getHandleCorrectionId());
+        correctionUser.setOrgNum(handleCorrection.getJurisdictionOfficeId());
         correctionUser.setIsHistory(0);
         baseMapper.insert(correctionUser);
         return correctionUser;
@@ -118,6 +125,7 @@ public class CorrectionUserServiceImpl extends ServiceImpl<CorrectionUserMapper,
 
     @Override
     public PageResult<CorrectionUser> getPageList(CorrectionUserSearchInputDTO searchInputDTO) {
+        searchInputDTO.setOrgIds(WebFrameworkUtils.getLoginOrgIdsList());
         IPage<CorrectionUser> correctionUserIPage = this.pageListByEntity(searchInputDTO);
         return new PageResult<>(correctionUserIPage.getRecords(), correctionUserIPage.getTotal());
     }
@@ -137,7 +145,9 @@ public class CorrectionUserServiceImpl extends ServiceImpl<CorrectionUserMapper,
         queryWrapper.like(StrUtil.isNotBlank(correctionUser.getAreaJurisdiction()), CorrectionUser::getAreaJurisdiction, correctionUser.getAreaJurisdiction());
         queryWrapper.like(StrUtil.isNotBlank(correctionUser.getStreetJurisdiction()), CorrectionUser::getStreetJurisdiction, correctionUser.getStreetJurisdiction());
         queryWrapper.like(StrUtil.isNotBlank(correctionUser.getCauseAction()), CorrectionUser::getCauseAction, correctionUser.getCauseAction());
-        queryWrapper.like(StrUtil.isNotBlank(correctionUser.getOrgNum()), CorrectionUser::getOrgNum, correctionUser.getOrgNum());
+        queryWrapper.in(!CollectionUtils.isEmpty(correctionUser.getOrgIds()), CorrectionUser::getOrgNum, correctionUser.getOrgIds());
+        queryWrapper.eq(correctionUser.getOrgNum() != null, CorrectionUser::getOrgNum, correctionUser.getOrgNum());
+        queryWrapper.eq(correctionUser.getIsHistory() != null, CorrectionUser::getIsHistory, correctionUser.getIsHistory());
         queryWrapper.like(StrUtil.isNotBlank(correctionUser.getCreator()), CorrectionUser::getCreator, correctionUser.getCreator());
         queryWrapper.like(StrUtil.isNotBlank(correctionUser.getUpdater()), CorrectionUser::getUpdater, correctionUser.getUpdater());
         List<CorrectionUser> correctionUsers = baseMapper.selectList(queryWrapper);

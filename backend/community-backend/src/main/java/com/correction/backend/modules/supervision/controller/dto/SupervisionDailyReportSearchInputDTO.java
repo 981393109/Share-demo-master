@@ -66,4 +66,6 @@ public class SupervisionDailyReportSearchInputDTO  extends PageParam  {
     @ApiModelProperty(value = "是否删除")
     private Boolean deleted;
 
+    private Long orgNum;
+
 }

@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.correction.backend.modules.handleCorrection.controller.dto.*;
 import com.correction.backend.modules.handleCorrection.convert.MCorrectionUserConvert;
 import com.correction.backend.modules.handleCorrection.convert.MCorrectionWaysConvert;
+import com.correction.backend.modules.handleCorrection.entity.HandleCorrection;
+import com.correction.backend.modules.handleCorrection.mapper.HandleCorrectionMapper;
 import com.correction.backend.modules.handleCorrection.service.CorrectionGroupService;
 import com.correction.backend.modules.handleCorrection.service.CorrectionUserService;
 import com.correction.backend.modules.handleCorrection.service.CorrectionWaysService;
@@ -39,6 +41,9 @@ public class CorrectionWaysServiceImpl extends ServiceImpl<CorrectionWaysMapper,
     @Resource
     private CorrectionGroupService correctionGroupService;
 
+    @Resource
+    private HandleCorrectionMapper handleCorrectionMapper;
+
     /**
      * 获取表格数据
      *
@@ -52,7 +57,7 @@ public class CorrectionWaysServiceImpl extends ServiceImpl<CorrectionWaysMapper,
         queryWrapper.like(StrUtil.isNotBlank(correctionWays.getAnalysisSituation()), CorrectionWays::getAnalysisSituation, correctionWays.getAnalysisSituation());
         queryWrapper.like(StrUtil.isNotBlank(correctionWays.getCorrectionOpinion()), CorrectionWays::getCorrectionOpinion, correctionWays.getCorrectionOpinion());
         queryWrapper.like(StrUtil.isNotBlank(correctionWays.getRemark()), CorrectionWays::getRemark, correctionWays.getRemark());
-        queryWrapper.like(StrUtil.isNotBlank(correctionWays.getOrgNum()), CorrectionWays::getOrgNum, correctionWays.getOrgNum());
+        queryWrapper.in(!CollectionUtils.isEmpty(correctionWays.getOrgIds()), CorrectionWays::getOrgNum, correctionWays.getOrgIds());
         queryWrapper.like(StrUtil.isNotBlank(correctionWays.getCreator()), CorrectionWays::getCreator, correctionWays.getCreator());
         queryWrapper.like(StrUtil.isNotBlank(correctionWays.getUpdater()), CorrectionWays::getUpdater, correctionWays.getUpdater());
         IPage<CorrectionWays> mpPage = MyBatisUtils.buildPage(correctionWays);
@@ -64,7 +69,9 @@ public class CorrectionWaysServiceImpl extends ServiceImpl<CorrectionWaysMapper,
     public CorrectionWays createCorrectionWays(CorrectionWaysCreateInputDTO reqDTO) {
         checkCreateOrUpdate(reqDTO.getHandleCorrectionId(),null);
         CorrectionWays correctionWays = MCorrectionWaysConvert.INSTANCE.toCorrectionWays(reqDTO);
-        correctionWays.setOrgNum(WebFrameworkUtils.getLoginOrgNum());
+        //得到决定接收对象
+        HandleCorrection handleCorrection = handleCorrectionMapper.selectById(reqDTO.getHandleCorrectionId());
+        correctionWays.setOrgNum(handleCorrection.getJurisdictionOfficeId());
         baseMapper.insert(correctionWays);
         return correctionWays;
     }
@@ -109,6 +116,7 @@ public class CorrectionWaysServiceImpl extends ServiceImpl<CorrectionWaysMapper,
 
     @Override
     public PageResult<CorrectionWays> getPageList(CorrectionWaysSearchInputDTO searchInputDTO) {
+        searchInputDTO.setOrgIds(WebFrameworkUtils.getLoginOrgIdsList());
         IPage<CorrectionWays> correctionWaysIPage = this.pageListByEntity(searchInputDTO);
         return new PageResult<>(correctionWaysIPage.getRecords(), correctionWaysIPage.getTotal());
     }
@@ -122,7 +130,7 @@ public class CorrectionWaysServiceImpl extends ServiceImpl<CorrectionWaysMapper,
         queryWrapper.like(StrUtil.isNotBlank(correctionWays.getAnalysisSituation()), CorrectionWays::getAnalysisSituation, correctionWays.getAnalysisSituation());
         queryWrapper.like(StrUtil.isNotBlank(correctionWays.getCorrectionOpinion()), CorrectionWays::getCorrectionOpinion, correctionWays.getCorrectionOpinion());
         queryWrapper.like(StrUtil.isNotBlank(correctionWays.getRemark()), CorrectionWays::getRemark, correctionWays.getRemark());
-        queryWrapper.like(StrUtil.isNotBlank(correctionWays.getOrgNum()), CorrectionWays::getOrgNum, correctionWays.getOrgNum());
+        queryWrapper.in(!CollectionUtils.isEmpty(correctionWays.getOrgIds()), CorrectionWays::getOrgNum, correctionWays.getOrgIds());
         queryWrapper.like(StrUtil.isNotBlank(correctionWays.getCreator()), CorrectionWays::getCreator, correctionWays.getCreator());
         queryWrapper.like(StrUtil.isNotBlank(correctionWays.getUpdater()), CorrectionWays::getUpdater, correctionWays.getUpdater());
         List<CorrectionWays> correctionWaysList = baseMapper.selectList(queryWrapper);
@@ -137,6 +145,9 @@ public class CorrectionWaysServiceImpl extends ServiceImpl<CorrectionWaysMapper,
         if(correctionWays.getId()!=null){
             baseMapper.updateById(correctionWays1);
         } else {
+            //得到决定接收对象
+            HandleCorrection handleCorrection = handleCorrectionMapper.selectById(correctionWays.getHandleCorrectionId());
+            correctionWays1.setOrgNum(handleCorrection.getJurisdictionOfficeId());
             baseMapper.insert(correctionWays1);
         }
         List<Long> longs = correctionGroupService.batchCreate(correctionUsers);

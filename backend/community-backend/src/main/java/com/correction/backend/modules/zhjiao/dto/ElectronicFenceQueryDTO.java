@@ -1,0 +1,11 @@
+package com.correction.backend.modules.zhjiao.dto;
+
+import com.correction.framework.common.pojo.PageParam;
+import lombok.Data;
+
+@Data
+public class ElectronicFenceQueryDTO extends PageParam {
+
+    private String name;
+
+}

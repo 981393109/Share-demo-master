@@ -15,6 +15,7 @@ public enum SysLoginResultEnum {
     USER_DISABLED(20), // 用户被禁用
     CAPTCHA_NOT_FOUND(30), // 验证码不存在
     CAPTCHA_CODE_ERROR(31), // 验证码不正确
+    ORG_DEL(41), // 组织未挂载
 
     UNKNOWN_ERROR(100), // 未知异常
     ;

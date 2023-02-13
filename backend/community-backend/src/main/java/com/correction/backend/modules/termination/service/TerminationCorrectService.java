@@ -1,6 +1,7 @@
 package com.correction.backend.modules.termination.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.correction.backend.modules.cases.entity.CasesPunishment;
 import com.correction.backend.modules.termination.controller.dto.*;
 import com.correction.backend.modules.termination.entity.TerminationCorrect;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -45,4 +46,7 @@ public interface TerminationCorrectService extends IService<TerminationCorrect> 
     IPage<TerminationCorrectPageListDTO> getPageList (TerminationCorrectSearchInputDTO searchInputDTO);
 
 
+    IPage<TerminationCorrectPageListDTO> getPageAllList(TerminationCorrectSearchInputDTO reqVO);
+
+    void createTerminationCorrectRecord(CasesPunishment byId);
 }

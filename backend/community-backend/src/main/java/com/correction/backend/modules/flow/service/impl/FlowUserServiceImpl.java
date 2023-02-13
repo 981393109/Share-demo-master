@@ -1,9 +1,18 @@
 package com.correction.backend.modules.flow.service.impl;
 
+import com.correction.backend.modules.cases.entity.CasesPunishment;
+import com.correction.backend.modules.cases.entity.RewardRecord;
+import com.correction.backend.modules.cases.mapper.CasesPunishmentMapper;
+import com.correction.backend.modules.cases.mapper.RewardRecordMapper;
+import com.correction.backend.modules.cases.service.RewardRecordService;
+import com.correction.backend.modules.flow.constant.FlowConstant;
 import com.correction.backend.modules.flow.controller.dto.FlowNodeListDTO;
 import com.correction.backend.modules.flow.controller.dto.FlowOrgRoleDTO;
+import com.correction.backend.modules.flow.controller.dto.FlowUserListDTO;
 import com.correction.backend.modules.flow.mapper.FlowCenterMapper;
 import com.correction.backend.modules.flow.service.FlowUserService;
+import com.correction.backend.modules.handleCorrection.entity.HandleCorrection;
+import com.correction.backend.modules.handleCorrection.service.HandleCorrectionService;
 import com.correction.backend.modules.sys.constant.SysConstant;
 import com.correction.backend.modules.sys.controller.dto.sys.RoleUserOutpuDTO;
 import com.correction.backend.modules.sys.controller.dto.user.SysUserRoleDTO;
@@ -18,6 +27,7 @@ import com.correction.backend.modules.sys.mapper.RoleUserMapper;
 import com.correction.backend.modules.sys.service.OrgService;
 import com.correction.framework.web.web.core.util.WebFrameworkUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -43,12 +53,21 @@ public class FlowUserServiceImpl implements FlowUserService {
     @Resource
     FlowCenterMapper flowCenterMapper;
 
+    @Resource
+    HandleCorrectionService handleCorrectionService;
+
+    @Resource
+    RewardRecordMapper rewardRecordMapper;
+
+    @Resource
+    CasesPunishmentMapper casesPunishmentMapper;
+
     @Override
     public Map<FlowNodeListDTO,List<FlowOrgRoleDTO>> getFlowOrgInfo(String type) {
         Long loginOrgId = WebFrameworkUtils.getLoginOrgId();
         Map<FlowNodeListDTO,List<FlowOrgRoleDTO>> result = new LinkedHashMap<>();
         List<FlowOrgRoleDTO> flowOrgRoleDTOS = new ArrayList<>();
-        List<FlowNodeListDTO> flowNode = getFlowNode(type);
+        List<FlowNodeListDTO> flowNode = getFlowNode(type,null);
         //得到组织以及组织下所有子组织数据
         Set<OrgDO> set = orgService.getTreeByUserOrgId(loginOrgId);
         List<OrgDO> list = new ArrayList<>();
@@ -101,7 +120,7 @@ public class FlowUserServiceImpl implements FlowUserService {
     }
 
     @Override
-    public List<FlowNodeListDTO> getFlowNode(String flowType) {
+    public List<FlowNodeListDTO> getFlowNode(String flowType,Long dataId) {
         Long loginOrgId = WebFrameworkUtils.getLoginOrgId();
         List<FlowNodeListDTO> nodeList = flowCenterMapper.getNodeList(flowType);
         List<FlowOrgRoleDTO> flowOrgRoleDTOS = new ArrayList<>();
@@ -122,10 +141,18 @@ public class FlowUserServiceImpl implements FlowUserService {
                         }
                     break;
                 case HANDLE_CORRECTION_FLOW:
-                        if (i < 8) {
+                    if (i < 7) {
                             nodeList.get(i).setNodeUserGroup(topOrg);
                         } else {
-                            nodeList.get(i).setNodeUserGroup(areaOrg);
+                            //得到办理入矫对象
+                            if(dataId!=null){
+                                HandleCorrection byId = handleCorrectionService.getById(dataId);
+                                Long jurisdictionOfficeId = byId.getJurisdictionOfficeId();
+                                List<FlowOrgRoleDTO> collect = lowOrg.stream().filter(e -> e.getOrgId().equals(jurisdictionOfficeId)).collect(Collectors.toList());
+                                nodeList.get(i).setNodeUserGroup(collect);
+                            } else {
+                                nodeList.get(i).setNodeUserGroup(lowOrg);
+                            }
                         }
                     break;
                 case SUPERVISION_OUT_FLOW_ONE:
@@ -218,6 +245,33 @@ public class FlowUserServiceImpl implements FlowUserService {
             }
         }
         return flowOrgRoleDTOS;
+    }
+
+    @Override
+    public List<FlowUserListDTO> getFlowNodeLink(String flowType, Long dataId) {
+        List<FlowUserListDTO> nodeList = flowCenterMapper.getFlowUserListLink(flowType,dataId);
+        if (REWARDRECORD_FLOW_FIRST.equals(flowType)) {
+            RewardRecord rewardRecord = rewardRecordMapper.selectById(dataId);
+            if (rewardRecord.getRewardTypeAdvice()!=null  ){
+                List<FlowUserListDTO> nextNodeList = flowCenterMapper.getFlowUserListLink(801==rewardRecord.getRewardTypeAdvice()?REWARDRECORD_FLOW_ONE:REWARDRECORD_FLOW_TWO,dataId);
+                nodeList.addAll(nextNodeList);
+            }
+        } else if (CASESPUNISHMENT_FLOW_FIRST.equals(flowType)) {
+            CasesPunishment casesPunishment = casesPunishmentMapper.selectById(dataId);
+            Integer violationsTypeAdvice = casesPunishment.getViolationsTypeAdvice();
+            if (casesPunishment.getViolationsTypeAdvice()!=null  ){
+                List<FlowUserListDTO> nextNodeList = new ArrayList<>();
+                if(701 == violationsTypeAdvice || 702 == violationsTypeAdvice) {
+                    nextNodeList = flowCenterMapper.getFlowUserListLink(CASESPUNISHMENT_FLOW_ONE,dataId);
+                } else if (703 == violationsTypeAdvice || 707 == violationsTypeAdvice){
+                    nextNodeList = flowCenterMapper.getFlowUserListLink(CASESPUNISHMENT_FLOW_TWO,dataId);
+                } else {
+                    nextNodeList = flowCenterMapper.getFlowUserListLink(CASESPUNISHMENT_FLOW_THREE,dataId);
+                }
+                nodeList.addAll(nextNodeList);
+            }
+        }
+        return nodeList;
     }
 
 

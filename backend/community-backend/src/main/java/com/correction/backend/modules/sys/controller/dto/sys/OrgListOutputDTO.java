@@ -65,4 +65,6 @@ public class OrgListOutputDTO implements Serializable {
     @ApiModelProperty(value = "是否删除")
     private Boolean deleted;
 
+    @ApiModelProperty(value = "智慧矫组织架构id")
+    private Long districtId;
 }

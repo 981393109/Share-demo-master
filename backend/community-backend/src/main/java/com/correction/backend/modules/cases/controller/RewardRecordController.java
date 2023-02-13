@@ -79,6 +79,12 @@ public class RewardRecordController {
         IPage<RewardRecordPageListDTO> pageList = rewardRecordService.getPageList(reqVO);
         return success(new PageResult<RewardRecordPageListDTO>(pageList.getRecords(), pageList.getTotal()));
     }
+    @GetMapping("/pageAll")
+    @ApiOperation("分页获取所有列表记录")
+    public CommonResult<PageResult<RewardRecordPageListDTO>> getPageAllList(@Valid RewardRecordSearchInputDTO reqVO) {
+        IPage<RewardRecordPageListDTO> pageList = rewardRecordService.getPageAllList(reqVO);
+        return success(new PageResult<RewardRecordPageListDTO>(pageList.getRecords(), pageList.getTotal()));
+    }
 
 
     @GetMapping("/handleDocFilePage")

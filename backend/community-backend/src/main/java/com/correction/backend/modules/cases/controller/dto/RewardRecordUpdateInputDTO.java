@@ -155,5 +155,8 @@ public class RewardRecordUpdateInputDTO implements Serializable {
     @ApiModelProperty(value = "评议小组")
     List<CollegiateBenchGroup> reviewGroups;
 
+    @ApiModelProperty(value = "nextFlowType")
+    private String nextFlowType;
+
 
 }

@@ -11,7 +11,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-19T02:18:58+0800",
+    date = "2023-02-13T01:51:15+0800",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 1.8.0_211 (Oracle Corporation)"
 )
 public class MRewardRecordConvertImpl implements MRewardRecordConvert {
@@ -116,6 +116,7 @@ public class MRewardRecordConvertImpl implements MRewardRecordConvert {
         rewardRecord.setApplyTime( rewardRecordCreateInputDTO.getApplyTime() );
         rewardRecord.setRef( rewardRecordCreateInputDTO.getRef() );
         rewardRecord.setProcessInstanceId( rewardRecordCreateInputDTO.getProcessInstanceId() );
+        rewardRecord.setNextFlowType( rewardRecordCreateInputDTO.getNextFlowType() );
         rewardRecord.setNextRef( rewardRecordCreateInputDTO.getNextRef() );
         rewardRecord.setNextProcessInstanceId( rewardRecordCreateInputDTO.getNextProcessInstanceId() );
         rewardRecord.setOrgNum( rewardRecordCreateInputDTO.getOrgNum() );
@@ -170,6 +171,7 @@ public class MRewardRecordConvertImpl implements MRewardRecordConvert {
         rewardRecord.setApplyTime( rewardRecordUpdateInputDTO.getApplyTime() );
         rewardRecord.setRef( rewardRecordUpdateInputDTO.getRef() );
         rewardRecord.setProcessInstanceId( rewardRecordUpdateInputDTO.getProcessInstanceId() );
+        rewardRecord.setNextFlowType( rewardRecordUpdateInputDTO.getNextFlowType() );
         rewardRecord.setNextRef( rewardRecordUpdateInputDTO.getNextRef() );
         rewardRecord.setNextProcessInstanceId( rewardRecordUpdateInputDTO.getNextProcessInstanceId() );
         rewardRecord.setOrgNum( rewardRecordUpdateInputDTO.getOrgNum() );
@@ -227,6 +229,7 @@ public class MRewardRecordConvertImpl implements MRewardRecordConvert {
         rewardRecordListOutputDTO.setCreator( rewardRecord.getCreator() );
         rewardRecordListOutputDTO.setUpdater( rewardRecord.getUpdater() );
         rewardRecordListOutputDTO.setDeleted( rewardRecord.getDeleted() );
+        rewardRecordListOutputDTO.setIsBack( rewardRecord.getIsBack() );
 
         return rewardRecordListOutputDTO;
     }

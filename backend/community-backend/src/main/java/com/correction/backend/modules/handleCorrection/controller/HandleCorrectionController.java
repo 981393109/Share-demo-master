@@ -73,12 +73,19 @@ public class HandleCorrectionController {
         return success(new PageResult<HandleCorrectionListDTO>(pageList.getRecords(), pageList.getTotal()));
     }
 
+    @GetMapping("/pageAll")
+    @ApiOperation("分页获取所有列表记录")
+    public CommonResult<PageResult<HandleCorrectionListDTO>> pageAll(@Valid HandleCorrectionSearchInputDTO reqVO) {
+        IPage<HandleCorrectionListDTO> pageList = handleCorrectionService.getPageAllList(reqVO);
+        return success(new PageResult<HandleCorrectionListDTO>(pageList.getRecords(), pageList.getTotal()));
+    }
+
 
     @GetMapping("/handleDocFilePage")
     @ApiOperation("获取所有文书附件")
     public CommonResult<PageResult<SurveyDocumentsFilesDTO>> handleDocFilePage(@Valid SurveyDocumentsFilesQuery reqVO) {
         // 获得用户分页列表
-        reqVO.setDictTypeList(Arrays.asList(5,6,7,8,9,10));
+        reqVO.setDictTypeList(Arrays.asList(5,6,7,8,9,10,1101));
         PageResult<SurveyDocumentsFilesDTO> pageResult = surveyDocumentsFilesService.surveyDocFilePage(reqVO);
         if (CollUtil.isEmpty(pageResult.getList())) {
             return success(new PageResult<>(pageResult.getTotal())); // 返回空

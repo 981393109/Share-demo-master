@@ -1,6 +1,10 @@
 package com.correction.framework.common.util.date;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -15,6 +19,13 @@ public class DateUtils {
     public static final String TIME_ZONE_DEFAULT = "GMT+8";
 
     public static final String FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND = "yyyy-MM-dd HH:mm:ss";
+
+    //声明需要格式化的格式(日期)
+    public static final DateTimeFormatter dfDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    //声明需要格式化的格式(日期加时间)
+    public static final DateTimeFormatter dfDateTime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    public static final DateFormat dateFormat = new SimpleDateFormat(FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND);
 
     public static Date addTime(Duration duration) {
         return new Date(System.currentTimeMillis() + duration.toMillis());
@@ -73,5 +84,19 @@ public class DateUtils {
         }
         return a.compareTo(b) > 0 ? a : b;
     }
+
+    /**
+     * localDate 时间格式化
+     */
+    public static String formatLocaldateTime (LocalDateTime localDateTime) {
+        String format = dfDateTime.format(localDateTime);
+        return format;
+    }
+
+    public static String formatDate (Date date) {
+        String format = dateFormat.format(date);
+        return format;
+    }
+
 
 }

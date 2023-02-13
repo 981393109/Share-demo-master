@@ -149,4 +149,7 @@ public class CasesPunishmentListOutputDTO implements Serializable {
     @ApiModelProperty(value = "是否删除")
     private Boolean deleted;
 
+    @ApiModelProperty(value = "isBack")
+    private Integer isBack;
+
 }

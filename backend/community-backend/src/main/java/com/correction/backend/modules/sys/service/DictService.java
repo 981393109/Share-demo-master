@@ -15,6 +15,6 @@ import java.util.List;
  */
 public interface DictService extends IService<Dict> {
 
-    List<Dict> selectDictByType(Integer type);
+    List<Dict> selectDictByType(String  type);
 
 }

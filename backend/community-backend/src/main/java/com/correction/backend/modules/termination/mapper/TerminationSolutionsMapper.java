@@ -19,4 +19,6 @@ import org.apache.ibatis.annotations.Param;
 public interface TerminationSolutionsMapper extends BaseMapperX<TerminationSolutions> {
 
     IPage<TerminationSolutionsPageListDTO> getPageListFlow(@Param("page") IPage<TerminationSolutionsPageListDTO> mpPage, @Param("query") TerminationSolutionsSearchInputDTO query);
+
+    IPage<TerminationSolutionsPageListDTO> getPageAllListFlow(@Param("page") IPage<TerminationSolutionsPageListDTO> mpPage, @Param("query") TerminationSolutionsSearchInputDTO query);
 }

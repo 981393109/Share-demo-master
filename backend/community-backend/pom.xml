@@ -61,6 +61,12 @@
       <version>${revision}</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.correction</groupId>
+      <artifactId>framework-schedule</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+
 
   </dependencies>
 

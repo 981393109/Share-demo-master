@@ -19,6 +19,7 @@ import org.flowable.engine.delegate.ExecutionListener;
 import org.flowable.task.api.Task;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -66,6 +67,7 @@ public class SignListener implements ExecutionListener {
         // todo 通过推送消息
         if(nextAssigneeObj != null ){
             Long nextAssignee = Long.parseLong(String.valueOf(nextAssigneeObj));
+            System.out.println("通过监听器：下一执行人："+nextAssigneeObj);
             InformationMessageService bean = SpringUtil.getBean(InformationMessageService.class);
             SysUserMapper userMapper = SpringUtil.getBean(SysUserMapper.class);
             SysUserDO userDO = userMapper.selectById(userId);
@@ -80,6 +82,7 @@ public class SignListener implements ExecutionListener {
                     .status(InformationConstant.UN_READ)
                     .msgTitle(userDO.getUserName()+ "在"+ flowStartTime + InformationConstant.flowTitle.get(split[0]))
                     .msgInfo(sendUser.getUserName()+"同意通过！")
+                    .createTime(new Date())
                     .build());
         }
     }

@@ -11,7 +11,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-19T02:18:58+0800",
+    date = "2023-02-13T01:51:15+0800",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 1.8.0_211 (Oracle Corporation)"
 )
 public class MCorrectionUserConvertImpl implements MCorrectionUserConvert {
@@ -44,6 +44,9 @@ public class MCorrectionUserConvertImpl implements MCorrectionUserConvert {
         correctionUser.setCauseAction( correctionUserSearchInputDTO.getCauseAction() );
         correctionUser.setHandleCorrectionId( correctionUserSearchInputDTO.getHandleCorrectionId() );
         correctionUser.setOrgNum( correctionUserSearchInputDTO.getOrgNum() );
+        correctionUser.setCorrectionStartDate( correctionUserSearchInputDTO.getCorrectionStartDate() );
+        correctionUser.setCorrectionEndDate( correctionUserSearchInputDTO.getCorrectionEndDate() );
+        correctionUser.setManagementLevel( correctionUserSearchInputDTO.getManagementLevel() );
         correctionUser.setIsHistory( correctionUserSearchInputDTO.getIsHistory() );
 
         return correctionUser;
@@ -77,6 +80,9 @@ public class MCorrectionUserConvertImpl implements MCorrectionUserConvert {
         correctionUser.setCauseAction( correctionUserCreateInputDTO.getCauseAction() );
         correctionUser.setHandleCorrectionId( correctionUserCreateInputDTO.getHandleCorrectionId() );
         correctionUser.setOrgNum( correctionUserCreateInputDTO.getOrgNum() );
+        correctionUser.setCorrectionStartDate( correctionUserCreateInputDTO.getCorrectionStartDate() );
+        correctionUser.setCorrectionEndDate( correctionUserCreateInputDTO.getCorrectionEndDate() );
+        correctionUser.setManagementLevel( correctionUserCreateInputDTO.getManagementLevel() );
 
         return correctionUser;
     }
@@ -110,6 +116,9 @@ public class MCorrectionUserConvertImpl implements MCorrectionUserConvert {
         correctionUser.setCauseAction( correctionUserUpdateInputDTO.getCauseAction() );
         correctionUser.setHandleCorrectionId( correctionUserUpdateInputDTO.getHandleCorrectionId() );
         correctionUser.setOrgNum( correctionUserUpdateInputDTO.getOrgNum() );
+        correctionUser.setCorrectionStartDate( correctionUserUpdateInputDTO.getCorrectionStartDate() );
+        correctionUser.setCorrectionEndDate( correctionUserUpdateInputDTO.getCorrectionEndDate() );
+        correctionUser.setManagementLevel( correctionUserUpdateInputDTO.getManagementLevel() );
 
         return correctionUser;
     }
@@ -143,6 +152,9 @@ public class MCorrectionUserConvertImpl implements MCorrectionUserConvert {
         correctionUserListOutputDTO.setCreator( correctionUser.getCreator() );
         correctionUserListOutputDTO.setUpdater( correctionUser.getUpdater() );
         correctionUserListOutputDTO.setDeleted( correctionUser.getDeleted() );
+        correctionUserListOutputDTO.setCorrectionStartDate( correctionUser.getCorrectionStartDate() );
+        correctionUserListOutputDTO.setCorrectionEndDate( correctionUser.getCorrectionEndDate() );
+        correctionUserListOutputDTO.setManagementLevel( correctionUser.getManagementLevel() );
 
         return correctionUserListOutputDTO;
     }

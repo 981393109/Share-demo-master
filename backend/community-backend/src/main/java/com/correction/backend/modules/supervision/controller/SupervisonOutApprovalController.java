@@ -48,7 +48,7 @@ public class SupervisonOutApprovalController {
 
     @PostMapping("/update")
     @ApiOperation("修改外出申请")
-    public CommonResult<Boolean> createSupervisionOutApproval(@Valid @RequestBody SupervisionOutApprovalUpdateInputDTO reqDTO) {
+    public CommonResult<Boolean> updateSupervisionOutApproval(@Valid @RequestBody SupervisionOutApprovalUpdateInputDTO reqDTO) {
         supervisionOutApprovalService.updateSupervisionOutApproval(reqDTO);
         return success(true);
     }
@@ -73,6 +73,12 @@ public class SupervisonOutApprovalController {
     @ApiOperation("分页获取所有列表记录")
     public CommonResult<PageResult<SupervisionOutApprovalList>> getPageList(@Valid SupervisionOutApprovalSearchInputDTO reqVO) {
         IPage<SupervisionOutApprovalList> pageList = supervisionOutApprovalService.getPageList(reqVO);
+        return success(new PageResult<SupervisionOutApprovalList>(pageList.getRecords(), pageList.getTotal()));
+    }
+    @GetMapping("/pageAll")
+    @ApiOperation("分页获取所有列表记录(该组织下所有)")
+    public CommonResult<PageResult<SupervisionOutApprovalList>> getPageAllList(@Valid SupervisionOutApprovalSearchInputDTO reqVO) {
+        IPage<SupervisionOutApprovalList> pageList = supervisionOutApprovalService.getPageAllList(reqVO);
         return success(new PageResult<SupervisionOutApprovalList>(pageList.getRecords(), pageList.getTotal()));
     }
 

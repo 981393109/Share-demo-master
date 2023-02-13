@@ -79,6 +79,8 @@ public class OrgDO extends BaseDO {
      */
     private String parentNames;
 
+    private Long districtId;
+
 
     public static final String ID = "id";
 

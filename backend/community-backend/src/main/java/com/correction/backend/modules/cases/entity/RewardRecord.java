@@ -195,6 +195,11 @@ public class RewardRecord extends BaseDO {
     private String processInstanceId;
 
     /**
+     * nextFlowType
+     */
+    private String nextFlowType;
+
+    /**
      * ref
      */
     private String nextRef;
@@ -208,6 +213,8 @@ public class RewardRecord extends BaseDO {
      * 组织id
      */
     private Long orgNum;
+
+    private Integer isBack;
 
 
 

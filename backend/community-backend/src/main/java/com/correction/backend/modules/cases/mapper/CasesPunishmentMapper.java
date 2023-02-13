@@ -20,4 +20,5 @@ public interface CasesPunishmentMapper extends BaseMapperX<CasesPunishment> {
     IPage<CasesPunishmentPageListDTO> getPageListFlow(@Param("page")IPage<CasesPunishmentPageListDTO> page,@Param("query") CasesPunishmentSearchInputDTO query);
 
 
+    IPage<CasesPunishmentPageListDTO> getPageAllListFlow(@Param("page")IPage<CasesPunishmentPageListDTO> page,@Param("query") CasesPunishmentSearchInputDTO query);
 }

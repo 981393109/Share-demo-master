@@ -95,7 +95,7 @@ public class SupervisionOutApprovalServiceImpl extends ServiceImpl<SupervisionOu
         supervisionOutApproval.setApplyUser(loginUser.getId());
         supervisionOutApproval.setApplyStatus(SurveyConstant.FLOW_STATUS_0);
         supervisionOutApproval.setProgress(SurveyConstant.PROGRESS_1);
-        supervisionOutApproval.setOrgNum(WebFrameworkUtils.getLoginOrgNum());
+        supervisionOutApproval.setOrgNum(WebFrameworkUtils.getLoginOrgId());
         supervisionOutApproval.setRef(String.valueOf(System.currentTimeMillis()));
         baseMapper.insert(supervisionOutApproval);
         List<SurveyDocumentsFiles> surveyDocumentsFiles = createInputDTO.getSurveyDocumentsFiles();
@@ -175,6 +175,28 @@ public class SupervisionOutApprovalServiceImpl extends ServiceImpl<SupervisionOu
                     record.setFlowStatus(1);
                 } else {
                     record.setFlowStatus(2);
+                }
+            }
+        }
+        return mpPage;
+    }
+
+    @Override
+    public IPage<SupervisionOutApprovalList> getPageAllList(SupervisionOutApprovalSearchInputDTO queryDTO) {
+        IPage<SupervisionOutApprovalList> mpPage = MyBatisUtils.buildPage(queryDTO);
+        queryDTO.setOrgIds(WebFrameworkUtils.getLoginOrgIdsList());
+        mpPage = baseMapper.getPageAllList(mpPage, queryDTO);
+        List<SupervisionOutApprovalList> records = mpPage.getRecords();
+        if(!CollectionUtils.isEmpty(records)) {
+            for (SupervisionOutApprovalList record : records) {
+                if(record.getNextUser()!=null){
+                    SysUserDO userDO = sysUserMapper.selectById(Long.parseLong(record.getNextUser()));
+                    record.setNextUserName(userDO.getUserName());
+                } else {
+                    if(SurveyConstant.FLOW_STATUS_0.equals(record.getApplyStatus())){
+                        record.setNextUser(String.valueOf(record.getApplyUser()));
+                        record.setNextUserName(sysUserMapper.selectById(record.getApplyUser()).getUserName());
+                    }
                 }
             }
         }

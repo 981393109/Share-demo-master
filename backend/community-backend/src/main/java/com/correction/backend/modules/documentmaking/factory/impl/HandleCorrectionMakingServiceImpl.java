@@ -59,7 +59,7 @@ public class HandleCorrectionMakingServiceImpl implements DocumentService {
     @Override
     public String makingDoc(Long dataId) throws Exception {
         HandleCorrection handleCorrection = handleCorrectionService.getById(dataId);
-        if (!PROGRESS_12.equals(handleCorrection.getProgress())){
+        if (99 != handleCorrection.getProgress()){
             throw exception(FLOW_DATA_STOP);
         }
         //得到默认模板位置

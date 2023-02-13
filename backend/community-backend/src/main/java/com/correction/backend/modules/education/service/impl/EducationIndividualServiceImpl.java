@@ -7,6 +7,7 @@ import com.correction.backend.modules.education.controller.dto.EducationIndividu
 import com.correction.backend.modules.education.controller.dto.EducationIndividualSearchInputDTO;
 import com.correction.backend.modules.education.controller.dto.EducationIndividualUpdateInputDTO;
 import com.correction.backend.modules.education.convert.MEducationIndividualConvert;
+import com.correction.backend.modules.education.entity.EducationIdeology;
 import com.correction.backend.modules.education.service.EducationIndividualService;
 import com.correction.framework.common.pojo.PageResult;
 import com.correction.backend.modules.education.entity.EducationIndividual;
@@ -14,6 +15,7 @@ import com.correction.backend.modules.education.mapper.EducationIndividualMapper
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.correction.framework.web.web.core.util.WebFrameworkUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -47,6 +49,7 @@ public class EducationIndividualServiceImpl extends ServiceImpl<EducationIndivid
         queryWrapper.like(StrUtil.isNotBlank(educationIndividual.getRemark()), EducationIndividual::getRemark, educationIndividual.getRemark());
         queryWrapper.like(StrUtil.isNotBlank(educationIndividual.getCreator()), EducationIndividual::getCreator, educationIndividual.getCreator());
         queryWrapper.like(StrUtil.isNotBlank(educationIndividual.getUpdater()), EducationIndividual::getUpdater, educationIndividual.getUpdater());
+        queryWrapper.in(!CollectionUtils.isEmpty(educationIndividual.getOrgIds()), EducationIndividual::getOrgNum,educationIndividual.getOrgIds());
         return baseMapper.selectPage(educationIndividual, queryWrapper);
     }
 

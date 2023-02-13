@@ -5,6 +5,7 @@ import com.correction.backend.modules.cases.entity.CasesPunishment;
 import com.correction.backend.modules.cases.service.CasesPunishmentService;
 import com.correction.backend.modules.flow.constant.FlowConstant;
 import com.correction.backend.modules.survey.constant.SurveyConstant;
+import com.correction.backend.modules.termination.service.TerminationCorrectService;
 import com.correction.framework.workflow.constant.WorkFlowConstant;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +19,9 @@ public class CasesPunishmentTwoFlowCompleteImpl implements FlowComplete{
 
     @Resource
     CasesPunishmentService casesPunishmentService;
+
+    @Resource
+    TerminationCorrectService terminationCorrectService;
 
     @Override
     public void doUpdateData(String dataId, String ref, String progress, String status) {
@@ -50,6 +54,8 @@ public class CasesPunishmentTwoFlowCompleteImpl implements FlowComplete{
             byId.setProgress(99);
             byId.setApplyStatus(99);
             byId.setEndFlowTime(LocalDateTime.now().toString());
+            //生成一条终止记录
+            terminationCorrectService.createTerminationCorrectRecord(byId);
         } else {
             byId.setApplyStatus(SurveyConstant.FLOW_STATUS_u1);
         }

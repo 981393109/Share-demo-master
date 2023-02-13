@@ -36,7 +36,7 @@ public class SurveyEntrustUnitCreateInputDTO implements Serializable {
     private String unitAddress;
 
     @ApiModelProperty(value = "组织架构num")
-    private String orgNum;
+    private Long orgNum;
 
     @ApiModelProperty(value = "创建时间")
     private Date createTime;

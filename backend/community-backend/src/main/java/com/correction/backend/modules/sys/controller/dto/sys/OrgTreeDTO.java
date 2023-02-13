@@ -26,6 +26,9 @@ public class OrgTreeDTO {
     @ApiModelProperty(value = "组织名称")
     private String orgName;
 
+    @ApiModelProperty(value = "智慧矫组织架构id")
+    private Long districtId;
+
     /**
      * 子路由
      */

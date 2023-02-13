@@ -21,6 +21,5 @@ public interface SupervisionOutApprovalMapper extends BaseMapperX<SupervisionOut
     IPage<SupervisionOutApprovalList> getPageList(@Param("page") IPage page, @Param("query") SupervisionOutApprovalSearchInputDTO query);
 
 
-
-
+    IPage<SupervisionOutApprovalList> getPageAllList(@Param("page") IPage page, @Param("query") SupervisionOutApprovalSearchInputDTO query);
 }

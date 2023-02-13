@@ -23,6 +23,7 @@ public interface SurveyEntrustUnitMapper extends BaseMapperX<SurveyEntrustUnit> 
         .likeIfPresent("unit_name",searchInputDTO.getUnitName())
         .likeIfPresent("mobile",searchInputDTO.getMobile())
         .likeIfPresent("unit_address",searchInputDTO.getUnitAddress())
+        .inIfPresent("org_num",searchInputDTO.getOrgIds())
         .eqIfPresent("unit_type",searchInputDTO.getUnitType()));
     }
 }

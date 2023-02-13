@@ -73,6 +73,13 @@ public class SupervisionPositioningDevicesController {
         return success(new PageResult<SupervisionPositioningDevicesFlowDTO>(pageList.getRecords(), pageList.getTotal()));
     }
 
+    @GetMapping("/pageAll")
+    @ApiOperation("分页获取所有列表记录(组织下所有)")
+    public CommonResult<PageResult<SupervisionPositioningDevicesFlowDTO>> getPageAllList(@Valid SupervisionPositioningDevicesSearchInputDTO reqVO) {
+        IPage<SupervisionPositioningDevicesFlowDTO> pageList = supervisionPositioningDevicesService.getPageAllList(reqVO);
+        return success(new PageResult<SupervisionPositioningDevicesFlowDTO>(pageList.getRecords(), pageList.getTotal()));
+    }
+
     @GetMapping("/supervisionDocFilePage")
     @ApiOperation("获取所有文书附件")
     public CommonResult<PageResult<SurveyDocumentsFilesDTO>> supervisionDocFilePage(@Valid SurveyDocumentsFilesQuery reqVO) {

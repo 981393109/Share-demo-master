@@ -102,7 +102,22 @@ public class CorrectionUser extends BaseDO {
     /**
      * 组织架构num
      */
-    private String orgNum;
+    private Long orgNum;
+
+    /**
+     * correction_start_date   入矫时间
+     */
+    private String correctionStartDate;
+
+    /**
+     * correction_end_date  入矫结束时间
+     */
+    private String correctionEndDate;
+
+    /**
+     * management_level 管理等级
+     */
+    private Integer managementLevel;
 
     /**
      * 是否历史

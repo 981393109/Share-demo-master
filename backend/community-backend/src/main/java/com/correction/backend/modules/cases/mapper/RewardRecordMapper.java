@@ -19,4 +19,6 @@ import org.apache.ibatis.annotations.Param;
 public interface RewardRecordMapper extends BaseMapperX<RewardRecord> {
 
     IPage<RewardRecordPageListDTO> getPageListFlow(@Param("page")IPage<RewardRecordPageListDTO> mpPage, @Param("query") RewardRecordSearchInputDTO query);
+
+    IPage<RewardRecordPageListDTO> getPageAllListFlow(@Param("page")IPage<RewardRecordPageListDTO> mpPage, @Param("query") RewardRecordSearchInputDTO query);
 }

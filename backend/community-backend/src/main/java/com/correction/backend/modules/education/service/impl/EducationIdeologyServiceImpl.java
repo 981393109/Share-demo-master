@@ -16,7 +16,9 @@ import com.correction.backend.modules.survey.controller.dto.SurveyDocumentsFiles
 import com.correction.backend.modules.survey.entity.SurveyDocumentsFiles;
 import com.correction.backend.modules.survey.service.SurveyDocumentsFilesService;
 import com.correction.framework.common.pojo.PageResult;
+import com.correction.framework.web.web.core.util.WebFrameworkUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -52,6 +54,7 @@ public class EducationIdeologyServiceImpl extends ServiceImpl<EducationIdeologyM
         queryWrapper.like(StrUtil.isNotBlank(educationIdeology.getScore()), EducationIdeology::getScore, educationIdeology.getScore());
         queryWrapper.like(StrUtil.isNotBlank(educationIdeology.getCreator()), EducationIdeology::getCreator, educationIdeology.getCreator());
         queryWrapper.like(StrUtil.isNotBlank(educationIdeology.getUpdater()), EducationIdeology::getUpdater, educationIdeology.getUpdater());
+        queryWrapper.in(!CollectionUtils.isEmpty(educationIdeology.getOrgIds()),EducationIdeology::getOrgNum,educationIdeology.getOrgIds());
         return baseMapper.selectPage(educationIdeology, queryWrapper);
     }
 
@@ -60,6 +63,7 @@ public class EducationIdeologyServiceImpl extends ServiceImpl<EducationIdeologyM
     public void createEducationIdeology(EducationIdeologyCreateInputDTO createInputDTO) {
         EducationIdeology educationIdeology = MEducationIdeologyConvert.INSTANCE.toEducationIdeology(createInputDTO);
         List<SurveyDocumentsFiles> documentsFiles = createInputDTO.getDocumentsFiles();
+        educationIdeology.setOrgNum(WebFrameworkUtils.getLoginOrgId());
         baseMapper.insert(educationIdeology);
         for (SurveyDocumentsFiles surveyDocumentsFile : documentsFiles) {
             surveyDocumentsFile.setDataId(educationIdeology.getId());
@@ -105,6 +109,7 @@ public class EducationIdeologyServiceImpl extends ServiceImpl<EducationIdeologyM
 
     @Override
     public PageResult<EducationIdeology> getPageList(EducationIdeologySearchInputDTO dto) {
+        dto.setOrgIds(WebFrameworkUtils.getLoginOrgIdsList());
         return pageListByEntity(dto);
     }
 }

@@ -95,4 +95,6 @@ public class TerminationSolutionsListOutputDTO implements Serializable {
     @ApiModelProperty(value = "是否删除")
     private Boolean deleted;
 
+    private Integer sendProveComplete;
+
 }

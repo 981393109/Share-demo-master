@@ -83,6 +83,12 @@ public class CasesPunishmentController {
         IPage<CasesPunishmentPageListDTO> pageList = casesPunishmentService.getPageList(reqVO);
         return success(new PageResult<CasesPunishmentPageListDTO>(pageList.getRecords(), pageList.getTotal()));
     }
+    @GetMapping("/pageAll")
+    @ApiOperation("分页获取所有列表记录(组织下)")
+    public CommonResult<PageResult<CasesPunishmentPageListDTO>> getPageAllList(@Valid CasesPunishmentSearchInputDTO reqVO) {
+        IPage<CasesPunishmentPageListDTO> pageList = casesPunishmentService.getPageAllList(reqVO);
+        return success(new PageResult<CasesPunishmentPageListDTO>(pageList.getRecords(), pageList.getTotal()));
+    }
 
 
     @GetMapping("/handleDocFilePage")

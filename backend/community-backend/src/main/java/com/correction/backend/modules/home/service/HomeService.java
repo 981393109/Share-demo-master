@@ -20,7 +20,7 @@ public interface HomeService {
      * @param loginUserId
      * @return
      */
-    List<SysNotes> getNotes(Long loginUserId);
+    List<SysNotes> getNotes(Long loginUserId ,String  date);
 
     SysNotes createNotes(SysNotesCreateInputDTO createInputDTO);
 

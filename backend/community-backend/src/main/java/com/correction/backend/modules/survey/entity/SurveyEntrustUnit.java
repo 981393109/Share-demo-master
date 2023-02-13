@@ -52,7 +52,7 @@ public class SurveyEntrustUnit extends BaseDO {
     /**
      * 组织架构num
      */
-    private String orgNum;
+    private Long orgNum;
 
     public static final String ID = "id";
 

@@ -59,8 +59,15 @@ public class InformationMessageServiceImpl extends ServiceImpl<InformationMessag
         queryWrapper.like(StrUtil.isNotBlank(informationMessage.getCreator()), InformationMessage::getCreator, informationMessage.getCreator());
         queryWrapper.like(StrUtil.isNotBlank(informationMessage.getUpdater()), InformationMessage::getUpdater, informationMessage.getUpdater());
         queryWrapper.eq(informationMessage.getUserId()!=null,InformationMessage::getUserId,informationMessage.getUserId());
-        queryWrapper.orderByAsc(InformationMessage::getStatus);
+        queryWrapper.orderByAsc(InformationMessage::getStatus).orderByDesc(InformationMessage::getCreateTime);
         PageResult<InformationMessage> informationMessagePageResult = baseMapper.selectPage(informationMessage, queryWrapper);
+        List<InformationMessage> list = informationMessagePageResult.getList();
+        if(!CollectionUtils.isEmpty(list)) {
+            list.forEach(e->{
+                Long userId = e.getUserId();
+                e.setUserName(sysUserMapper.selectById(userId).getUserName());
+            });
+        }
         return informationMessagePageResult;
     }
 

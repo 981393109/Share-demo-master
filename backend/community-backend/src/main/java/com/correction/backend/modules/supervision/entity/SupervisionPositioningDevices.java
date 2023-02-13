@@ -129,7 +129,7 @@ public class SupervisionPositioningDevices extends BaseDO {
     private String applyTime;
 
 
-    private String orgNum;
+    private Long orgNum;
 
 
     private String ref;

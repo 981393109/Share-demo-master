@@ -30,7 +30,7 @@ public class TestController {
 
     public static void main(String[] args) {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        String encode = bCryptPasswordEncoder.encode("123456");
+        String encode = bCryptPasswordEncoder.encode("100010");
         System.out.println(encode);
 
 

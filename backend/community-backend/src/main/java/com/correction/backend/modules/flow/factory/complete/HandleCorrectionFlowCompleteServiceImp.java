@@ -42,8 +42,8 @@ public class HandleCorrectionFlowCompleteServiceImp implements FlowComplete{
     public void doEnd(String dataId, String ref, String progress, String status) {
         HandleCorrection byId = handleCorrectionService.getById(Long.parseLong(dataId));
         if(WorkFlowConstant.TASK_SUCCESS.equals(status)){
-            byId.setProgress(SurveyConstant.PROGRESS_12);
-            byId.setApplyStatus(SurveyConstant.PROGRESS_11);
+            byId.setProgress(99);
+            byId.setApplyStatus(99);
             byId.setEndFlowTime(LocalDateTime.now().toString());
         } else {
             byId.setApplyStatus(SurveyConstant.FLOW_STATUS_u1);

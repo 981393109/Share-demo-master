@@ -11,7 +11,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-12-19T02:18:58+0800",
+    date = "2023-02-13T01:51:15+0800",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 1.8.0_211 (Oracle Corporation)"
 )
 public class MSupervisionPositioningDevicesConvertImpl implements MSupervisionPositioningDevicesConvert {
@@ -144,6 +144,7 @@ public class MSupervisionPositioningDevicesConvertImpl implements MSupervisionPo
         supervisionPositioningDevicesListOutputDTO.setApplyUser( supervisionPositioningDevices.getApplyUser() );
         supervisionPositioningDevicesListOutputDTO.setApplyName( supervisionPositioningDevices.getApplyName() );
         supervisionPositioningDevicesListOutputDTO.setApplyTime( supervisionPositioningDevices.getApplyTime() );
+        supervisionPositioningDevicesListOutputDTO.setProcessInstanceId( supervisionPositioningDevices.getProcessInstanceId() );
 
         return supervisionPositioningDevicesListOutputDTO;
     }

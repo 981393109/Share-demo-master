@@ -1,5 +1,6 @@
 package com.correction.backend.modules.information.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.correction.frameworks.mybatis.mybatis.core.dataobject.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -33,6 +34,12 @@ public class InformationMessage extends BaseDO {
      * 接收用户id
      */
     private Long userId;
+
+    /**
+     * 接收用户名称
+     */
+    @TableField(exist = false)
+    private String  userName;
 
     /**
      * 信息类型(1：审批 2：通告 3：其他)

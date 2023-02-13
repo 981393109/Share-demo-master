@@ -49,7 +49,7 @@ public class HomeController {
     @GetMapping("/getNotes")
     @ApiOperation("获取今日便签(不传默认为今日)")
     public CommonResult<List<SysNotes>> getNotes(@RequestParam("date")String date) throws Exception {
-        List<SysNotes> userRunTask = homeService.getNotes(WebFrameworkUtils.getLoginUserId());
+        List<SysNotes> userRunTask = homeService.getNotes(WebFrameworkUtils.getLoginUserId(),date);
         return success(userRunTask);
     }
 

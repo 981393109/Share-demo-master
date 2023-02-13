@@ -3,12 +3,17 @@ package com.correction.backend.modules.termination.service.impl;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.correction.backend.modules.cases.entity.CasesPunishment;
+import com.correction.backend.modules.handleCorrection.entity.CorrectionUser;
+import com.correction.backend.modules.handleCorrection.mapper.CorrectionUserMapper;
 import com.correction.backend.modules.survey.constant.SurveyConstant;
 import com.correction.backend.modules.survey.controller.dto.SurveyDocumentsFilesDTO;
 import com.correction.backend.modules.survey.controller.dto.SurveyDocumentsFilesQuery;
 import com.correction.backend.modules.survey.entity.SurveyDocumentsFiles;
 import com.correction.backend.modules.survey.service.SurveyDocumentsFilesService;
+import com.correction.backend.modules.sys.entity.OrgDO;
 import com.correction.backend.modules.sys.entity.SysUserDO;
+import com.correction.backend.modules.sys.mapper.OrgMapper;
 import com.correction.backend.modules.sys.mapper.SysUserMapper;
 import com.correction.backend.modules.termination.controller.dto.*;
 import com.correction.backend.modules.termination.convert.MTerminationCorrectConvert;
@@ -46,6 +51,12 @@ public class TerminationCorrectServiceImpl extends ServiceImpl<TerminationCorrec
     @Resource
     SysUserMapper sysUserMapper;
 
+    @Resource
+    OrgMapper orgMapper;
+
+    @Resource
+    CorrectionUserMapper correctionUserMapper;
+
     /**
      * 获取表格数据
      *
@@ -71,14 +82,19 @@ public class TerminationCorrectServiceImpl extends ServiceImpl<TerminationCorrec
     public TerminationCorrect create(TerminationCorrectCreateInputDTO createInputDTO) {
         TerminationCorrect terminationCorrect = MTerminationCorrectConvert.INSTANCE.toTerminationCorrect(createInputDTO);
         LoginUser loginUser = WebFrameworkUtils.getLoginUser();
+        CorrectionUser correctionUser = correctionUserMapper.selectById(createInputDTO.getUserId());
+        terminationCorrect.setCorrectionTime(correctionUser.getCorrectionStartDate());
+        terminationCorrect.setSolutionsTime(correctionUser.getCorrectionEndDate());
         terminationCorrect.setApplyName(loginUser.getUsername());
         terminationCorrect.setApplyUser(loginUser.getId());
-        terminationCorrect.setApplyStatus(SurveyConstant.FLOW_STATUS_1);
+        terminationCorrect.setApplyStatus(SurveyConstant.FLOW_STATUS_0);
         terminationCorrect.setProgress(SurveyConstant.PROGRESS_1);
         terminationCorrect.setOrgNum(WebFrameworkUtils.getLoginOrgId());
         terminationCorrect.setRef(String.valueOf(System.currentTimeMillis()));
+        terminationCorrect.setManagementLevel(correctionUser.getManagementLevel());
         baseMapper.insert(terminationCorrect);
         List<SurveyDocumentsFiles> surveyDocumentsFiles = createInputDTO.getSurveyDocumentsFiles();
+        if(!CollectionUtils.isEmpty(surveyDocumentsFiles))
         for (SurveyDocumentsFiles surveyDocumentsFile : surveyDocumentsFiles) {
             surveyDocumentsFile.setDataId(terminationCorrect.getId());
             surveyDocumentsFilesService.updateById(surveyDocumentsFile);
@@ -142,5 +158,47 @@ public class TerminationCorrectServiceImpl extends ServiceImpl<TerminationCorrec
             }
         }
         return mpPage;
+    }
+
+    @Override
+    public IPage<TerminationCorrectPageListDTO> getPageAllList(TerminationCorrectSearchInputDTO searchInputDTO) {
+        IPage<TerminationCorrectPageListDTO> mpPage = MyBatisUtils.buildPage(searchInputDTO);
+        searchInputDTO.setOrgIds(WebFrameworkUtils.getLoginOrgIdsList());
+        mpPage = baseMapper.getPageAllListFlow(mpPage, searchInputDTO);
+        List<TerminationCorrectPageListDTO> records = mpPage.getRecords();
+        if(!CollectionUtils.isEmpty(records)) {
+            for (TerminationCorrectPageListDTO record : records) {
+                if(record.getNextUser()!=null){
+                    SysUserDO userDO = sysUserMapper.selectById(Long.parseLong(record.getNextUser()));
+                    record.setNextUserName(userDO.getUserName());
+                } else {
+                    if(SurveyConstant.FLOW_STATUS_0.equals(record.getApplyStatus())){
+                        record.setNextUser(String.valueOf(record.getApplyUser()));
+                        record.setNextUserName(sysUserMapper.selectById(record.getApplyUser()).getUserName());
+                    }
+                }
+            }
+        }
+        return mpPage;
+    }
+
+    @Override
+    public void createTerminationCorrectRecord(CasesPunishment byId) {
+        CorrectionUser correctionUser = correctionUserMapper.selectById(byId.getUserId());
+        OrgDO orgDO = orgMapper.selectById(correctionUser.getHandleCorrectionId());
+        TerminationCorrect terminationCorrect = new TerminationCorrect();
+        terminationCorrect.setCorrectionTime(correctionUser.getCorrectionStartDate());
+        terminationCorrect.setSolutionsTime(correctionUser.getCorrectionEndDate());
+        terminationCorrect.setManagementLevel(correctionUser.getManagementLevel());
+        terminationCorrect.setCorrectionUnit(orgDO.getOrgName());
+        terminationCorrect.setCorrectionUnitId(orgDO.getId());
+        terminationCorrect.setApplyName("系统定时任务生成");
+        terminationCorrect.setApplyName(byId.getUserName());
+        terminationCorrect.setApplyUser(byId.getUserId());
+        terminationCorrect.setApplyStatus(SurveyConstant.FLOW_STATUS_0);
+        terminationCorrect.setProgress(SurveyConstant.PROGRESS_1);
+        terminationCorrect.setOrgNum(byId.getOrgNum());
+        terminationCorrect.setRef(String.valueOf(System.currentTimeMillis()));
+        baseMapper.insert(terminationCorrect);
     }
 }

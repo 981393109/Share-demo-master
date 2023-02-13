@@ -53,6 +53,9 @@ public class SupervisionOutApprovalListOutputDTO implements Serializable {
     @ApiModelProperty(value = "请假天数")
     private String leaveDay;
 
+    @ApiModelProperty(value = "processInstanceId")
+    private String processInstanceId;
+
     @ApiModelProperty(value = "两个月内外出时间累计天数")
     private Integer monthLeaveDay;
 

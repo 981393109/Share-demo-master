@@ -146,4 +146,7 @@ public class RewardRecordListOutputDTO implements Serializable {
     @ApiModelProperty(value = "是否删除")
     private Boolean deleted;
 
+    @ApiModelProperty(value = "isBack")
+    private Integer isBack;
+
 }

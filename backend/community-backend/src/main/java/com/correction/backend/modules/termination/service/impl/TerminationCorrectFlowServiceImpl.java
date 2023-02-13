@@ -13,6 +13,7 @@ import com.correction.backend.modules.termination.entity.TerminationCorrect;
 import com.correction.backend.modules.termination.entity.TerminationSolutions;
 import com.correction.backend.modules.termination.service.TerminationCorrectFlowService;
 import com.correction.backend.modules.termination.service.TerminationCorrectService;
+import com.correction.framework.common.util.date.DateUtils;
 import com.correction.framework.web.web.LoginUser;
 import com.correction.framework.web.web.core.util.WebFrameworkUtils;
 import com.correction.framework.workflow.dto.FlowCompleteDTO;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import static com.correction.backend.modules.sys.enums.SysErrorCodeConstants.*;
@@ -61,7 +63,7 @@ public class TerminationCorrectFlowServiceImpl implements TerminationCorrectFlow
         ActProcessInstance actProcessInstance = surveyFlow.startFlow(FlowStartDTO.builder().userId(loginUser.getId()).flowType(flowType).dataId(terminationCorrect.getId()).ref(terminationCorrect.getRef()).progress(String.valueOf(terminationCorrect.getProgress())).build());
         terminationCorrect.setProgress(SurveyConstant.PROGRESS_2);
         terminationCorrect.setApplyStatus(SurveyConstant.FLOW_STATUS_2);
-        terminationCorrect.setApplyTime(LocalDateTime.now().toString());
+        terminationCorrect.setApplyTime(DateUtils.formatDate(new Date()));
         terminationCorrect.setApplyUser(loginUser.getId());
         terminationCorrect.setApplyName(loginUser.getUsername());
         terminationCorrect.setProcessInstanceId(actProcessInstance.getProcessInstanceId());

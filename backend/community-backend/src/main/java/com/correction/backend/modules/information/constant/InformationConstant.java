@@ -30,6 +30,15 @@ public class InformationConstant {
         put(FlowConstant.SUPERVISION_POSITION_FLOW_TWO ,"发起了延长电子定位装置申请流程审批");
         put(FlowConstant.SUPERVISION_POSITION_FLOW_THREE ,"发起了解除电子定位装置申请流程审批");
         put(FlowConstant.SUPERVISION_POSITION_FLOW_FOUR ,"发起了免除电子定位装置申请流程审批");
+        put(FlowConstant.CASESPUNISHMENT_FLOW_FIRST ,"发起了处罚案件流程审批");
+        put(FlowConstant.CASESPUNISHMENT_FLOW_ONE ,"发起了处罚案件流程审批");
+        put(FlowConstant.CASESPUNISHMENT_FLOW_TWO ,"发起了处罚案件流程审批");
+        put(FlowConstant.CASESPUNISHMENT_FLOW_THREE ,"发起了处罚案件流程审批");
+        put(FlowConstant.REWARDRECORD_FLOW_FIRST ,"发起了奖励流程审批");
+        put(FlowConstant.REWARDRECORD_FLOW_ONE ,"发起了奖励流程审批");
+        put(FlowConstant.REWARDRECORD_FLOW_TWO ,"发起了奖励流程审批");
+        put(FlowConstant.TERMINATION_SOLUTIONS_FLOW ,"发起了期满解矫流程审批");
+        put(FlowConstant.TERMINATION_CORRECT_FLOW ,"发起了矫正终止流程审批");
     }};
 
     public static final Integer ENABLE = 1;

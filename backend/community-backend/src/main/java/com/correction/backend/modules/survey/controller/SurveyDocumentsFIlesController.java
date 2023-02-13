@@ -109,7 +109,7 @@ public class SurveyDocumentsFIlesController {
 
     @GetMapping("/getType")
     @ApiOperation("获取文档用途类型(2:委托检查材料; 3:调查实施材料;4:审核评估;  5:文书补充,6:人员报到,7:信息采集,8:报备手续材料,9:告知书,10:矫正小组,11:矫正方案;12:矫正宣言)")
-    public CommonResult<List<DictOutDTO>> getType(@RequestParam("type") Integer type) {
+    public CommonResult<List<DictOutDTO>> getType(@RequestParam("type") String  type) {
         // 获得用户分页列表
         List<Dict> list = dictService.selectDictByType(type);
         List<DictOutDTO> result = MDictConvert.INSTANCE.convertList(list);

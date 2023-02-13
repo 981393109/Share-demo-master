@@ -9,6 +9,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 专属于 web 包的工具类
@@ -20,6 +21,7 @@ public class WebFrameworkUtils {
 
     private static final String REQUEST_ATTRIBUTE_LOGIN_ORG_ID = "login_org_id";
     private static final String REQUEST_ATTRIBUTE_LOGIN_ORG_NUM = "login_org_num";
+    private static final String REQUEST_ATTRIBUTE_LOGIN_ORG_IDS_LIST = "login_org_ids_list";
 
     private static final String REQUEST_ATTRIBUTE_LOGIN_USER = "login_user";
 
@@ -114,4 +116,19 @@ public class WebFrameworkUtils {
         return getLoginUser(request);
     }
 
+    private static List<Long> getLoginOrgIdsList(HttpServletRequest request) {
+        if (request == null) {
+            return null;
+        }
+        return (List<Long>) request.getAttribute(REQUEST_ATTRIBUTE_LOGIN_ORG_IDS_LIST);
+    }
+
+    public static List<Long> getLoginOrgIdsList() {
+        HttpServletRequest request = getRequest();
+        return getLoginOrgIdsList(request);
+    }
+
+    public static void setLoginOrgIdsList(HttpServletRequest request, List<Long> orgIds) {
+        request.setAttribute(REQUEST_ATTRIBUTE_LOGIN_ORG_IDS_LIST, orgIds);
+    }
 }

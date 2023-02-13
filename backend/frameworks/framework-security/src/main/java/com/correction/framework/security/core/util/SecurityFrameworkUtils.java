@@ -98,6 +98,7 @@ public class SecurityFrameworkUtils {
         WebFrameworkUtils.setLoginUserId(request, loginUser.getId());
         WebFrameworkUtils.setLoginUser(request, loginUser);
         WebFrameworkUtils.setLoginOrgId(request, loginUser.getOrgId(),loginUser.getOrgNum());
+        WebFrameworkUtils.setLoginOrgIdsList(request, loginUser.getOrgIds());
     }
 
 }

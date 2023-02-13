@@ -81,7 +81,9 @@ public class CasesPunishmentServiceImpl extends ServiceImpl<CasesPunishmentMappe
     public CasesPunishment createCasesPunishment(CasesPunishmentCreateInputDTO casesPunishmentCreateInputDTO) {
         //校验：
         CasesPunishment casesPunishment = MCasesPunishmentConvert.INSTANCE.toCasesPunishment(casesPunishmentCreateInputDTO);
-        casesPunishment.setApplyStatus(SurveyConstant.FLOW_STATUS_1);
+        casesPunishment.setApplyUser(WebFrameworkUtils.getLoginUserId());
+        casesPunishment.setApplyName(WebFrameworkUtils.getLoginUser().getUsername());
+        casesPunishment.setApplyStatus(SurveyConstant.FLOW_STATUS_0);
         casesPunishment.setProgress(SurveyConstant.PROGRESS_1);
         casesPunishment.setOrgNum(WebFrameworkUtils.getLoginOrgId());
         casesPunishment.setRef(String.valueOf(System.currentTimeMillis()));
@@ -185,6 +187,27 @@ public class CasesPunishmentServiceImpl extends ServiceImpl<CasesPunishmentMappe
         return mpPage;
     }
 
+    @Override
+    public IPage<CasesPunishmentPageListDTO> getPageAllList(CasesPunishmentSearchInputDTO searchInputDTO) {
+        IPage<CasesPunishmentPageListDTO> mpPage = MyBatisUtils.buildPage(searchInputDTO);
+        searchInputDTO.setOrgIds(WebFrameworkUtils.getLoginOrgIdsList());
+        mpPage = baseMapper.getPageAllListFlow(mpPage, searchInputDTO);
+        List<CasesPunishmentPageListDTO> records = mpPage.getRecords();
+        if(!CollectionUtils.isEmpty(records)) {
+            for (CasesPunishmentPageListDTO record : records) {
+                if(record.getNextUser()!=null){
+                    SysUserDO userDO = sysUserMapper.selectById(Long.parseLong(record.getNextUser()));
+                    record.setNextUserName(userDO.getUserName());
+                } else {
+                    if(SurveyConstant.FLOW_STATUS_0.equals(record.getApplyStatus())){
+                        record.setNextUser(String.valueOf(record.getApplyUser()));
+                        record.setNextUserName(sysUserMapper.selectById(record.getApplyUser()).getUserName());
+                    }
+                }
+            }
+        }
+        return mpPage;
+    }
 
 
 }

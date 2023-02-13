@@ -50,8 +50,12 @@ public interface SurveyEvaluationService extends IService<SurveyEvaluation> {
      */
     PageResult<SurveyEvaluation> getPageList (SurveyEvaluationSearchInputDTO searchInputDTO);
 
-
     IPage<SurveyEvaluationListDTO> getPageListFlow(SurveyEvaluationSearchInputDTO reqVO);
 
     List<FlowOrgRoleDTO> getOrgRoleInfoList();
+
+    IPage<SurveyEvaluationListDTO> getPageAllListFlow(SurveyEvaluationSearchInputDTO reqVO);
+
+
+    void updateApplyStatus(Long id, Integer applyStatus);
 }

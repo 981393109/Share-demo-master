@@ -77,7 +77,7 @@ public class SurveyEvaluationController {
 
     @GetMapping("/page")
     @ApiOperation("获取所有调查评估列表记录")
-    public CommonResult<PageResult<SurveyEvaluationListDTO>> getUserPage(@Valid SurveyEvaluationSearchInputDTO reqVO) {
+    public CommonResult<PageResult<SurveyEvaluationListDTO>> page(@Valid SurveyEvaluationSearchInputDTO reqVO) {
         IPage<SurveyEvaluationListDTO> pageResult = surveyEvaluationService.getPageListFlow(reqVO);
         return success(new PageResult<SurveyEvaluationListDTO>(pageResult.getRecords(), pageResult.getTotal()));
     }
@@ -97,11 +97,13 @@ public class SurveyEvaluationController {
 
     @GetMapping("/getOrgUserList")
     @ApiOperation("得到用户部门下的所有用户信息")
-    public CommonResult<List<SysUserPageVO>> getOrgUserList() {
+    public CommonResult<List<SysUserPageVO>> getOrgUserList(@RequestParam("orgId") Long orgId) {
         // 获得用户列表
-        Long loginOrgId = WebFrameworkUtils.getLoginOrgId();
+        if(orgId == null){
+            orgId = WebFrameworkUtils.getLoginOrgId();
+        }
         SysUserSearchDTO reqVO = new SysUserSearchDTO();
-        reqVO.setOrgId(loginOrgId);
+        reqVO.setOrgId(orgId);
         List<SysUserDO> result = sysUserService.getOrgUserList(reqVO);
         List<SysUserPageVO> sysUserPageVOS = SysUserConvert.INSTANCE.convertList(result);
         return success(sysUserPageVOS);
@@ -113,6 +115,22 @@ public class SurveyEvaluationController {
     public CommonResult<List<FlowOrgRoleDTO>> getOrgInfoList() {
         List<FlowOrgRoleDTO> orgRoleInfoList = surveyEvaluationService.getOrgRoleInfoList();
         return success(orgRoleInfoList);
+    }
+
+
+    @GetMapping("/pageAll")
+    @ApiOperation("获取所有调查评估记录列表")
+    public CommonResult<PageResult<SurveyEvaluationListDTO>> pageAll(@Valid SurveyEvaluationSearchInputDTO reqVO) {
+        IPage<SurveyEvaluationListDTO> pageResult = surveyEvaluationService.getPageAllListFlow(reqVO);
+        return success(new PageResult<SurveyEvaluationListDTO>(pageResult.getRecords(), pageResult.getTotal()));
+    }
+
+
+    @PostMapping("/updateApplyStatus")
+    @ApiOperation("修改ApplyStatus")
+    public CommonResult<Boolean> updateApplyStatus(@RequestParam("id") Long id ,@RequestParam("applyStatus") Integer applyStatus) {
+        surveyEvaluationService.updateApplyStatus(id,applyStatus);
+        return success(true);
     }
 
 }

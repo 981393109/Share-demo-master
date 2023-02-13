@@ -20,6 +20,7 @@ import com.correction.backend.modules.survey.convert.MSurveyEvaluationConvert;
 import com.correction.backend.modules.survey.entity.SurveyEvaluation;
 import com.correction.backend.modules.sys.entity.OrgDO;
 import com.correction.backend.modules.sys.mapper.OrgMapper;
+import com.correction.framework.common.util.date.DateUtils;
 import com.correction.framework.web.web.LoginUser;
 import com.correction.framework.web.web.core.util.WebFrameworkUtils;
 import com.correction.framework.workflow.dto.FlowCompleteDTO;
@@ -33,6 +34,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import static com.correction.backend.modules.sys.enums.SysErrorCodeConstants.*;
@@ -73,7 +75,7 @@ public class HandleCorrectionFlowServiceImpl implements HandleCorrectionFlowServ
         ActProcessInstance actProcessInstance = surveyFlow.startFlow(FlowStartDTO.builder().userId(loginUser.getId()).flowType(FlowConstant.HANDLE_CORRECTION_FLOW).dataId(handleCorrection.getId()).ref(handleCorrection.getRef()).progress(String.valueOf(handleCorrection.getProgress())).build());
         handleCorrection.setProgress(SurveyConstant.PROGRESS_2);
         handleCorrection.setApplyStatus(SurveyConstant.FLOW_STATUS_2);
-        handleCorrection.setApplyTime(LocalDateTime.now().toString());
+        handleCorrection.setApplyTime(DateUtils.formatDate(new Date()));
         handleCorrection.setApplyUser(loginUser.getId());
         handleCorrection.setApplyName(loginUser.getUsername());
         handleCorrection.setProcessInstanceId(actProcessInstance.getProcessInstanceId());

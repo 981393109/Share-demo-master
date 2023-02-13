@@ -19,4 +19,6 @@ import org.apache.ibatis.annotations.Param;
 public interface SupervisionPositioningDevicesMapper extends BaseMapperX<SupervisionPositioningDevices> {
 
     IPage<SupervisionPositioningDevicesFlowDTO> getPageList(@Param("page") IPage<SupervisionPositioningDevicesFlowDTO> page,@Param("query") SupervisionPositioningDevicesSearchInputDTO query);
+
+    IPage<SupervisionPositioningDevicesFlowDTO> getPageAllList(@Param("page") IPage<SupervisionPositioningDevicesFlowDTO> page,@Param("query") SupervisionPositioningDevicesSearchInputDTO query);
 }

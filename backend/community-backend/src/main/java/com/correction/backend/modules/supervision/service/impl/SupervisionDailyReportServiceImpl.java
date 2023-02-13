@@ -11,7 +11,9 @@ import com.correction.backend.modules.supervision.entity.SupervisionDailyReport;
 import com.correction.backend.modules.supervision.mapper.SupervisionDailyReportMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.correction.framework.common.pojo.PageResult;
+import com.correction.framework.web.web.core.util.WebFrameworkUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -39,7 +41,7 @@ public class SupervisionDailyReportServiceImpl extends ServiceImpl<SupervisionDa
     public PageResult<SupervisionDailyReport> pageListByEntity(SupervisionDailyReportSearchInputDTO supervisionDailyReport) {
         LambdaQueryWrapper<SupervisionDailyReport> queryWrapper = Wrappers.lambdaQuery();
         queryWrapper.like(StrUtil.isNotBlank(supervisionDailyReport.getCorrectionUnit()), SupervisionDailyReport::getCorrectionUnit, supervisionDailyReport.getCorrectionUnit());
-        queryWrapper.like(supervisionDailyReport.getCorrectionUnitId()!=null, SupervisionDailyReport::getCorrectionUnitId, supervisionDailyReport.getCorrectionUnitId());
+        queryWrapper.eq(supervisionDailyReport.getCorrectionUnitId()!=null, SupervisionDailyReport::getCorrectionUnitId, supervisionDailyReport.getCorrectionUnitId());
         queryWrapper.like(StrUtil.isNotBlank(supervisionDailyReport.getRegistrationDate()), SupervisionDailyReport::getRegistrationDate, supervisionDailyReport.getRegistrationDate());
         queryWrapper.like(StrUtil.isNotBlank(supervisionDailyReport.getBenchmarkScore()), SupervisionDailyReport::getBenchmarkScore, supervisionDailyReport.getBenchmarkScore());
         queryWrapper.like(supervisionDailyReport.getUserId()!=null, SupervisionDailyReport::getUserId, supervisionDailyReport.getUserId());
@@ -49,6 +51,7 @@ public class SupervisionDailyReportServiceImpl extends ServiceImpl<SupervisionDa
         queryWrapper.like(StrUtil.isNotBlank(supervisionDailyReport.getRemark()), SupervisionDailyReport::getRemark, supervisionDailyReport.getRemark());
         queryWrapper.like(StrUtil.isNotBlank(supervisionDailyReport.getCreator()), SupervisionDailyReport::getCreator, supervisionDailyReport.getCreator());
         queryWrapper.like(StrUtil.isNotBlank(supervisionDailyReport.getUpdater()), SupervisionDailyReport::getUpdater, supervisionDailyReport.getUpdater());
+        queryWrapper.in(!CollectionUtils.isEmpty(supervisionDailyReport.getOrgIds()),SupervisionDailyReport::getOrgNum,supervisionDailyReport.getOrgIds());
         PageResult<SupervisionDailyReport> supervisionDailyReportPageResult = baseMapper.selectPage(supervisionDailyReport, queryWrapper);
         return supervisionDailyReportPageResult;
     }
@@ -57,6 +60,7 @@ public class SupervisionDailyReportServiceImpl extends ServiceImpl<SupervisionDa
     @Override
     public void createSupervisionDailyReport(SupervisionDailyReportUserDTO supervisionDailyReportUserDTO) {
         SupervisionDailyReport supervisionDailyReport = new SupervisionDailyReport();
+        supervisionDailyReport.setOrgNum(WebFrameworkUtils.getLoginOrgId());
         List<SupervisionDailyReportUser> userList = supervisionDailyReportUserDTO.getUserList();
         for (SupervisionDailyReportUser supervisionDailyReportUser : userList) {
             supervisionDailyReport.setUserId(supervisionDailyReportUser.getUserId());
@@ -109,6 +113,7 @@ public class SupervisionDailyReportServiceImpl extends ServiceImpl<SupervisionDa
 
     @Override
     public PageResult<SupervisionDailyReport> getPageList(SupervisionDailyReportSearchInputDTO searchInputDTO) {
+        searchInputDTO.setOrgIds(WebFrameworkUtils.getLoginOrgIdsList());
         PageResult<SupervisionDailyReport> supervisionDailyReportPageResult = this.pageListByEntity(searchInputDTO);
         return supervisionDailyReportPageResult;
     }

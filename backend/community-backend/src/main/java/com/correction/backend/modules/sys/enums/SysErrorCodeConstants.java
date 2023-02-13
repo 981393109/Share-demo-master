@@ -16,6 +16,7 @@ public interface SysErrorCodeConstants {
     ErrorCode AUTH_LOGIN_FAIL_UNKNOWN = new ErrorCode(1002000002, "登录失败"); // 登陆失败的兜底，位置原因
     ErrorCode AUTH_LOGIN_CAPTCHA_NOT_FOUND = new ErrorCode(1002000003, "验证码不存在");
     ErrorCode AUTH_LOGIN_CAPTCHA_CODE_ERROR = new ErrorCode(1002000004, "验证码不正确");
+    ErrorCode AUTH_LOGIN_UN_ORG_ERROR = new ErrorCode(1002000005, "账号异常，联系管理员处理");
 
     // ========== TOKEN 模块 1002001000 ==========
     ErrorCode TOKEN_EXPIRED = new ErrorCode(1002001000, "Token 已经过期");
@@ -128,6 +129,7 @@ public interface SysErrorCodeConstants {
     ErrorCode FLOW_DATA_ISEXSIT = new ErrorCode(1002017004, "当前数据已经存在");
     ErrorCode FLOW_DATA_STOP = new ErrorCode(1002017005, "当前未审批通过，不可执行此操作");
     ErrorCode FLOW_TYPE_ISNULL = new ErrorCode(1002017006, "levea Type is null");
+    ErrorCode ORG_districtId = new ErrorCode(1002017007, "当前组织未维护districtId");
 
 
 }

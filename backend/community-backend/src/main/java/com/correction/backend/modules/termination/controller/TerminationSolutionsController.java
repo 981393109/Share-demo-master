@@ -82,6 +82,13 @@ public class TerminationSolutionsController {
         return success(new PageResult<TerminationSolutionsPageListDTO>(pageList.getRecords(), pageList.getTotal()));
     }
 
+    @GetMapping("/pageAll")
+    @ApiOperation("分页获取所有列表记录(组织下)")
+    public CommonResult<PageResult<TerminationSolutionsPageListDTO>> getPageAllList(@Valid TerminationSolutionsSearchInputDTO reqVO) {
+        IPage<TerminationSolutionsPageListDTO> pageList = terminationSolutionsService.getPageAllList(reqVO);
+        return success(new PageResult<TerminationSolutionsPageListDTO>(pageList.getRecords(), pageList.getTotal()));
+    }
+
 
     @GetMapping("/handleDocFilePage")
     @ApiOperation("获取所有文书附件")

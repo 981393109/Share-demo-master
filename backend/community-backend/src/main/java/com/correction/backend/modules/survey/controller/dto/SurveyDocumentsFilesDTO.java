@@ -35,5 +35,8 @@ public class SurveyDocumentsFilesDTO {
     @ApiModelProperty(value = "源数据id")
     private Long  dataId;
 
+    @ApiModelProperty(value = "文书类型")
+    private String useType;
+
     private  List<Integer> dictTypeList;
 }

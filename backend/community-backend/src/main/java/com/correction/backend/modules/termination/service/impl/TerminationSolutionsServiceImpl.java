@@ -4,12 +4,16 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.correction.backend.modules.cases.controller.dto.CasesPunishmentPageListDTO;
+import com.correction.backend.modules.handleCorrection.entity.CorrectionUser;
+import com.correction.backend.modules.handleCorrection.mapper.CorrectionUserMapper;
 import com.correction.backend.modules.survey.constant.SurveyConstant;
 import com.correction.backend.modules.survey.controller.dto.SurveyDocumentsFilesDTO;
 import com.correction.backend.modules.survey.controller.dto.SurveyDocumentsFilesQuery;
 import com.correction.backend.modules.survey.entity.SurveyDocumentsFiles;
 import com.correction.backend.modules.survey.service.SurveyDocumentsFilesService;
+import com.correction.backend.modules.sys.entity.OrgDO;
 import com.correction.backend.modules.sys.entity.SysUserDO;
+import com.correction.backend.modules.sys.mapper.OrgMapper;
 import com.correction.backend.modules.sys.mapper.SysUserMapper;
 import com.correction.backend.modules.termination.controller.dto.*;
 import com.correction.backend.modules.termination.convert.MTerminationSolutionsConvert;
@@ -28,7 +32,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -47,6 +53,14 @@ public class TerminationSolutionsServiceImpl extends ServiceImpl<TerminationSolu
 
     @Resource
     private SysUserMapper sysUserMapper;
+
+    @Resource
+    private CorrectionUserMapper correctionUserMapper;
+
+    @Resource
+    private OrgMapper orgMapper;
+
+
 
 
     /**
@@ -74,19 +88,24 @@ public class TerminationSolutionsServiceImpl extends ServiceImpl<TerminationSolu
     public TerminationSolutions create(TerminationSolutionsCreateInputDTO createInputDTO) {
         TerminationSolutions terminationSolutions = MTerminationSolutionsConvert.INSTANCE.toTerminationSolutions(createInputDTO);
         //新增：
+        //得到矫正对象
+        CorrectionUser correctionUser = correctionUserMapper.selectById(createInputDTO.getUserId());
+        terminationSolutions.setCorrectionTime(correctionUser.getCorrectionStartDate());
+        terminationSolutions.setSolutionsTime(correctionUser.getCorrectionEndDate());
         LoginUser loginUser = WebFrameworkUtils.getLoginUser();
         terminationSolutions.setApplyName(loginUser.getUsername());
         terminationSolutions.setApplyUser(loginUser.getId());
-        terminationSolutions.setApplyStatus(SurveyConstant.FLOW_STATUS_1);
+        terminationSolutions.setApplyStatus(SurveyConstant.FLOW_STATUS_0);
         terminationSolutions.setProgress(SurveyConstant.PROGRESS_1);
         terminationSolutions.setOrgNum(WebFrameworkUtils.getLoginOrgId());
         terminationSolutions.setRef(String.valueOf(System.currentTimeMillis()));
         baseMapper.insert(terminationSolutions);
         List<SurveyDocumentsFiles> surveyDocumentsFiles = createInputDTO.getSurveyDocumentsFiles();
-        for (SurveyDocumentsFiles surveyDocumentsFile : surveyDocumentsFiles) {
-            surveyDocumentsFile.setDataId(terminationSolutions.getId());
-            surveyDocumentsFilesService.updateById(surveyDocumentsFile);
-        }
+        if(!CollectionUtils.isEmpty(surveyDocumentsFiles))
+            for (SurveyDocumentsFiles surveyDocumentsFile : surveyDocumentsFiles) {
+                surveyDocumentsFile.setDataId(terminationSolutions.getId());
+                surveyDocumentsFilesService.updateById(surveyDocumentsFile);
+            }
         return terminationSolutions;
     }
 
@@ -136,8 +155,10 @@ public class TerminationSolutionsServiceImpl extends ServiceImpl<TerminationSolu
                     record.setNextUserName(userDO.getUserName());
                 } else {
                     if(SurveyConstant.FLOW_STATUS_0.equals(record.getApplyStatus())){
-                        record.setNextUser(String.valueOf(record.getApplyUser()));
-                        record.setNextUserName(sysUserMapper.selectById(record.getApplyUser()).getUserName());
+                        if(record.getApplyUser()!=null){
+                            record.setNextUser(String.valueOf(record.getApplyUser()));
+                            record.setNextUserName(sysUserMapper.selectById(record.getApplyUser()).getUserName());
+                        }
                     }
                 }
                 if (String.valueOf(WebFrameworkUtils.getLoginUserId()).equals(record.getNextUser())){
@@ -151,4 +172,59 @@ public class TerminationSolutionsServiceImpl extends ServiceImpl<TerminationSolu
         }
         return mpPage;
     }
+
+    @Override
+    public IPage<TerminationSolutionsPageListDTO> getPageAllList(TerminationSolutionsSearchInputDTO solutionsSearchInputDTO) {
+        IPage<TerminationSolutionsPageListDTO> mpPage = MyBatisUtils.buildPage(solutionsSearchInputDTO);
+        solutionsSearchInputDTO.setOrgIds(WebFrameworkUtils.getLoginOrgIdsList());
+        mpPage = baseMapper.getPageListFlow(mpPage, solutionsSearchInputDTO);
+        List<TerminationSolutionsPageListDTO> records = mpPage.getRecords();
+        if(!CollectionUtils.isEmpty(records)) {
+            for (TerminationSolutionsPageListDTO record : records) {
+                if(record.getNextUser()!=null){
+                    SysUserDO userDO = sysUserMapper.selectById(Long.parseLong(record.getNextUser()));
+                    record.setNextUserName(userDO.getUserName());
+                } else {
+                    if(SurveyConstant.FLOW_STATUS_0.equals(record.getApplyStatus())){
+                        record.setNextUser(String.valueOf(record.getApplyUser()));
+                        record.setNextUserName(sysUserMapper.selectById(record.getApplyUser()).getUserName());
+                    }
+                }
+            }
+        }
+        return mpPage;
+    }
+
+    @Override
+    public void autoCreateTerminationRecord() {
+        //解矫 30天
+        String  now = LocalDate.now().toString();
+        List<CorrectionUser> correctionUsers = correctionUserMapper.selectList(Wrappers.<CorrectionUser>lambdaQuery()
+                .eq(CorrectionUser::getIsHistory, 0).last(" and datediff(correction_end_date,'" + now + "') <= 30 and datediff(correction_end_date,'" + now + "' ) > 0 "));
+        List<TerminationSolutions> list = list();
+        List<Long> collect = list.stream().map(e -> e.getUserId()).collect(Collectors.toList());
+        //生成解矫正记录
+        if(!CollectionUtils.isEmpty(correctionUsers)){
+            List<CorrectionUser> correctionUserList = correctionUsers.stream().filter(e -> !collect.contains(e.getId())).collect(Collectors.toList());
+            for (CorrectionUser correctionUser : correctionUserList) {
+                OrgDO orgDO = orgMapper.selectById(correctionUser.getHandleCorrectionId());
+                if(orgDO == null){continue;}
+                TerminationSolutions terminationSolutions = new TerminationSolutions();
+                terminationSolutions.setUserId(correctionUser.getId());
+                terminationSolutions.setUserName(correctionUser.getName());
+                terminationSolutions.setCorrectionUnitId(orgDO.getId());
+                terminationSolutions.setCorrectionUnit(orgDO.getOrgName());
+                terminationSolutions.setCorrectionTime(correctionUser.getCorrectionStartDate());
+                terminationSolutions.setSolutionsTime(correctionUser.getCorrectionEndDate());
+                terminationSolutions.setApplyName("系统定时任务生成");
+                terminationSolutions.setApplyStatus(SurveyConstant.FLOW_STATUS_0);
+                terminationSolutions.setProgress(SurveyConstant.PROGRESS_1);
+                terminationSolutions.setOrgNum(correctionUser.getHandleCorrectionId());
+                terminationSolutions.setRef(String.valueOf(System.currentTimeMillis()));
+                baseMapper.insert(terminationSolutions);
+            }
+        }
+    }
+
+
 }

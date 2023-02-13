@@ -36,5 +36,8 @@ public class SysUserInfoVO {
     @ApiModelProperty(value = "password", example = "password")
     private String password;
 
+    @ApiModelProperty(value = "roleId")
+    private Long roleId;
+
 
 }

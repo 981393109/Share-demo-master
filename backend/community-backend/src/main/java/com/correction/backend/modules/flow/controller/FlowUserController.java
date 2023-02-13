@@ -14,7 +14,9 @@ import com.correction.framework.workflow.dto.ActivityInstanceListOutputDTO;
 import com.correction.framework.workflow.service.impl.ActTaskService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.RuntimeService;
@@ -58,8 +60,15 @@ public class FlowUserController {
     @GetMapping("/getFlowNode")
     @ApiOperation("获取流程审批节点")
     @ApiImplicitParam(name = "flowType", value = "flowType", required = true, example = "调查评估：SURVEY_FLOW,入矫办理：HANDLE_CORRECTION_FLOW，处罚第一个流程：CASESPUNISHMENT_FLOW_FIRST, ", dataTypeClass = String.class)
-    public CommonResult<List<FlowNodeListDTO>> getFlowNode(@RequestParam("flowType") String flowType) throws Exception {
-        List<FlowNodeListDTO> flowNodeUserList = flowUserService.getFlowNode(flowType);
+    public CommonResult<List<FlowNodeListDTO>> getFlowNode(@RequestParam("flowType") String flowType,@RequestParam(value = "dataId",required = false) Long dataId) throws Exception {
+        List<FlowNodeListDTO> flowNodeUserList = flowUserService.getFlowNode(flowType,dataId);
+        return success(flowNodeUserList);
+    }
+
+    @GetMapping("/getFlowNodeLink")
+    @ApiOperation("获取流程链路")
+    public CommonResult<List<FlowUserListDTO>> getFlowNodeLink(@RequestParam("flowType") String flowType,@RequestParam("dataId") Long dataId) throws Exception {
+        List<FlowUserListDTO> flowNodeUserList = flowUserService.getFlowNodeLink(flowType,dataId);
         return success(flowNodeUserList);
     }
 
@@ -212,10 +221,17 @@ public class FlowUserController {
 
 
     @ApiOperation(value = "根据流程实例id获取历史任务节点信息")
-    @ApiImplicitParam(name = "processInstanceId", value = "流程实例id", dataType = "String", paramType = "query")
+    @ApiImplicitParams({@ApiImplicitParam(name = "processInstanceId", value = "流程实例id",required = true, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "nextProcessInstanceId", value = "下一流程实例Id",required = false, dataType = "String", paramType = "query")})
     @GetMapping(value = "/getHisTaskInsListByProInsId")
-    public CommonResult<List<ActivityInstanceListOutputDTO>> getHisTaskInsListByProInsId(@NotBlank(message = "流程实例id不能为空") String processInstanceId) {
-        return success(actTaskService.getHisTaskInsListByProInsId(processInstanceId));
+    public CommonResult<List<ActivityInstanceListOutputDTO>> getHisTaskInsListByProInsId(@NotBlank(message = "流程实例id不能为空") String processInstanceId , String nextProcessInstanceId) {
+        List<ActivityInstanceListOutputDTO> hisTaskInsListByProInsId = actTaskService.getHisTaskInsListByProInsId(processInstanceId);
+        if(StringUtils.isNotBlank(nextProcessInstanceId)){
+            List<ActivityInstanceListOutputDTO> nextHisTaskInsListByProInsId = actTaskService.getHisTaskInsListByProInsId(nextProcessInstanceId);
+            nextHisTaskInsListByProInsId.remove(0);
+            hisTaskInsListByProInsId.addAll(nextHisTaskInsListByProInsId);
+        }
+        return success(hisTaskInsListByProInsId);
     }
 
 

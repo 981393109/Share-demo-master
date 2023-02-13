@@ -67,6 +67,7 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, OrgDO> implements Org
     @Override
     public void delete(Long id) {
         baseMapper.deleteById(id);
+        //todo 是否该组织下的用户的orgId 和角色给取消掉
     }
 
     @Override

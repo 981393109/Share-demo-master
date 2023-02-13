@@ -64,7 +64,7 @@ public class CorrectionUserCreateInputDTO implements Serializable {
     private Long handleCorrectionId;
 
     @ApiModelProperty(value = "组织架构num")
-    private String orgNum;
+    private Long orgNum;
 
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
@@ -80,5 +80,23 @@ public class CorrectionUserCreateInputDTO implements Serializable {
 
     @ApiModelProperty(value = "是否删除")
     private Boolean deleted;
+
+    /**
+     * correction_start_date   入矫时间
+     */
+    @ApiModelProperty(value = "入矫时间")
+    private String correctionStartDate;
+
+    /**
+     * correction_end_date  入矫结束时间
+     */
+    @ApiModelProperty(value = "入矫结束时间")
+    private String correctionEndDate;
+
+    /**
+     * management_level 管理等级
+     */
+    @ApiModelProperty(value = "管理等级")
+    private Integer managementLevel;
 
 }

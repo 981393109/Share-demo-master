@@ -26,8 +26,11 @@ public interface SurveyEvaluationMapper extends BaseMapperX<SurveyEvaluation> {
         .likeIfPresent("name",searchInputDTO.getName())
         .likeIfPresent("entrust_unit",searchInputDTO.getEntrustUnit())
         .likeIfPresent("area_jurisdiction",searchInputDTO.getAreaJurisdiction())
+        .eqIfPresent("org_num",searchInputDTO.getOrgNum())
         );
     }
 
     IPage<SurveyEvaluationListDTO> getPageListFlow(@Param("page") IPage page,@Param("query") SurveyEvaluationSearchInputDTO query);
+
+    IPage<SurveyEvaluationListDTO> getPageAllListFlow(@Param("page") IPage page,@Param("query") SurveyEvaluationSearchInputDTO query);
 }

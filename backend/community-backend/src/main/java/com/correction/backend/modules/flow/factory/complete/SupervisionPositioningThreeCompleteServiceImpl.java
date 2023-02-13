@@ -42,8 +42,8 @@ public class SupervisionPositioningThreeCompleteServiceImpl implements FlowCompl
     public void doEnd(String dataId, String ref, String progress, String status) {
         SupervisionPositioningDevices byId = supervisionPositioningDevicesService.getById(Long.parseLong(dataId));
         if(WorkFlowConstant.TASK_SUCCESS.equals(status)){
-            byId.setProgress(SurveyConstant.PROGRESS_6);
-            byId.setApplyStatus(SurveyConstant.PROGRESS_6);
+            byId.setProgress(99);
+            byId.setApplyStatus(99);
         } else {
             byId.setApplyStatus(SurveyConstant.FLOW_STATUS_u1);
         }

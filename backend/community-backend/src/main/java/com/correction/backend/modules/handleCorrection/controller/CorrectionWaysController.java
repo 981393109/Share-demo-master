@@ -9,6 +9,7 @@ import com.correction.backend.modules.handleCorrection.service.CorrectionGroupSe
 import com.correction.backend.modules.handleCorrection.service.CorrectionWaysService;
 import com.correction.framework.common.pojo.CommonResult;
 import com.correction.framework.common.pojo.PageResult;
+import com.correction.framework.web.web.core.util.WebFrameworkUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -88,6 +89,7 @@ public class CorrectionWaysController {
     @GetMapping("/getList")
     @ApiOperation("获取所有矫正档案列表(不分页)")
     public CommonResult<List<CorrectionWaysListOutputDTO>> getList(@Valid CorrectionWaysSearchDTO reqVO) {
+        reqVO.setOrgIds(WebFrameworkUtils.getLoginOrgIdsList());
         List<CorrectionWays> list = correctionWaysService.getList(reqVO);
         return success(MCorrectionWaysConvert.INSTANCE.toList(list));
     }

@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -54,6 +55,11 @@ public class LoginUser implements UserDetails {
     private Long orgId;
 
     private String orgNum;
+
+    /**
+     * 子组织
+     */
+    private List<Long> orgIds;
 
     @Override
     @JsonIgnore// 避免序列化

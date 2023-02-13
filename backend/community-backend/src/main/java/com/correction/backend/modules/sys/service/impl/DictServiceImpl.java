@@ -7,6 +7,7 @@ import com.correction.backend.modules.sys.mapper.DictMapper;
 import com.correction.backend.modules.sys.service.DictService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,7 +23,12 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
 
 
     @Override
-    public List<Dict> selectDictByType(Integer type) {
-        return baseMapper.selectDictByType(type);
+    public List<Dict> selectDictByType(String  type) {
+        String[] split = type.split(",");
+        List<Dict> result  = new ArrayList<>();
+        for (String s : split) {
+            result.addAll(baseMapper.selectDictByType(Integer.parseInt(s)));
+        }
+        return result;
     }
 }

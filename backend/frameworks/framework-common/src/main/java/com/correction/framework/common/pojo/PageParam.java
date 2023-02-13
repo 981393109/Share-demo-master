@@ -8,6 +8,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 
 @ApiModel("分页参数")
 @Data
@@ -26,5 +27,7 @@ public class PageParam implements Serializable {
     @Min(value = 1, message = "页码最小值为 1")
     @Max(value = 100, message = "页码最大值为 100")
     private Integer pageSize = PAGE_SIZE;
+
+    private List<Long> orgIds;
 
 }

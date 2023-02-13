@@ -41,8 +41,8 @@ public class SupervisionOutApprovalThreeCompleteImpl implements FlowComplete{
     public void doEnd(String dataId, String ref, String progress, String status) {
         SupervisionOutApproval byId = supervisionOutApprovalService.getById(Long.parseLong(dataId));
         if(WorkFlowConstant.TASK_SUCCESS.equals(status)){
-            byId.setProgress(SurveyConstant.PROGRESS_8);
-            byId.setApplyStatus(SurveyConstant.PROGRESS_6);
+            byId.setProgress(99);
+            byId.setApplyStatus(99);
         } else {
             byId.setApplyStatus(SurveyConstant.FLOW_STATUS_u1);
         }

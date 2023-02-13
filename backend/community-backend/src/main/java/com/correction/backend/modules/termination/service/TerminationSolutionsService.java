@@ -43,4 +43,8 @@ public interface TerminationSolutionsService extends IService<TerminationSolutio
      */
     IPage<TerminationSolutionsPageListDTO> getPageList (TerminationSolutionsSearchInputDTO solutionsSearchInputDTO);
 
+
+    IPage<TerminationSolutionsPageListDTO> getPageAllList (TerminationSolutionsSearchInputDTO solutionsSearchInputDTO);
+
+    void autoCreateTerminationRecord();
 }

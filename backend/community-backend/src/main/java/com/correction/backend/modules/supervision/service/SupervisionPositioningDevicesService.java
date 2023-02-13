@@ -57,4 +57,6 @@ public interface SupervisionPositioningDevicesService extends IService<Supervisi
      */
     IPage<SupervisionPositioningDevicesFlowDTO> getPageList (SupervisionPositioningDevicesSearchInputDTO searchInputDTO);
 
+    IPage<SupervisionPositioningDevicesFlowDTO> getPageAllList (SupervisionPositioningDevicesSearchInputDTO searchInputDTO);
+
 }

@@ -83,4 +83,7 @@ public class SupervisionPositioningDevicesListOutputDTO implements Serializable 
     @ApiModelProperty(value = "申请时间")
     private String applyTime;
 
+    @ApiModelProperty(value = "流程实例ID")
+    private String processInstanceId;
+
 }

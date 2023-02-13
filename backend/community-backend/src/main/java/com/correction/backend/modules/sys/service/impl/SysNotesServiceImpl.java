@@ -59,7 +59,7 @@ public class SysNotesServiceImpl extends ServiceImpl<SysNotesMapper, SysNotes> i
         if(StringUtils.isNotBlank(date)){
             date = LocalDate.now().toString();
         }
-        List<SysNotes> sysNotes = baseMapper.selectList(Wrappers.<SysNotes>lambdaQuery().eq(SysNotes::getUserId, userId).eq(SysNotes::getUseDate, date).eq(SysNotes::getDeleted, 0));
+        List<SysNotes> sysNotes = baseMapper.selectList(Wrappers.<SysNotes>lambdaQuery().eq(SysNotes::getUserId, userId).eq(SysNotes::getUseDate, date).eq(SysNotes::getDeleted, 0).orderByDesc(SysNotes::getStatus));
         return sysNotes;
     }
 }

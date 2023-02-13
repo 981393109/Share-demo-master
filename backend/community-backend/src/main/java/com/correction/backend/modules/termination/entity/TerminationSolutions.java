@@ -126,6 +126,11 @@ public class TerminationSolutions extends BaseDO {
 
     private String endFlowTime;
 
+    private Integer sendProveComplete;
+
+    private String solutionsTime;
+
+    private String correctionTime;
 
     public static final String ID = "id";
 

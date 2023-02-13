@@ -20,6 +20,7 @@ import com.correction.backend.modules.handleCorrection.controller.dto.HandleCorr
 import com.correction.backend.modules.handleCorrection.convert.MHandleCorrectionConvert;
 import com.correction.backend.modules.handleCorrection.entity.HandleCorrection;
 import com.correction.backend.modules.survey.constant.SurveyConstant;
+import com.correction.framework.common.util.date.DateUtils;
 import com.correction.framework.web.web.LoginUser;
 import com.correction.framework.web.web.core.util.WebFrameworkUtils;
 import com.correction.framework.workflow.dto.FlowCompleteDTO;
@@ -32,6 +33,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import static com.correction.backend.modules.sys.enums.SysErrorCodeConstants.*;
@@ -69,7 +71,7 @@ public class CasesPunishmentFlowServiceImpl implements CasesPunishmentFlowServic
         ActProcessInstance actProcessInstance = surveyFlow.startFlow(FlowStartDTO.builder().userId(loginUser.getId()).flowType(FlowConstant.CASESPUNISHMENT_FLOW_FIRST).dataId(casesPunishment.getId()).ref(casesPunishment.getRef()).progress(String.valueOf(casesPunishment.getProgress())).build());
         casesPunishment.setProgress(SurveyConstant.PROGRESS_2);
         casesPunishment.setApplyStatus(SurveyConstant.FLOW_STATUS_2);
-        casesPunishment.setApplyTime(LocalDateTime.now().toString());
+        casesPunishment.setApplyTime(DateUtils.formatDate(new Date()));
         casesPunishment.setApplyUser(loginUser.getId());
         casesPunishment.setApplyName(loginUser.getUsername());
         casesPunishment.setProcessInstanceId(actProcessInstance.getProcessInstanceId());
@@ -115,7 +117,7 @@ public class CasesPunishmentFlowServiceImpl implements CasesPunishmentFlowServic
         ActProcessInstance actProcessInstance = surveyFlow.startFlow(FlowStartDTO.builder().userId(loginUser.getId()).flowType(flowType).dataId(casesPunishment.getId()).ref(casesPunishment.getNextRef()).progress(String.valueOf(casesPunishment.getProgress())).build());
         casesPunishment.setProgress(SurveyConstant.PROGRESS_5);
         casesPunishment.setApplyStatus(SurveyConstant.FLOW_STATUS_5);
-        casesPunishment.setApplyTime(LocalDateTime.now().toString());
+        casesPunishment.setApplyTime(DateUtils.formatDate(new Date()));
         casesPunishment.setApplyUser(loginUser.getId());
         casesPunishment.setApplyName(loginUser.getUsername());
         casesPunishment.setNextProcessInstanceId(actProcessInstance.getProcessInstanceId());

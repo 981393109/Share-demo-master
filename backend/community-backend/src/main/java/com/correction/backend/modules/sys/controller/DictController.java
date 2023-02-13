@@ -32,7 +32,7 @@ public class DictController {
     @GetMapping("/get")
     @ApiOperation("获取字典数据")
     @ApiImplicitParam(name = "type", value = "type", required = true, example = "1:组织类型，2: ", dataTypeClass = Integer.class)
-    public CommonResult<List<DictOutDTO>> selectDictByType(@RequestParam("type") Integer type){
+    public CommonResult<List<DictOutDTO>> selectDictByType(@RequestParam("type") String  type){
         return success(MDictConvert.INSTANCE.convertList(dictService.selectDictByType(type)));
     }
 

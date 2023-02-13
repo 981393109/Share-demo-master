@@ -47,5 +47,7 @@ public interface CasesPunishmentService extends IService<CasesPunishment> {
      */
     IPage<CasesPunishmentPageListDTO> getPageList (CasesPunishmentSearchInputDTO searchInputDTO);
 
+    IPage<CasesPunishmentPageListDTO> getPageAllList (CasesPunishmentSearchInputDTO searchInputDTO);
+
 
 }

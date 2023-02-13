@@ -11,6 +11,7 @@ import com.correction.backend.modules.survey.convert.MSurveyEvaluationConvert;
 import com.correction.backend.modules.survey.entity.SurveyEvaluation;
 import com.correction.backend.modules.sys.entity.OrgDO;
 import com.correction.backend.modules.sys.mapper.OrgMapper;
+import com.correction.framework.common.util.date.DateUtils;
 import com.correction.framework.web.web.LoginUser;
 import com.correction.framework.web.web.core.util.WebFrameworkUtils;
 import com.correction.framework.workflow.constant.WorkFlowConstant;
@@ -25,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import static com.correction.backend.modules.sys.enums.SysErrorCodeConstants.*;
@@ -60,7 +62,7 @@ public class SurveyFlowServiceImpl implements SurveyFlowService {
         assmberUserNode(flowInfo,surveyEvaluation);
         //启动流程：
         LoginUser loginUser = WebFrameworkUtils.getLoginUser();
-        surveyEvaluation.setApplyTime(LocalDateTime.now().toString());
+        surveyEvaluation.setApplyTime(DateUtils.formatDate(new Date()));
         surveyEvaluation.setApplyUser(loginUser.getId());
         surveyEvaluation.setApplyName(loginUser.getUsername());
         Flow surveyFlow = FlowFactory.getByFlows(FlowConstant.SURVEY_FLOW);

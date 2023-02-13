@@ -20,6 +20,7 @@ public interface HandleCorrectionMapper extends BaseMapperX<HandleCorrection> {
 
     IPage<HandleCorrectionListDTO> getPageListFlow(@Param("page") IPage page,@Param("query") HandleCorrectionSearchInputDTO query);
 
+    IPage<HandleCorrectionListDTO> getPageAllListFlow(@Param("page") IPage page,@Param("query") HandleCorrectionSearchInputDTO query);
 
 
 }

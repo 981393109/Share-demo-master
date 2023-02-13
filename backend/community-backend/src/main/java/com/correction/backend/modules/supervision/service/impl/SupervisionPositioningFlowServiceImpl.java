@@ -14,6 +14,7 @@ import com.correction.backend.modules.supervision.service.SupervisionOutApproval
 import com.correction.backend.modules.supervision.service.SupervisionPositioningDevicesService;
 import com.correction.backend.modules.supervision.service.SupervisionPositioningFlowService;
 import com.correction.backend.modules.survey.constant.SurveyConstant;
+import com.correction.framework.common.util.date.DateUtils;
 import com.correction.framework.web.web.LoginUser;
 import com.correction.framework.web.web.core.util.WebFrameworkUtils;
 import com.correction.framework.workflow.dto.FlowCompleteDTO;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import static com.correction.backend.modules.sys.enums.SysErrorCodeConstants.*;
@@ -75,7 +77,7 @@ public class SupervisionPositioningFlowServiceImpl implements SupervisionPositio
         ActProcessInstance actProcessInstance = surveyFlow.startFlow(FlowStartDTO.builder().userId(loginUser.getId()).flowType(flowType).dataId(supervisionPositioningDevices.getId()).ref(supervisionPositioningDevices.getRef()).progress(String.valueOf(supervisionPositioningDevices.getProgress())).build());
         supervisionPositioningDevices.setProgress(SurveyConstant.PROGRESS_2);
         supervisionPositioningDevices.setApplyStatus(SurveyConstant.FLOW_STATUS_2);
-        supervisionPositioningDevices.setApplyTime(LocalDateTime.now().toString());
+        supervisionPositioningDevices.setApplyTime(DateUtils.formatDate(new Date()));
         supervisionPositioningDevices.setApplyUser(loginUser.getId());
         supervisionPositioningDevices.setApplyName(loginUser.getUsername());
         supervisionPositioningDevices.setProcessInstanceId(actProcessInstance.getProcessInstanceId());

@@ -18,10 +18,7 @@ import org.flowable.task.api.Task;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 流程通过监听器
@@ -57,6 +54,7 @@ public class SignPassListener implements ExecutionListener {
                 .status(InformationConstant.UN_READ)
                 .msgTitle(userDO.getUserName() + "在" + flowStartTime + InformationConstant.flowTitle.get(split[0]))
                 .msgInfo("通过审批！")
+                .createTime(new Date())
                 .build());
     }
 

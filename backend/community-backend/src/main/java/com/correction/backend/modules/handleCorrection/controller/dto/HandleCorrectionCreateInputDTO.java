@@ -114,7 +114,7 @@ public class HandleCorrectionCreateInputDTO implements Serializable {
     private String applyTime;
 
     @ApiModelProperty(value = "组织架构num")
-    private String orgNum;
+    private Long orgNum;
 
     @ApiModelProperty(value = "创建时间")
     private Date createTime;

@@ -46,7 +46,8 @@ public class ServletUtils {
      */
     public static void writeAttachment(HttpServletResponse response, String filename, byte[] content) throws IOException {
         // 设置 header 和 contentType
-        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(filename, "UTF-8"));
+        response.setHeader("Access-Control-Expose-Headers","*");
+        response.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(filename, "UTF-8"));
         response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
         // 输出附件
         IoUtil.write(response.getOutputStream(), false, content);
@@ -59,7 +60,7 @@ public class ServletUtils {
             response.setHeader("Access-Control-Expose-Headers","*");
             os = response.getOutputStream();
             is = new FileInputStream(file);
-            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(file.getName(), "UTF-8"));
+            response.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(file.getName(), "UTF-8"));
             IoUtil.copy(is, os);
             response.flushBuffer();
         } catch (Exception e) {

@@ -70,7 +70,29 @@
             and se.process_instance_id in (select PROC_INST_ID_ from ACT_HI_TASKINST where ASSIGNEE_ = #{query.applyUser})
         </if>
         <if test="query.flowStatus == 2">
-            and se.apply_status in (-1 ,11)
+            and se.apply_status in (-1 ,99)
+        </if>
+        order by se.id desc
+    </select>
+    <select id="getPageAllList"
+            resultType="com.correction.backend.modules.supervision.controller.dto.SupervisionOutApprovalList">
+        select se.*,art.ASSIGNEE_ as nextUser,art.ID_ as taskId
+        from supervision_out_approval se left join act_ru_task art  on se.process_instance_id = art.PROC_INST_ID_
+        where se.deleted = 0
+        <if test="query.userName!=null and query.userName!='' ">
+            and se.user_name like concat('%',#{queryuserName},'%')
+        </if>
+        <if test="query.correctionUnit!=null and query.correctionUnit!='' ">
+            and se.correction_unit = #{query.correctionUnit}
+        </if>
+        <if test="query.applyStatus!=null and query.applyStatus!=''">
+            and se.apply_status = #{query.applyStatus}
+        </if>
+        <if test="query.orgIds!=null">
+            and se.org_num in
+            <foreach collection="query.orgIds" item="orgId" open="(" close=")" separator="," >
+                #{orgId}
+            </foreach>
         </if>
         order by se.id desc
     </select>

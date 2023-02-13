@@ -46,6 +46,8 @@ public interface RewardRecordService extends IService<RewardRecord> {
      */
     IPage<RewardRecordPageListDTO> getPageList (RewardRecordSearchInputDTO searchInputDTO);
 
+    IPage<RewardRecordPageListDTO> getPageAllList (RewardRecordSearchInputDTO searchInputDTO);
+
 
 
 

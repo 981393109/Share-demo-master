@@ -67,7 +67,7 @@ public class FileSourceController {
     }
 
 
-    @GetMapping("/url")
+    @PostMapping("/url")
     @ApiOperation("下载文件URL, urlencode一下哈")
     public void getFileurl(HttpServletResponse response, @RequestParam("path") String path)throws Exception {
         FileResouce file = fileResouceService.getFile(path);

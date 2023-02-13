@@ -3,6 +3,8 @@ package com.correction.backend.modules.cases.controller.dto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class RewardRecordPageListDTO {
 
@@ -59,4 +61,7 @@ public class RewardRecordPageListDTO {
 
     @ApiModelProperty(value = "flowStatus")
     private Integer flowStatus;
+
+    @ApiModelProperty(value = "创建时间")
+    private Date createTime;
 }

@@ -19,4 +19,6 @@ import org.apache.ibatis.annotations.Param;
 public interface TerminationCorrectMapper extends BaseMapperX<TerminationCorrect> {
 
     IPage<TerminationCorrectPageListDTO> getPageListFlow(@Param("page") IPage<TerminationCorrectPageListDTO> page,@Param("query") TerminationCorrectSearchInputDTO query);
+
+    IPage<TerminationCorrectPageListDTO> getPageAllListFlow(@Param("page") IPage<TerminationCorrectPageListDTO> page,@Param("query") TerminationCorrectSearchInputDTO query);
 }

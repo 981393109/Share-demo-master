@@ -2,6 +2,7 @@ package com.correction.backend.modules.handleCorrection.controller.dto;
 
 import com.correction.backend.modules.survey.controller.dto.SurveyDocumentsFilesDTO;
 import com.correction.backend.modules.survey.controller.dto.SurveyEvaluationListOutputDTO;
+import com.correction.backend.modules.survey.entity.SurveyEvaluation;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,9 @@ public class HandleCorrectionFilesDTO implements Serializable {
 
     @ApiModelProperty(value = "详情信息")
     HandleCorrectionListOutputDTO detail;
+
+    @ApiModelProperty(value = "调查评估对象")
+    SurveyEvaluation surveyEvaluation;
 
     @ApiModelProperty(value = "文书补充")
     List<SurveyDocumentsFilesDTO> docSupplementFiles;
@@ -42,5 +46,8 @@ public class HandleCorrectionFilesDTO implements Serializable {
 
     @ApiModelProperty(value = "宣言材料")
     List<SurveyDocumentsFilesDTO> saysFiles;
+
+    @ApiModelProperty(value = "回执材料")
+    List<SurveyDocumentsFilesDTO> receiptMaterialsFiles;
 
 }

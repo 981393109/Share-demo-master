@@ -37,6 +37,7 @@ public class CasesPunishmentFirstFlowCompleteImpl  implements FlowComplete{
             if(StringUtils.isNotBlank(progress)){
                 byId.setProgress(98);
                 byId.setApplyStatus(98);
+                byId.setIsBack(1);
             }
         }
         casesPunishmentService.updateById(byId);

@@ -65,4 +65,23 @@
         </if>
         order by se.id desc
     </select>
+    <select id="getPageAllListFlow"
+            resultType="com.correction.backend.modules.termination.controller.dto.TerminationSolutionsPageListDTO">
+        select se.*,art.ASSIGNEE_ as nextUser,art.ID_ as taskId
+        from termination_solutions se left join act_ru_task art  on se.process_instance_id = art.PROC_INST_ID_
+        where se.deleted = 0
+        <if test="query.userName!=null">
+            and se.user_name like concat('%',#{query.userName},'%')
+        </if>
+        <if test="query.applyStatus!=null">
+            and se.apply_status = #{query.applyStatus}
+        </if>
+        <if test="query.orgIds!=null">
+            and se.org_num in
+            <foreach collection="query.orgIds" item="orgId" open="(" close=")" separator="," >
+                #{orgId}
+            </foreach>
+        </if>
+        order by se.id desc
+    </select>
 </mapper>

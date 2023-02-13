@@ -80,10 +80,10 @@
             and art.ASSIGNEE_ = #{applyUser}
         </if>
         <if test="query.flowStatus == 1">
-            and se.process_instance_id in (select PROC_INST_ID_ from ACT_HI_TASKINST where ASSIGNEE_ =#{query.applyUser})
+            and se.process_instance_id in (select PROC_INST_ID_ from ACT_HI_TASKINST where ASSIGNEE_ =#{query.applyUser})  and se.apply_status not in (-1,99)
         </if>
         <if test="query.flowStatus == 2">
-            and se.apply_status in (-1 ,7)
+            and se.apply_status in (-1 ,99) and se.process_instance_id in (select PROC_INST_ID_ from ACT_HI_TASKINST where ASSIGNEE_ =#{query.applyUser})
         </if>
         <if test="query.name!=null">
             and se.name like concat('%',#{query.name},'%')
@@ -94,6 +94,70 @@
         <if test="query.applyStatus!=null">
             and se.apply_status = #{query.applyStatus}
         </if>
+        <if test="query.orgNum!=null ">
+            and se.org_num = #{query.orgNum}
+        </if>
+        <if test="query.areaJurisdiction!=null">
+            and se.area_jurisdiction = #{query.areaJurisdiction}
+        </if>
+        <if test="query.streetJurisdiction!=null">
+            and se.street_jurisdiction = #{query.streetJurisdiction}
+        </if>
+        <if test="query.jurisdictionOfficeId!=null">
+            and se.jurisdiction_office_id = #{query.jurisdictionOfficeId}
+        </if>
+        <if test="query.jurisdictionOffice!=null">
+            and se.jurisdiction_office = #{query.jurisdictionOffice}
+        </if>
+        <if test="query.assessmentLastOpinion!=null">
+            and se.assessment_last_opinion = #{query.assessmentLastOpinion}
+        </if>
+        <if test="query.progress!=null">
+            and se.progress = #{query.progress}
+        </if>
+
+        order by se.id desc
+    </select>
+    <select id="getPageAllListFlow"
+            resultType="com.correction.backend.modules.survey.controller.dto.SurveyEvaluationListDTO">
+        select se.*,art.ASSIGNEE_ as nextUser,art.ID_ as taskId
+        from survey_evaluation se left join act_ru_task art  on se.process_instance_id = art.PROC_INST_ID_
+        where se.deleted = 0
+        <if test="query.name!=null">
+            and se.name like concat('%',#{query.name},'%')
+        </if>
+        <if test="query.entrustType!=null">
+            and se.entrust_type = #{query.entrustType}
+        </if>
+        <if test="query.applyStatus!=null">
+            and se.apply_status = #{query.applyStatus}
+        </if>
+        <if test="query.orgIds!=null">
+            and se.org_num in
+            <foreach collection="query.orgIds" item="orgId" open="(" close=")" separator="," >
+                 #{orgId}
+            </foreach>
+        </if>
+
+        <if test="query.areaJurisdiction!=null">
+            and se.area_jurisdiction = #{query.areaJurisdiction}
+        </if>
+        <if test="query.streetJurisdiction!=null">
+            and se.street_jurisdiction = #{query.streetJurisdiction}
+        </if>
+        <if test="query.jurisdictionOfficeId!=null">
+            and se.jurisdiction_office_id = #{query.jurisdictionOfficeId}
+        </if>
+        <if test="query.jurisdictionOffice!=null">
+            and se.jurisdiction_office = #{query.jurisdictionOffice}
+        </if>
+        <if test="query.assessmentLastOpinion!=null">
+            and se.assessment_last_opinion = #{query.assessmentLastOpinion}
+        </if>
+        <if test="query.progress!=null">
+            and se.progress = #{query.progress}
+        </if>
+
         order by se.id desc
     </select>
 </mapper>

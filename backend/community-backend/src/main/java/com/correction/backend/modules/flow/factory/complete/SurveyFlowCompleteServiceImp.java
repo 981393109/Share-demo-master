@@ -7,6 +7,7 @@ import com.correction.backend.modules.handleCorrection.service.HandleCorrectionS
 import com.correction.backend.modules.survey.constant.SurveyConstant;
 import com.correction.backend.modules.survey.entity.SurveyEvaluation;
 import com.correction.backend.modules.survey.service.SurveyEvaluationService;
+import com.correction.framework.common.util.date.DateUtils;
 import com.correction.framework.workflow.constant.WorkFlowConstant;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Component
 public class SurveyFlowCompleteServiceImp implements FlowComplete{
@@ -47,9 +49,9 @@ public class SurveyFlowCompleteServiceImp implements FlowComplete{
     public void doEnd(String dataId, String ref, String progress,String status) {
         SurveyEvaluation byId = surveyEvaluationService.getById(Long.parseLong(dataId));
         if(WorkFlowConstant.TASK_SUCCESS.equals(status)){
-            byId.setProgress(SurveyConstant.PROGRESS_8);
-            byId.setApplyStatus(SurveyConstant.FLOW_STATUS_7);
-            byId.setEndFlowTime(LocalDateTime.now().toString());
+            byId.setProgress(99);
+            byId.setApplyStatus(99);
+            byId.setEndFlowTime(DateUtils.formatDate(new Date()));
             //添加入矫申请
             handleCorrectionService.createHandleCorrection(assmberHandleCorrection(byId));
         } else {
@@ -70,6 +72,7 @@ public class SurveyFlowCompleteServiceImp implements FlowComplete{
         dto.setReceptionDate(surveyEvaluation.getReceptionDate());
         dto.setProgress(SurveyConstant.PROGRESS_0);
         dto.setApplyStatus(SurveyConstant.FLOW_STATUS_0);
+        dto.setOrgNum(surveyEvaluation.getHandleCorrectionOrgId());
         dto.setJurisdictionOffice(surveyEvaluation.getJurisdictionOffice());
         dto.setJurisdictionOfficeId(surveyEvaluation.getJurisdictionOfficeId());
         return dto;

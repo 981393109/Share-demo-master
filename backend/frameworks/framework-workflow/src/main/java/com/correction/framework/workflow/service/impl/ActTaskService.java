@@ -6,6 +6,7 @@ import cn.hutool.core.date.BetweenFormatter;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.PageUtil;
 import cn.hutool.core.util.StrUtil;
+import com.correction.framework.common.util.date.DateUtils;
 import com.correction.framework.workflow.constant.WorkFlowConstant;
 import com.correction.framework.workflow.dto.ActivityInstanceListOutputDTO;
 import com.correction.framework.workflow.factory.ActProcessInstance;
@@ -110,7 +111,7 @@ public class ActTaskService implements ActFlowableTaskService {
         log.info("businessKey:{}", businessKey);
         log.info("userId:{}", userId);
         identityService.setAuthenticatedUserId(userId);
-        final ImmutableMap<String, Object> variables = ImmutableMap.of(WorkFlowConstant.TASK_BUSINESS_KEY, businessKey, "userId", userId,"completeStatus","success","progress",progress,"flowStartTime", LocalDateTime.now().toString());
+        final ImmutableMap<String, Object> variables = ImmutableMap.of(WorkFlowConstant.TASK_BUSINESS_KEY, businessKey, "userId", userId,"completeStatus","success","progress",progress,"flowStartTime", DateUtils.formatDate(new Date()));
         log.info("得到申请人：" + variables);
         // 根据流程 key 启动流程
         final ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processDefinitionKey, businessKey, variables);
@@ -128,7 +129,7 @@ public class ActTaskService implements ActFlowableTaskService {
         log.info("得到变量结果：" + task.getProcessVariables());
 
         // 完成第一个任务
-        taskService.addComment(task.getId(), task.getProcessInstanceId(), WorkFlowConstant.TASK_COMMENT, "发起成功");
+        taskService.addComment(task.getId(), task.getProcessInstanceId(), WorkFlowConstant.TASK_COMMENT, "提交成功");
         taskService.addComment(task.getId(), task.getProcessInstanceId(), WorkFlowConstant.TASK_STATUS, "Send");
         taskService.complete(task.getId());
         return new ActProcessInstance()

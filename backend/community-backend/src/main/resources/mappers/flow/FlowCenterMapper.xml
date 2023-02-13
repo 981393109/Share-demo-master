@@ -30,4 +30,12 @@
     <select id="getNodeList" resultType="com.correction.backend.modules.flow.controller.dto.FlowNodeListDTO">
         select fc.id as flowId, fc.`name` as nodeName,fcnr.node_id as nodeId  from flow_center fc INNER JOIN flow_center_node_relation fcnr on fc.id  = fcnr.flow_id  where fc.flow_type = #{type} and fc.deleted = 0
     </select>
+    <select id="getFlowUserListLink"
+            resultType="com.correction.backend.modules.flow.controller.dto.FlowUserListDTO">
+        select fu.node_name , fu.user_id,su.user_name  from flow_node_user fu  LEFT JOIN sys_user su on fu.user_id = su.id  where fu.flow_id in
+        (select id from flow_center where flow_type = #{flowType} and deleted ='0')  and fu.data_id = #{dataId} order by fu.id asc
+
+    </select>
+
+
 </mapper>

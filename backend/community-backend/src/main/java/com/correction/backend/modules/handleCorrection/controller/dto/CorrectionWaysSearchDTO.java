@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
 /**
  * <p>
  * 矫正方案
@@ -46,7 +48,7 @@ public class CorrectionWaysSearchDTO  {
     private Long handleCorrectionId;
 
     @ApiModelProperty(value = "组织架构num")
-    private String orgNum;
+    private Long orgNum;
 
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
@@ -62,5 +64,7 @@ public class CorrectionWaysSearchDTO  {
 
     @ApiModelProperty(value = "是否删除")
     private Boolean deleted;
+
+    private List<Long> orgIds;
 
 }

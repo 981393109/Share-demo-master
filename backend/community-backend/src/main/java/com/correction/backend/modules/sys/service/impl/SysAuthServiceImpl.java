@@ -8,16 +8,14 @@ import com.correction.backend.modules.sys.convert.auth.SysAuthConvert;
 import com.correction.backend.modules.sys.convert.sys.MMenuConvert;
 import com.correction.backend.modules.sys.convert.user.SysUserConvert;
 import com.correction.backend.modules.sys.entity.Menu;
+import com.correction.backend.modules.sys.entity.OrgDO;
 import com.correction.backend.modules.sys.entity.Role;
 import com.correction.backend.modules.sys.entity.SysUserDO;
 import com.correction.backend.modules.sys.enums.logger.SysLoginLogTypeEnum;
 import com.correction.backend.modules.sys.enums.logger.SysLoginResultEnum;
 import com.correction.backend.modules.sys.mapper.RoleMenuMapper;
 import com.correction.backend.modules.sys.mapper.RoleUserMapper;
-import com.correction.backend.modules.sys.service.SysAuthService;
-import com.correction.backend.modules.sys.service.SysLoginLogService;
-import com.correction.backend.modules.sys.service.SysUserService;
-import com.correction.backend.modules.sys.service.SysUserSessionService;
+import com.correction.backend.modules.sys.service.*;
 import com.correction.framework.common.enums.CommonStatusEnum;
 import com.correction.framework.common.util.servlet.ServletUtils;
 import com.correction.framework.web.web.LoginUser;
@@ -36,6 +34,7 @@ import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -70,12 +69,15 @@ public class SysAuthServiceImpl implements SysAuthService {
     @Resource
     private InformationMessageService informationMessageService;
 
+    @Resource
+    private OrgService orgService;
+
 
     @Override
     public String login(SysAuthLoginReqDTO reqVO, String userIp, String userAgent) {
-
         // 使用账号密码，进行登陆。
         LoginUser loginUser = this.login0(reqVO.getUsername(), reqVO.getPassword());
+        loginUser.setOrgIds(this.getUserOrgList(loginUser));
         loginUser.setRoleIds(this.getUserRoleIds(loginUser.getId())); // 获取用户角色列表
         // 缓存登陆用户到 Redis 中，返回 sessionId 编号
         return userSessionService.createUserSession(loginUser, userIp, userAgent);
@@ -225,6 +227,22 @@ public class SysAuthServiceImpl implements SysAuthService {
     private Set<Long> getUserRoleIds(Long id) {
 
         return new HashSet<>();
+    }
+
+    private List<Long> getUserOrgList (LoginUser loginUser) {
+        Long orgId = loginUser.getOrgId();
+        if ( orgId == null ){
+            return new ArrayList<>();
+        }
+        OrgDO byId = orgService.getById(orgId);
+        if (byId == null) {
+            this.createLoginLog(loginUser.getUsername(), SysLoginResultEnum.ORG_DEL);
+            throw exception(AUTH_LOGIN_UN_ORG_ERROR);
+        } else {
+            List<OrgDO> orgChildsList = orgService.getOrgChildsList(orgId);
+            orgChildsList.add(byId);
+            return  orgChildsList.stream().map(e->e.getId()).collect(Collectors.toList());
+        }
     }
 
 }

@@ -216,6 +216,8 @@ public class CasesPunishment extends BaseDO {
 
     private String endFlowTime;
 
+    private Integer isBack;
+
     public static final String ID = "id";
 
     public static final String CORRECTION_UNIT = "correction_unit";

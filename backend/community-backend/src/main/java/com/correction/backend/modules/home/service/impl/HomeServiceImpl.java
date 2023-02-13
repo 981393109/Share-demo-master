@@ -3,6 +3,7 @@ package com.correction.backend.modules.home.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.PageUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.correction.backend.modules.flow.constant.FlowConstant;
 import com.correction.backend.modules.flow.controller.dto.TaskListOutputDTO;
@@ -133,8 +134,11 @@ public class HomeServiceImpl implements HomeService {
     }
 
     @Override
-    public List<SysNotes> getNotes(Long loginUserId) {
-        List<SysNotes> list = sysNotesService.getList(loginUserId, LocalDate.now().toString());
+    public List<SysNotes> getNotes(Long loginUserId,String date) {
+        if(StringUtils.isBlank(date)){
+            date = LocalDate.now().toString();
+        }
+        List<SysNotes> list = sysNotesService.getList(loginUserId,date);
         return list;
     }
 
@@ -157,8 +161,8 @@ public class HomeServiceImpl implements HomeService {
         Long loginUserId = WebFrameworkUtils.getLoginUserId();
         String monthDate  = LocalDate.now().toString().substring(0,7);
         //获取调查评估数据 applystatus != 7 && != -1
-        Integer count = surveyEvaluationMapper.selectCount(Wrappers.<SurveyEvaluation>lambdaQuery().ne(SurveyEvaluation::getApplyStatus, 7).ne(SurveyEvaluation::getApplyStatus, -1).eq(SurveyEvaluation::getDeleted, 0));
-        Integer monthCount = surveyEvaluationMapper.selectCount(Wrappers.<SurveyEvaluation>lambdaQuery().eq(SurveyEvaluation::getApplyStatus, 7).like(SurveyEvaluation::getEndFlowTime,monthDate)
+        Integer count = surveyEvaluationMapper.selectCount(Wrappers.<SurveyEvaluation>lambdaQuery().ne(SurveyEvaluation::getApplyStatus, 99).ne(SurveyEvaluation::getApplyStatus, -1).eq(SurveyEvaluation::getDeleted, 0));
+        Integer monthCount = surveyEvaluationMapper.selectCount(Wrappers.<SurveyEvaluation>lambdaQuery().eq(SurveyEvaluation::getApplyStatus, 99).like(SurveyEvaluation::getEndFlowTime,monthDate)
                 .eq(SurveyEvaluation::getDeleted, 0));
         List<UserRunTaskDTO> userTaskByFlow = getUserTaskByFlow(loginUserId, FlowConstant.SURVEY_FLOW);
         ReportDTO reportDTO =new ReportDTO();
@@ -167,8 +171,8 @@ public class HomeServiceImpl implements HomeService {
         reportDTO.setRunTaskList(userTaskByFlow);
         result.setSurveyEvaluation(reportDTO);
         //获取办理入矫  applystatus  applystatus != 11 && !=-1
-        Integer HandleCorrectionCount = handleCorrectionMapper.selectCount(Wrappers.<HandleCorrection>lambdaQuery().ne(HandleCorrection::getApplyStatus, 11).ne(HandleCorrection::getApplyStatus, -1).eq(HandleCorrection::getDeleted, 0));
-        Integer HandleCorrectionMonthCount = handleCorrectionMapper.selectCount(Wrappers.<HandleCorrection>lambdaQuery().eq(HandleCorrection::getApplyStatus, 7).like(HandleCorrection::getEndFlowTime,monthDate)
+        Integer HandleCorrectionCount = handleCorrectionMapper.selectCount(Wrappers.<HandleCorrection>lambdaQuery().ne(HandleCorrection::getApplyStatus, 99).ne(HandleCorrection::getApplyStatus, -1).eq(HandleCorrection::getDeleted, 0));
+        Integer HandleCorrectionMonthCount = handleCorrectionMapper.selectCount(Wrappers.<HandleCorrection>lambdaQuery().eq(HandleCorrection::getApplyStatus, 99).like(HandleCorrection::getEndFlowTime,monthDate)
                 .eq(HandleCorrection::getDeleted, 0));
         List<UserRunTaskDTO> handleUserTaskByFlow = getUserTaskByFlow(loginUserId, FlowConstant.HANDLE_CORRECTION_FLOW);
         ReportDTO handleReportDTO =new ReportDTO();

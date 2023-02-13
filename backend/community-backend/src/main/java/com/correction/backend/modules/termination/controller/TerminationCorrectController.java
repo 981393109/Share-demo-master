@@ -80,6 +80,12 @@ public class TerminationCorrectController {
         return success(new PageResult<TerminationCorrectPageListDTO>(pageList.getRecords(), pageList.getTotal()));
     }
 
+    @GetMapping("/pageAll")
+    @ApiOperation("分页获取所有列表记录")
+    public CommonResult<PageResult<TerminationCorrectPageListDTO>> getPageAllList(@Valid TerminationCorrectSearchInputDTO reqVO) {
+        IPage<TerminationCorrectPageListDTO> pageList = terminationCorrectService.getPageAllList(reqVO);
+        return success(new PageResult<TerminationCorrectPageListDTO>(pageList.getRecords(), pageList.getTotal()));
+    }
 
     @GetMapping("/handleDocFilePage")
     @ApiOperation("获取所有文书附件")

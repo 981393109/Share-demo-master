@@ -24,6 +24,7 @@ public interface RoleMapper extends BaseMapperX<Role> {
     default List<Role> selectList(RoleSearchInputDTO reqDTO) {
         return selectList(new QueryWrapperX<Role>()
                 .likeIfPresent("role_name", reqDTO.getRoleName())
+                .eqIfPresent("org_id",reqDTO.getOrgId())
                 .eq("deleted", CommonStatusEnum.ENABLE.getStatus()));
     }
 

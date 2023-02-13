@@ -32,4 +32,6 @@ public interface HandleCorrectionService extends IService<HandleCorrection> {
     List<HandleCorrection> getList (HandleCorrectionSearchInputDTO searchInputDTO);
 
     IPage<HandleCorrectionListDTO> getPageList (HandleCorrectionSearchInputDTO searchInputDTO);
+
+    IPage<HandleCorrectionListDTO> getPageAllList(HandleCorrectionSearchInputDTO reqVO);
 }

@@ -58,6 +58,6 @@ public class RewardRecordTwoFlowCompleteImpl implements FlowComplete{
     @PostConstruct
     public void afterPropertiesSet() throws Exception {
         // 注册到Map中
-        FlowCompleteFactory.register(FlowConstant.REWARDRECORD_FLOW_ONE, this);
+        FlowCompleteFactory.register(FlowConstant.REWARDRECORD_FLOW_TWO, this);
     }
 }
