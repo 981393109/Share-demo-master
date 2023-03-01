@@ -70,5 +70,10 @@ public class SysUserDO extends BaseDO {
 
     private Integer userType;
 
+    /**
+     * 智慧矫正用户ID
+     */
+    private Long relationUserId;
+
 
 }

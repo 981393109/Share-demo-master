@@ -32,5 +32,8 @@ public class SysUserSearchDTO extends PageParam {
     @ApiModelProperty(value = "所属组织", example = "orgId")
     private Long orgId;
 
+    @ApiModelProperty(value = "智慧矫正用户ID",example = "1")
+    private Long relationUserId;
+
 
 }

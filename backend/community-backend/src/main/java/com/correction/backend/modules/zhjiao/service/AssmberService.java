@@ -75,4 +75,17 @@ public interface AssmberService {
      * 心理评估-查看报告
      */
     JSONObject getPsychologicalAssmberReport (PsychologicalAssmberReportQueryDTO reqDTO) throws Exception;
+
+    /**
+     * 得到当前组织智慧矫正id
+     * @return
+     * @throws Exception
+     */
+    Long extracted() throws Exception;
+
+    /**
+     * 得到智慧矫正用户TOKEN
+     * @return
+     */
+    JSONObject getCurrUserToken(Long userId) throws Exception;
 }

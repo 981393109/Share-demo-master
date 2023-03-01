@@ -13,7 +13,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-02-13T01:51:15+0800",
+    date = "2023-02-24T23:49:00+0800",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 1.8.0_211 (Oracle Corporation)"
 )
 public class MMenuConvertImpl implements MMenuConvert {

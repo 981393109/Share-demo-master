@@ -14,8 +14,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import java.net.URLEncoder;
 import java.util.List;
 
 import static com.correction.framework.common.pojo.CommonResult.success;
@@ -110,9 +114,34 @@ public class AssmberController {
         return success(result);
     }
 
+    @GetMapping("/getCurrOrgDistrictId")
+    @ApiOperation("得到当前组织智慧矫正ID")
+    public CommonResult<Long> getCurrOrgDistrictId() throws Exception {
+        Long extracted = assmberService.extracted();
+        return success(extracted);
+    }
 
+    @GetMapping("/getCurrUserToken")
+    @ApiOperation("得到智慧矫正用户Token")
+    public CommonResult<JSONObject> getCurrUserToken(@RequestParam (value = "relationUserId",required = false) Long relationUserId) throws Exception {
+        JSONObject token = assmberService.getCurrUserToken(relationUserId);
+        return success(token);
+    }
 
-
+    @GetMapping("/goToPath")
+    @ApiOperation("跳转")
+    public void goToPath(HttpServletRequest request, HttpServletResponse response,@RequestParam (value = "relationUserId",required = false) Long relationUserId, @RequestParam String path) {
+        try {
+            JSONObject currUserToken = assmberService.getCurrUserToken(relationUserId);
+            String token = currUserToken.getString("access_token");
+            response.setHeader("Access-Control-Allow-Origin","www.zhjiao.com");
+            response.setHeader("Access-Control-Allow-Credentials","true");
+            response.addHeader("Set-Cookie", "esf_token="+token+";Path=/;Domain=.zhjiao.com;");
+            response.sendRedirect(path);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
 
 }

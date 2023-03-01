@@ -67,4 +67,9 @@ public class ZhihjiaoConstant {
      * 心理评估-查看报告
      */
     public static final String POSITIONING_PERSONNEL_REPORT = "https://api.zhjiao.com/v1/apper/baseInfo/{0}?districtId={1}";
+
+    /**
+     * 获取智慧矫正用户token
+     */
+    public static final String CURR_USER_TOKEN = "https://qt.zhjiao.com/v1/oauth2/loginQt?loginUser={0}";
 }

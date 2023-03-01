@@ -13,7 +13,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-02-13T01:51:15+0800",
+    date = "2023-02-24T23:49:00+0800",
     comments = "version: 1.4.1.Final, compiler: javac, environment: Java 1.8.0_211 (Oracle Corporation)"
 )
 public class SysUserConvertImpl implements SysUserConvert {
@@ -37,6 +37,7 @@ public class SysUserConvertImpl implements SysUserConvert {
         sysUserDO.orgId( bean.getOrgId() );
         sysUserDO.roleId( bean.getRoleId() );
         sysUserDO.password( bean.getPassword() );
+        sysUserDO.relationUserId( bean.getRelationUserId() );
 
         return sysUserDO.build();
     }
@@ -60,6 +61,7 @@ public class SysUserConvertImpl implements SysUserConvert {
         sysUserDO.orgInfo( bean.getOrgInfo() );
         sysUserDO.orgId( bean.getOrgId() );
         sysUserDO.roleId( bean.getRoleId() );
+        sysUserDO.relationUserId( bean.getRelationUserId() );
 
         return sysUserDO.build();
     }
@@ -108,6 +110,7 @@ public class SysUserConvertImpl implements SysUserConvert {
         sysUserInfoVO.setUserType( bean.getUserType() );
         sysUserInfoVO.setPassword( bean.getPassword() );
         sysUserInfoVO.setRoleId( bean.getRoleId() );
+        sysUserInfoVO.setRelationUserId( bean.getRelationUserId() );
 
         return sysUserInfoVO;
     }

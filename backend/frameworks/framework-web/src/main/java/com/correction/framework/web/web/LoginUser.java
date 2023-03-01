@@ -2,6 +2,7 @@ package com.correction.framework.web.web;
 
 import com.correction.framework.common.enums.CommonStatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -60,6 +61,8 @@ public class LoginUser implements UserDetails {
      * 子组织
      */
     private List<Long> orgIds;
+
+    private Long relationUserId;
 
     @Override
     @JsonIgnore// 避免序列化

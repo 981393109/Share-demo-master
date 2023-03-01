@@ -156,6 +156,15 @@ public class ZhjiaoServiceImpl implements ZhjiaoService {
         return baseResponse;
     }
 
+    @Override
+    public BaseResponse getCurrUserToken(Long relationUserId) throws Exception {
+        String currUserToken = ZhihjiaoConstant.CURR_USER_TOKEN;
+        currUserToken = MessageFormat.format(currUserToken,relationUserId);
+        AccessTokenDTO token = getToken();
+        BaseResponse baseResponse = getBaseResponse("{}", currUserToken, token);
+        return baseResponse;
+    }
+
 
     private BaseResponse getBaseResponse(String body, String url, AccessTokenDTO token) throws Exception {
         Map<String ,String> headerParams = new HashMap<>();

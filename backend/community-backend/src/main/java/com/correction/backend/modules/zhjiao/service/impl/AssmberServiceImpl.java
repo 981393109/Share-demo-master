@@ -211,13 +211,29 @@ public class AssmberServiceImpl implements AssmberService {
       return   orgMapper.selectById(id);
     }
 
-    private Long extracted() throws Exception {
+    @Override
+    public Long extracted() throws Exception {
         OrgDO orgById = getOrgById(WebFrameworkUtils.getLoginOrgId());
         Long districtId = orgById.getDistrictId();
         if(districtId == null) {
             throw exception(ORG_districtId);
         }
         return districtId;
+    }
+
+    @Override
+    public JSONObject getCurrUserToken(Long userId) throws Exception {
+        if (userId == null){
+            userId = WebFrameworkUtils.getLoginUser().getRelationUserId();
+        }
+        BaseResponse baseResponse =  zhjiaoService.getCurrUserToken(userId);
+        //封装结果
+        String data = baseResponse.getData();
+        JSONObject jsonObject = new JSONObject();
+        if (StringUtils.isNotBlank(data)) {
+            jsonObject = JSONObject.parseObject(data);
+        }
+        return jsonObject;
     }
 
 }

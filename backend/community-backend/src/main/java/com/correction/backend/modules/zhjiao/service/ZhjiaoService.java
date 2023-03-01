@@ -85,4 +85,11 @@ public interface ZhjiaoService {
      * @return
      */
     BaseResponse getPsychologicalAssmberReport(Long extracted, Long apperId) throws Exception;
+
+    /**
+     * 得到智慧矫正用户token
+     * @param relationUserId
+     * @return
+     */
+    BaseResponse getCurrUserToken(Long relationUserId) throws Exception;
 }

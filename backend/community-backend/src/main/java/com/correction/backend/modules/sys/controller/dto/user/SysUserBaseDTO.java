@@ -38,4 +38,7 @@ public class SysUserBaseDTO {
     @ApiModelProperty(value = "角色id", example = "roleId")
     private Long roleId;
 
+    @ApiModelProperty(value = "智慧矫正用户ID",example = "1")
+    private Long relationUserId;
+
 }

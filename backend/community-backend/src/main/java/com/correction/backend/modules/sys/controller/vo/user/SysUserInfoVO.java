@@ -39,5 +39,9 @@ public class SysUserInfoVO {
     @ApiModelProperty(value = "roleId")
     private Long roleId;
 
+    @ApiModelProperty(value = "relationUserId")
+    private Long relationUserId;
+
+
 
 }

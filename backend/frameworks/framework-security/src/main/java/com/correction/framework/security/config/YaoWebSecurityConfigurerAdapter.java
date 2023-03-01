@@ -101,7 +101,8 @@ public class YaoWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapte
             "/swagger/**",
             "/swagger/**",
             "/api/flow-deploy/deploy",
-            "/api/flow/process/**"
+            "/api/flow/process/**",
+            "/api/zhihuijiao/goToPath",
     };
 
 
